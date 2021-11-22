@@ -1,0 +1,2 @@
+# bittrader
+my bitcoin trader
