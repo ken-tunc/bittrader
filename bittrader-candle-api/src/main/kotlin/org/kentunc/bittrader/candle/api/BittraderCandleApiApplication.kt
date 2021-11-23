@@ -1,11 +1,11 @@
-package org.kentunc.bittrader
+package org.kentunc.bittrader.candle.api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class BittraderApplication
+class BittraderCandleApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<BittraderApplication>(*args)
+	runApplication<BittraderCandleApiApplication>(*args)
 }

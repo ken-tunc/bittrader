@@ -1,10 +1,10 @@
-package org.kentunc.bittrader
+package org.kentunc.bittrader.candle.api
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class BittraderApplicationTests {
+class BittraderCandleApiApplicationTests {
 
 	@Test
 	fun contextLoads() {
