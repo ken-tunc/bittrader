@@ -29,6 +29,7 @@ subprojects {
 	}
 
 	val springmockkVersion: String by project
+	val archunitVersion: String by project
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter-webflux")
 		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -42,6 +43,7 @@ subprojects {
 		}
 		testImplementation("io.projectreactor:reactor-test")
 		testImplementation("com.ninja-squad:springmockk:$springmockkVersion")
+		testImplementation("com.tngtech.archunit:archunit-junit5:$archunitVersion")
 	}
 
 	configurations {

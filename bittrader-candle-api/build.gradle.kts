@@ -6,4 +6,5 @@ dependencies {
 	runtimeOnly("dev.miku:r2dbc-mysql")
 	runtimeOnly("io.r2dbc:r2dbc-h2")
 	runtimeOnly("mysql:mysql-connector-java")
+	testImplementation(project(":bittrader-test"))
 }
