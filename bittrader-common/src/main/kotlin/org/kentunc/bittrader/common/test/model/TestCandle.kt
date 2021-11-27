@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.test.model.candle
+package org.kentunc.bittrader.common.test.model
 
 import org.kentunc.bittrader.common.domain.model.candle.Candle
 import org.kentunc.bittrader.common.domain.model.candle.CandleId
@@ -14,7 +14,7 @@ object TestCandle {
     fun create(
         productCode: ProductCode = ProductCode.BTC_JPY,
         duration: Duration = Duration.DAYS,
-        dateTime: LocalDateTime = LocalDateTime.now(),
+        dateTime: LocalDateTime = LocalDateTime.of(2021, 1, 1, 12, 0, 0),
         open: Double = 100.0,
         close: Double = 120.0,
         high: Double = 130.0,

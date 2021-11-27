@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.test.model.ticker
+package org.kentunc.bittrader.common.test.model
 
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.quote.Price

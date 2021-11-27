@@ -24,8 +24,8 @@ class LayerDependencyRulesTest {
             .layer(PRESENTATION_LAYER).definedBy("..presentation..")
             .layer(INFRASTRUCTURE_LAYER).definedBy("..infrastructure..")
             .layer(OTHERS).definedBy("..test..")
-            .whereLayer(APPLICATION_LAYER).mayOnlyAccessLayers(PRESENTATION_LAYER)
-            .whereLayer(PRESENTATION_LAYER).mayNotBeAccessedByAnyLayer()
-            .whereLayer(INFRASTRUCTURE_LAYER).mayNotBeAccessedByAnyLayer()
+            .whereLayer(APPLICATION_LAYER).mayOnlyBeAccessedByLayers(PRESENTATION_LAYER, OTHERS)
+            .whereLayer(PRESENTATION_LAYER).mayOnlyBeAccessedByLayers(INFRASTRUCTURE_LAYER, OTHERS)
+            .whereLayer(INFRASTRUCTURE_LAYER).mayOnlyBeAccessedByLayers(OTHERS)
             .whereLayer(OTHERS).mayNotBeAccessedByAnyLayer()
 }

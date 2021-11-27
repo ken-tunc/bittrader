@@ -2,14 +2,13 @@ package org.kentunc.bittrader.common.domain.model.candle
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.function.Executable
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.quote.Price
 import org.kentunc.bittrader.common.domain.model.quote.Volume
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.domain.model.time.TruncatedDateTime
-import org.kentunc.bittrader.common.test.model.candle.TestCandle
-import org.kentunc.bittrader.common.test.model.ticker.TestTicker
+import org.kentunc.bittrader.common.test.model.TestCandle
+import org.kentunc.bittrader.common.test.model.TestTicker
 import java.time.LocalDateTime
 
 internal class CandleTest {
@@ -19,8 +18,8 @@ internal class CandleTest {
         val ticker = TestTicker.create()
         val candle = Candle.of(ticker, Duration.DAYS)
         assertAll(
-            Executable { assertEquals(ticker.id.productCode, candle.id.productCode) },
-            Executable { assertEquals(ticker.volume, candle.volume) }
+            { assertEquals(ticker.id.productCode, candle.id.productCode) },
+            { assertEquals(ticker.volume, candle.volume) }
         )
     }
 
@@ -67,13 +66,13 @@ internal class CandleTest {
 
         // verify
         assertAll(
-            Executable { assertEquals(ProductCode.BTC_JPY, actual.id.productCode) },
-            Executable { assertEquals(Duration.DAYS, actual.id.duration) },
-            Executable { assertEquals(Price.of(100.0), actual.open) },
-            Executable { assertEquals(Price.of(400.0), actual.close) },
-            Executable { assertEquals(Price.of(400.0), actual.high) },
-            Executable { assertEquals(Price.of(50.0), actual.low) },
-            Executable { assertEquals(Volume.of(250.0), actual.volume) }
+            { assertEquals(ProductCode.BTC_JPY, actual.id.productCode) },
+            { assertEquals(Duration.DAYS, actual.id.duration) },
+            { assertEquals(Price.of(100.0), actual.open) },
+            { assertEquals(Price.of(400.0), actual.close) },
+            { assertEquals(Price.of(400.0), actual.high) },
+            { assertEquals(Price.of(50.0), actual.low) },
+            { assertEquals(Volume.of(250.0), actual.volume) }
         )
     }
 

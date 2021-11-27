@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: bittrader-candle-api
+  main:
+    web-application-type: reactive
+  profiles:
+    group:
+      prod:
+        - mysql
+      local:
+        - h2
+      test:
+        - h2
+  lifecycle:
+    timeout-per-shutdown-phase: 5s
+server:
+  shutdown: graceful
+  port: 8081

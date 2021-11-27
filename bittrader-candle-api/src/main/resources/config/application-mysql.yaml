@@ -1,0 +1,9 @@
+spring:
+  r2dbc:
+    url: r2dbc:pool:mysql://${MYSQL_HOST}/${MYSQL_DATABASE}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+  flyway:
+    url: jdbc:mysql://${MYSQL_HOST}/${MYSQL_DATABASE}
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}

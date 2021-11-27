@@ -9,6 +9,7 @@ class Volume private constructor(private val value: BigDecimal) {
     }
 
     companion object {
+        fun of(value: BigDecimal) = Volume(value)
         fun of(value: Double) = Volume(BigDecimal.valueOf(value))
     }
 

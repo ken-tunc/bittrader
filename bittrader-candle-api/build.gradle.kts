@@ -1,4 +1,6 @@
 dependencies {
+	implementation(project(":bittrader-common"))
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.springframework:spring-jdbc")

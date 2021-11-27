@@ -1,9 +1,9 @@
 package org.kentunc.bittrader.candle.api
 
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
+import org.kentunc.bittrader.candle.api.test.CandleApiTest
 
-@SpringBootTest
+@CandleApiTest
 class BittraderCandleApiApplicationTests {
 
 	@Test

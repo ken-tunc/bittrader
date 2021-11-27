@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import org.kentunc.bittrader.common.domain.model.quote.Price
-import org.kentunc.bittrader.common.test.model.ticker.TestTicker
+import org.kentunc.bittrader.common.test.model.TestTicker
 import java.util.stream.Stream
 
 internal class TickerTest {

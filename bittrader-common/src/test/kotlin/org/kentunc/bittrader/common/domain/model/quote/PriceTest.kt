@@ -42,9 +42,9 @@ internal class PriceTest {
     fun testCompare() {
         val price = Price.of(100.0)
         assertAll(
-            Executable { assertTrue(price > Price.of(99.9999)) },
-            Executable { assertTrue(price == Price.of(100.0)) },
-            Executable { assertTrue(price < Price.of(100.0001)) }
+            { assertTrue(price > Price.of(99.9999)) },
+            { assertTrue(price == Price.of(100.0)) },
+            { assertTrue(price < Price.of(100.0001)) }
         )
     }
 }
