@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: bittrader-candle-feeder
+  main:
+    web-application-type: NONE
+  profiles:
+    group:
+      prod:
+        - feed
+      local:
+        - feed
+        - dev
+      test:
+        - dev
+    include:
+      - bitflyer

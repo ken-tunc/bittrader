@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.webclient.candle
+package org.kentunc.bittrader.common.infrastructure.webclient.http.candle
 
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.kentunc.bittrader.common.presentation.model.ticker.TickerRequest

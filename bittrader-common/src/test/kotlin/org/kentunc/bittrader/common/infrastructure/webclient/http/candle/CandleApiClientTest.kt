@@ -1,9 +1,8 @@
-package org.kentunc.bittrader.common.infrastructure.webclient.candle
+package org.kentunc.bittrader.common.infrastructure.webclient.http.candle
 
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.kentunc.bittrader.common.presentation.model.ticker.TickerRequest
