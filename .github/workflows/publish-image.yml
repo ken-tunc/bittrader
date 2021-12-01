@@ -11,7 +11,7 @@ env:
   GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
 
 jobs:
-  build:
+  publish-image:
 
     runs-on: ubuntu-latest
 
