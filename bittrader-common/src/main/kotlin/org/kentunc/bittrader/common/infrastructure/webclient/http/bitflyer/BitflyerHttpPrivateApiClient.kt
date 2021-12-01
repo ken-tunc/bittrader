@@ -5,7 +5,7 @@ import kotlinx.coroutines.reactive.awaitFirst
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.BalanceResponse
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.CommissionRateModel
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.CommissionRateResponse
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.OrderRequest
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.OrderResponse
 import org.springframework.web.reactive.function.client.WebClient
@@ -40,12 +40,12 @@ class BitflyerHttpPrivateApiClient(private val webClient: WebClient) {
         .exchangeToMono { it.releaseBody() }
         .awaitFirstOrNull()
 
-    suspend fun getCommissionRate(productCode: ProductCode): CommissionRateModel = webClient.get()
+    suspend fun getCommissionRate(productCode: ProductCode): CommissionRateResponse = webClient.get()
         .uri {
             it.path(PATH_COMMISSION_RATE)
                 .queryParam("product_code", productCode.toString())
                 .build()
         }
-        .exchangeToMono { it.bodyToMono<CommissionRateModel>() }
+        .exchangeToMono { it.bodyToMono<CommissionRateResponse>() }
         .awaitFirst()
 }
