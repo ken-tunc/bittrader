@@ -68,6 +68,7 @@ subprojects {
 	val dockerUserName: String by project
 	tasks.getByName<BootBuildImage>("bootBuildImage") {
 		imageName = "$dockerRegistry/$dockerUserName/${rootProject.name}/${project.name}:latest"
+		environment("BP_OCI_SOURCE", "https://github.com/$dockerUserName/${rootProject.name}")
 		System.getenv()["GH_ACCESS_TOKEN"]?.also {
 			isPublish = true
 			docker {
