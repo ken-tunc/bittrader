@@ -62,6 +62,23 @@ subprojects {
 	tasks.withType<Test> {
 		useJUnitPlatform()
 	}
+
+	// docker image configuration
+	val dockerRegistry: String by project
+	val dockerUserName: String by project
+	tasks.getByName<BootBuildImage>("bootBuildImage") {
+		imageName = "$dockerRegistry/$dockerUserName/${rootProject.name}/${project.name}:latest"
+		System.getenv()["GH_ACCESS_TOKEN"]?.also {
+			isPublish = true
+			docker {
+				publishRegistry {
+					username = dockerUserName
+					password = it
+					url = dockerRegistry
+				}
+			}
+		}
+	}
 }
 
 // disable tasks for root project
