@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bittrader-candle-feeder
+  labels:
+    app: candle-feeder
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: candle-feeder
+  template:
+    metadata:
+      labels:
+        app: candle-feeder
+        tier: backend
+    spec:
+      containers:
+        - name: candle-feeder
+          image: ghcr.io/ken-tunc/bittrader/bittrader-candle-feeder
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: trade.candle.api.url
+              value: http://bittrader-candle-api
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: bittrader-backend-config
+                  key: time_zone
