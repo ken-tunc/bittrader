@@ -5,7 +5,7 @@ import org.h2.tools.Server
 import org.kentunc.bittrader.candle.api.infrastructure.repository.development.EnumDao
 import org.kentunc.bittrader.candle.api.infrastructure.repository.development.EnumInserter
 import org.kentunc.bittrader.candle.api.infrastructure.repository.development.H2DatabaseInitializer
-import org.kentunc.bittrader.candle.api.infrastructure.server.H2ConsoleServer
+import org.kentunc.bittrader.candle.api.infrastructure.development.H2ConsoleServer
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

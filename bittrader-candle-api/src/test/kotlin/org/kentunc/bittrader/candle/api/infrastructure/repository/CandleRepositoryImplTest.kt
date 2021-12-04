@@ -1,9 +1,13 @@
 package org.kentunc.bittrader.candle.api.infrastructure.repository
 
 import com.ninjasquad.springmockk.MockkBean
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.CandleDao
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.CandleEntity
@@ -21,7 +25,7 @@ internal class CandleRepositoryImplTest {
     lateinit var target: CandleRepositoryImpl
 
     @Test
-    fun testFind() = runBlocking {
+    fun testFind_hit() = runBlocking {
         // setup:
         val candle = TestCandle.create()
         val entity = mockk<CandleEntity>()
@@ -33,6 +37,19 @@ internal class CandleRepositoryImplTest {
 
         // verify:
         assertNotNull(actual)
+    }
+
+    @Test
+    fun testFind_no_hit() = runBlocking {
+        // setup:
+        val candle = TestCandle.create()
+        coEvery { candleDao.find(any()) } returns null
+
+        // exercise:
+        val actual = target.find(candle.id)
+
+        // verify:
+        assertNull(actual)
     }
 
     @Test
