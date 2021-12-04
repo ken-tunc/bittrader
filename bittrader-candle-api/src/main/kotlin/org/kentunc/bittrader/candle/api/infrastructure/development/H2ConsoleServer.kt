@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.candle.api.infrastructure.server
+package org.kentunc.bittrader.candle.api.infrastructure.development
 
 import org.h2.tools.Server
 import org.slf4j.LoggerFactory

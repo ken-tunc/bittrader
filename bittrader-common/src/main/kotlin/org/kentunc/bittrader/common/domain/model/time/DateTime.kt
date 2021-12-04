@@ -1,5 +1,6 @@
 package org.kentunc.bittrader.common.domain.model.time
 
+import org.kentunc.bittrader.common.shared.annotation.Generated
 import java.time.LocalDateTime
 
 class DateTime private constructor(private val localDateTime: LocalDateTime) {
@@ -12,6 +13,7 @@ class DateTime private constructor(private val localDateTime: LocalDateTime) {
 
     override fun toString() = localDateTime.toString()
 
+    @Generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -23,6 +25,7 @@ class DateTime private constructor(private val localDateTime: LocalDateTime) {
         return true
     }
 
+    @Generated
     override fun hashCode(): Int {
         return localDateTime.hashCode()
     }
