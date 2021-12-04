@@ -27,7 +27,7 @@ internal class RequestValidatorTest {
     }
 
     @Autowired
-    lateinit var target: RequestValidator
+    private lateinit var target: RequestValidator
 
     @Test
     fun testValidate_valid() {

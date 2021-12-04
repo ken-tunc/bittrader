@@ -19,7 +19,7 @@ internal class CandleApiClientTest {
         internal val helper = WebClientExtension()
     }
 
-    lateinit var target: CandleApiClient
+    private lateinit var target: CandleApiClient
 
     @BeforeEach
     fun setUp() {

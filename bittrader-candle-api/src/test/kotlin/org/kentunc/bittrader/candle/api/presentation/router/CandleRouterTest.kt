@@ -18,10 +18,10 @@ import org.springframework.test.web.reactive.server.WebTestClient
 internal class CandleRouterTest {
 
     @Autowired
-    lateinit var webTestClient: WebTestClient
+    private lateinit var webTestClient: WebTestClient
 
     @MockkBean(relaxed = true)
-    lateinit var candleInteractor: CandleInteractor
+    private lateinit var candleInteractor: CandleInteractor
 
     @Test
     fun testFeed() {

@@ -16,10 +16,10 @@ import org.springframework.r2dbc.core.DatabaseClient
 internal class CandleDaoTest {
 
     @Autowired
-    lateinit var target: CandleDao
+    private lateinit var target: CandleDao
 
     @Autowired
-    lateinit var databaseClient: DatabaseClient
+    private lateinit var databaseClient: DatabaseClient
 
     private val candleEntity = CandleEntity.of(TestCandle.create())
 

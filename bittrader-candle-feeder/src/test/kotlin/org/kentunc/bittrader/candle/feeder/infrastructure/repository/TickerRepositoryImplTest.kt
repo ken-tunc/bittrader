@@ -24,10 +24,10 @@ import java.time.LocalDateTime
 internal class TickerRepositoryImplTest {
 
     @MockkBean
-    lateinit var bitflyerRealtimeTickerClient: BitflyerRealtimeTickerClient
+    private lateinit var bitflyerRealtimeTickerClient: BitflyerRealtimeTickerClient
 
     @Autowired
-    lateinit var target: TickerRepositoryImpl
+    private lateinit var target: TickerRepositoryImpl
 
     @Test
     fun testSubscribe() = runBlocking {
