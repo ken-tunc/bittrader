@@ -34,7 +34,7 @@ spec:
       containers:
         - name: candle-api
           image: ghcr.io/ken-tunc/bittrader/bittrader-candle-api
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:
