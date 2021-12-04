@@ -13,10 +13,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 internal class CandleRepositoryImplTest {
 
     @MockkBean(relaxed = true)
-    lateinit var candleApiClient: CandleApiClient
+    private lateinit var candleApiClient: CandleApiClient
 
     @Autowired
-    lateinit var target: CandleRepositoryImpl
+    private lateinit var target: CandleRepositoryImpl
 
     @Test
     fun testFeed() = runBlocking {

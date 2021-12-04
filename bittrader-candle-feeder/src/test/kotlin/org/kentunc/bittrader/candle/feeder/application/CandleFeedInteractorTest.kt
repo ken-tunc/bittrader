@@ -17,13 +17,13 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 internal class CandleFeedInteractorTest {
 
     @MockkBean(relaxed = true)
-    lateinit var tickerService: TickerService
+    private lateinit var tickerService: TickerService
 
     @MockkBean(relaxed = true)
-    lateinit var candleService: CandleService
+    private lateinit var candleService: CandleService
 
     @Autowired
-    lateinit var target: CandleFeedInteractor
+    private lateinit var target: CandleFeedInteractor
 
     @Test
     fun testFeedCandles() = runBlocking {

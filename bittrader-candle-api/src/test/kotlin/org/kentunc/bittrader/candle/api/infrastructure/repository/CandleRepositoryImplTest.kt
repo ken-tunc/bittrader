@@ -19,10 +19,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 internal class CandleRepositoryImplTest {
 
     @MockkBean(relaxed = true)
-    lateinit var candleDao: CandleDao
+    private lateinit var candleDao: CandleDao
 
     @Autowired
-    lateinit var target: CandleRepositoryImpl
+    private lateinit var target: CandleRepositoryImpl
 
     @Test
     fun testFind_hit() = runBlocking {

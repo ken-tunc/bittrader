@@ -15,7 +15,7 @@ import java.net.URI
 
 internal class BitflyerRealtimeTickerClientTest {
 
-    lateinit var target: BitflyerRealtimeTickerClient
+    private lateinit var target: BitflyerRealtimeTickerClient
 
     @BeforeEach
     internal fun setUp() {

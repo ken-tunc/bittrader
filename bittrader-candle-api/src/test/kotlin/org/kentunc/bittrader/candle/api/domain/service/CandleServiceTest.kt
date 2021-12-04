@@ -18,10 +18,10 @@ import java.time.LocalDateTime
 internal class CandleServiceTest {
 
     @MockkBean(relaxed = true)
-    lateinit var candleRepository: CandleRepository
+    private lateinit var candleRepository: CandleRepository
 
     @Autowired
-    lateinit var target: CandleService
+    private lateinit var target: CandleService
 
     @Test
     fun testFeed_save() = runBlocking {
