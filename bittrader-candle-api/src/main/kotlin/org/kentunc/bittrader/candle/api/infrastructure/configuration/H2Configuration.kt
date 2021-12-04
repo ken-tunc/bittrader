@@ -1,9 +1,11 @@
 package org.kentunc.bittrader.candle.api.infrastructure.configuration
 
 import io.r2dbc.spi.ConnectionFactory
+import org.h2.tools.Server
 import org.kentunc.bittrader.candle.api.infrastructure.repository.development.EnumDao
-import org.kentunc.bittrader.candle.api.infrastructure.repository.development.H2DatabaseInitializer
 import org.kentunc.bittrader.candle.api.infrastructure.repository.development.EnumInserter
+import org.kentunc.bittrader.candle.api.infrastructure.repository.development.H2DatabaseInitializer
+import org.kentunc.bittrader.candle.api.infrastructure.server.H2ConsoleServer
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -37,4 +39,13 @@ class H2Configuration {
 
     @Bean
     fun databaseInitializer(enumInserter: EnumInserter) = H2DatabaseInitializer(enumInserter)
+
+    @Bean
+    @Profile("local")
+    fun server(@Value("\${bittrader.h2.console.port}") port: String): Server =
+        Server.createWebServer("-webPort", port, "-tcpAllowOthers")
+
+    @Bean
+    @Profile("local")
+    fun h2ConsoleServer(server: Server) = H2ConsoleServer(server)
 }
