@@ -20,6 +20,6 @@ class BitflyerRealtimeClientConfiguration(private val properties: BitflyerRealti
     @Bean
     fun bitflyerRealtimeTickerClient(objectMapper: ObjectMapper, eventPublisher: ApplicationEventPublisher) =
         BitflyerRealtimeTickerClient(properties.endpoint, objectMapper, webSocketClient()) {
-            eventPublisher.publishEvent(CandleFeedEvent(it))
+            eventPublisher.publishEvent(CandleFeedEvent(this, it))
         }
 }

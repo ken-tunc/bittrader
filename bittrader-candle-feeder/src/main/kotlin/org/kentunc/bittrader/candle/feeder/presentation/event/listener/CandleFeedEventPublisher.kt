@@ -21,7 +21,7 @@ class CandleFeedEventPublisher(private val eventPublisher: ApplicationEventPubli
     fun publishEvents() {
         log.info("start feed candles...")
         ProductCode.values().forEach {
-            eventPublisher.publishEvent(CandleFeedEvent(it))
+            eventPublisher.publishEvent(CandleFeedEvent(this, it))
         }
     }
 }
