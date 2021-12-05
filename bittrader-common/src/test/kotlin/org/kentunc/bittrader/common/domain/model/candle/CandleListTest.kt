@@ -17,6 +17,15 @@ import java.util.stream.Stream
 internal class CandleListTest {
 
     @Test
+    fun testEmpty() {
+        val candleList = CandleList.of(listOf())
+        assertAll(
+            { assertEquals(0, candleList.size) },
+            { assertTrue(candleList.isEmpty) }
+        )
+    }
+
+    @Test
     fun testSort() {
         val baseDateTime = LocalDateTime.now()
         val oldestCandle = TestCandle.create(dateTime = baseDateTime, duration = Duration.MINUTES)

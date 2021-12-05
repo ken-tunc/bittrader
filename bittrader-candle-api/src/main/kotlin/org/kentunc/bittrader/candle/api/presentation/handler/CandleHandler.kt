@@ -1,6 +1,5 @@
 package org.kentunc.bittrader.candle.api.presentation.handler
 
-import kotlinx.coroutines.flow.asFlow
 import org.kentunc.bittrader.candle.api.application.CandleInteractor
 import org.kentunc.bittrader.common.presentation.model.candle.CandleResponse
 import org.kentunc.bittrader.common.presentation.model.candle.CandleSearchRequest
@@ -19,7 +18,6 @@ class CandleHandler(private val validator: RequestValidator, private val candleI
         val candles = candleInteractor.findLatestCandles(query.toCandleQuery())
             .toList()
             .map { CandleResponse.of(it) }
-            .asFlow()
         return ServerResponse.ok().bodyValueAndAwait(candles)
     }
 

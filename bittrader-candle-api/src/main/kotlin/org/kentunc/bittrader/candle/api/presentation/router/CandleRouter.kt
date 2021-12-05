@@ -11,7 +11,7 @@ class CandleRouter(private val candleHandler: CandleHandler) {
     @Bean
     fun candleRoutes() = coRouter {
         "/candles".nest {
-            GET("/") { candleHandler.search(it) }
+            GET("") { candleHandler.search(it) }
             PUT("/feed") { candleHandler.feed(it) }
         }
     }

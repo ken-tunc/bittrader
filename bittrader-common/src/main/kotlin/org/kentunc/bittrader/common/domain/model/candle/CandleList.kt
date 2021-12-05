@@ -4,11 +4,11 @@ class CandleList private constructor(candles: List<Candle>) {
 
     init {
         val productCodes = candles.map { it.id.productCode }.toSet()
-        require(productCodes.size == 1) {
+        require(productCodes.size <= 1) {
             "multiple product codes are found. got=$productCodes"
         }
         val durations = candles.map { it.id.duration }.toSet()
-        require(durations.size == 1) {
+        require(durations.size <= 1) {
             "multiple durations are found. got=$durations"
         }
         val duplicate = candles.groupingBy { it.id }

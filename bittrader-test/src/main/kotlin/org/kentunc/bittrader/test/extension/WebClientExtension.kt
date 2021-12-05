@@ -63,8 +63,8 @@ class WebClientExtension : BeforeAllCallback, AfterAllCallback {
             { assertEquals(path, recordedRequest.path) },
             {
                 body?.also {
-                    val expected = recordedRequest.body.readUtf8()
-                    val actual = objectMapper.writeValueAsString(body)
+                    val expected = objectMapper.writeValueAsString(body)
+                    val actual = recordedRequest.body.readUtf8()
                     assertEquals(expected, actual)
                 }
             }
