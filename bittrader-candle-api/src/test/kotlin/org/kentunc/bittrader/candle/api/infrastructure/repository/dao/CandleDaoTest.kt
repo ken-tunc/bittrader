@@ -44,13 +44,13 @@ internal class CandleDaoTest {
     @Test
     fun testSave(): Unit = runBlocking {
         val newCandle = CandleEntity.of(TestCandle.create(productCode = ProductCode.ETH_JPY))
-        assertDoesNotThrow { target.save(newCandle) }
+        assertDoesNotThrow { target.insert(newCandle) }
     }
 
     @Test
     fun testFind() = runBlocking {
         // exercise:
-        val actual = target.find(candleEntity.primaryKey)
+        val actual = target.selectOne(candleEntity.primaryKey)
 
         // verify:
         assertEquals(candleEntity, actual)
@@ -64,7 +64,7 @@ internal class CandleDaoTest {
 
         // exercise:
         target.update(updated)
-        val actual = target.find(updated.primaryKey)
+        val actual = target.selectOne(updated.primaryKey)
 
         // verify:
         assertEquals(updated, actual)

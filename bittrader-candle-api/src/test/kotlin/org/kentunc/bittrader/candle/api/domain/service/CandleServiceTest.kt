@@ -35,7 +35,7 @@ internal class CandleServiceTest {
         mockkObject(Candle)
         every { Candle.of(ticker, duration) } returns newCandle
 
-        coEvery { candleRepository.find(newCandle.id) } returns null
+        coEvery { candleRepository.findOne(newCandle.id) } returns null
 
         // exercise:
         target.feed(ticker, duration)
@@ -57,7 +57,7 @@ internal class CandleServiceTest {
         every { Candle.of(ticker, duration) } returns newCandle
 
         val matched = TestCandle.create(dateTime = LocalDateTime.now())
-        coEvery { candleRepository.find(newCandle.id) } returns matched
+        coEvery { candleRepository.findOne(newCandle.id) } returns matched
 
         // exercise:
         target.feed(ticker, duration)

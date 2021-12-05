@@ -30,10 +30,10 @@ internal class CandleRepositoryImplTest {
         val candle = TestCandle.create()
         val entity = mockk<CandleEntity>()
         every { entity.toCandle() } returns candle
-        coEvery { candleDao.find(any()) } returns entity
+        coEvery { candleDao.selectOne(any()) } returns entity
 
         // exercise:
-        val actual = target.find(candle.id)
+        val actual = target.findOne(candle.id)
 
         // verify:
         assertNotNull(actual)
@@ -43,10 +43,10 @@ internal class CandleRepositoryImplTest {
     fun testFind_no_hit() = runBlocking {
         // setup:
         val candle = TestCandle.create()
-        coEvery { candleDao.find(any()) } returns null
+        coEvery { candleDao.selectOne(any()) } returns null
 
         // exercise:
-        val actual = target.find(candle.id)
+        val actual = target.findOne(candle.id)
 
         // verify:
         assertNull(actual)
@@ -58,7 +58,7 @@ internal class CandleRepositoryImplTest {
         target.save(TestCandle.create())
 
         // verify:
-        coVerify { candleDao.save(any()) }
+        coVerify { candleDao.insert(any()) }
     }
 
     @Test

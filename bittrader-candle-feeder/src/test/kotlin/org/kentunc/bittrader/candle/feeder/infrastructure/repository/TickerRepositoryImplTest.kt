@@ -2,23 +2,19 @@ package org.kentunc.bittrader.candle.feeder.infrastructure.repository
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.coEvery
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.reactor.asFlux
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.ticker.Ticker
 import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.BitflyerRealtimeTickerClient
 import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.model.TickerMessage
-import org.kentunc.bittrader.common.test.model.TestTicker
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import java.math.BigDecimal
 import java.time.Instant
-import java.time.LocalDateTime
 
 @SpringJUnitConfig(TickerRepositoryImpl::class)
 internal class TickerRepositoryImplTest {
@@ -50,8 +46,7 @@ internal class TickerRepositoryImplTest {
         coEvery { bitflyerRealtimeTickerClient.subscribe(productCode) } returns flowOf(ticker1, ticker2)
 
         // exercise:
-        val actual = mutableListOf<Ticker>()
-        target.subscribe(productCode).toList(actual)
+        val actual = target.subscribe(productCode).toList()
 
         // verify:
         assertAll(
