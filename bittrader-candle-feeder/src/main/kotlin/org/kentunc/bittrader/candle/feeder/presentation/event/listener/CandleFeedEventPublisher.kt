@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 class CandleFeedEventPublisher(private val eventPublisher: ApplicationEventPublisher) {
 
     companion object {
-        private val log = LoggerFactory.getLogger(CandleFeedEventPublisher::class.java)
+        private val log = LoggerFactory.getLogger(this::class.java)
     }
 
     @EventListener(ApplicationReadyEvent::class)

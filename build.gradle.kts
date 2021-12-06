@@ -105,6 +105,7 @@ subprojects {
                         "**/*Application*",
                         "**/*Configuration*",
                         "**/*ConfigurationProperties*",
+                        "**/*Exception",
                     )
                 }
             }))
