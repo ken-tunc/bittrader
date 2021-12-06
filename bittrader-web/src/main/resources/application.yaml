@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: bittrader-web
+  main:
+    web-application-type: reactive
+  profiles:
+    group:
+      local:
+        - dev
+      test:
+        - dev
+server:
+  port: 8080
+bittrader:
+  webjars:
+    versions:
+      apexcharts: 3.30.0

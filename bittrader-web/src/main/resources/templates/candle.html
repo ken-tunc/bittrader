@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>bittrader web</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta charset="UTF-8" />
+</head>
+<body>
+<div id="chart" style="max-width: 650px; margin: 35px auto;"></div>
+<script th:inline="javascript">
+  window.onload = function () {
+    const candleSticks = JSON.parse([[${candleSticks}]]);
+    const options = {
+      series: [{
+        data: candleSticks.map(candleStick => {
+          return {
+            x: new Date(candleStick.dateTime),
+            y: candleStick.quotes
+          }
+        })
+      }],
+      chart: {
+        type: 'candlestick',
+        height: 350
+      },
+      title: {
+        text: 'CandleStick Chart',
+        align: 'left'
+      },
+      xaxis: {
+        type: 'datetime'
+      },
+      yaxis: {
+        tooltip: {
+          enabled: true
+        }
+      }
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  }
+</script>
+<script
+    th:src="@{/webjars/apexcharts/{version}/dist/apexcharts.min.js(version=${@webjarsConfig.versions['apexcharts']})}"></script>
+</body>
+</html>

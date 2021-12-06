@@ -29,6 +29,12 @@ data class CandleSearchRequest(val productCode: ProductCode, val duration: Durat
 
             return CandleSearchRequest(productCode, duration, maxNum)
         }
+
+        fun of(query: CandleQuery) = CandleSearchRequest(
+            productCode = query.productCode,
+            duration = query.duration,
+            maxNum = query.maxNum
+        )
     }
 
     fun toCandleQuery() = CandleQuery(productCode, duration, maxNum)
