@@ -15,6 +15,7 @@ import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.infrastructure.webclient.http.candle.CandleApiClient
 import org.kentunc.bittrader.common.presentation.model.candle.CandleResponse
 import org.kentunc.bittrader.common.test.model.TestCandle
+import org.kentunc.bittrader.common.test.model.TestCandleList
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
@@ -31,11 +32,11 @@ internal class CandleRepositoryImplTest {
     fun testSearch() = runBlocking {
         // setup:
         val query = CandleQuery(ProductCode.BTC_JPY, Duration.DAYS)
-        val candle = TestCandle.create()
+        val candles = TestCandleList.create().toList()
         val candleResponse1 = mockk<CandleResponse>()
-        every { candleResponse1.toCandle() } returns candle
+        every { candleResponse1.toCandle() } returns candles[0]
         val candleResponse2 = mockk<CandleResponse>()
-        every { candleResponse2.toCandle() } returns candle
+        every { candleResponse2.toCandle() } returns candles[1]
         every { candleApiClient.search(any()) } returns flowOf(candleResponse1, candleResponse2)
 
         // exercise:
