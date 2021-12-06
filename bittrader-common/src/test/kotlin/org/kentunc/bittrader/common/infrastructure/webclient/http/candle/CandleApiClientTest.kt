@@ -3,38 +3,31 @@ package org.kentunc.bittrader.common.infrastructure.webclient.http.candle
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import org.junit.jupiter.api.extension.RegisterExtension
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.presentation.model.candle.CandleResponse
 import org.kentunc.bittrader.common.presentation.model.candle.CandleSearchRequest
 import org.kentunc.bittrader.common.presentation.model.ticker.TickerRequest
 import org.kentunc.bittrader.common.test.model.TestTicker
-import org.kentunc.bittrader.test.extension.WebClientExtension
 import org.kentunc.bittrader.test.file.ResourceReader
+import org.kentunc.bittrader.test.webclient.AutoConfigureMockWebServer
+import org.kentunc.bittrader.test.webclient.MockWebServerHelper
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
+@AutoConfigureMockWebServer(CandleApiClient::class)
 internal class CandleApiClientTest {
 
-    companion object {
-        @JvmField
-        @RegisterExtension
-        internal val helper = WebClientExtension()
-    }
+    @Autowired
+    private lateinit var helper: MockWebServerHelper
 
+    @Autowired
     private lateinit var target: CandleApiClient
-
-    @BeforeEach
-    fun setUp() {
-        target = CandleApiClient(helper.createWebClient())
-    }
 
     @Test
     fun testSearch() = runBlocking {
@@ -67,8 +60,7 @@ internal class CandleApiClientTest {
         val request = CandleSearchRequest(ProductCode.BTC_JPY, duration = Duration.DAYS, expected.size)
 
         // exercise:
-        val actual = target.search(request)
-            .toList()
+        val actual = target.search(request).toList()
 
         // verify:
         assertAll(
