@@ -9,7 +9,7 @@ import org.springframework.context.event.EventListener
 class H2ConsoleServer(private var webServer: Server) {
 
     companion object {
-        private val log = LoggerFactory.getLogger(H2ConsoleServer::class.java)
+        private val log = LoggerFactory.getLogger(this::class.java)
     }
 
     @EventListener(ContextRefreshedEvent::class)
