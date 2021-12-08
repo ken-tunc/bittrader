@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository
 @Repository
 class TickerRepositoryImpl(private val bitflyerRealtimeTickerClient: BitflyerRealtimeTickerClient) : TickerRepository {
 
-    override fun subscribe(productCode: ProductCode): Flow<Ticker> {
-        return bitflyerRealtimeTickerClient.subscribe(productCode)
+    override fun subscribe(productCodes: Collection<ProductCode>): Flow<Ticker> {
+        return bitflyerRealtimeTickerClient.subscribe(productCodes)
             .map { it.toTicker() }
     }
 }

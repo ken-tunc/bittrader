@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class CandleFeedInteractor(private val tickerService: TickerService, private val candleService: CandleService) {
 
-    suspend fun feedCandles(productCode: ProductCode) {
-        tickerService.subscribe(productCode)
+    suspend fun feedCandles(productCodes: Collection<ProductCode>) {
+        tickerService.subscribe(productCodes)
             .collect { candleService.feed(it) }
     }
 }
