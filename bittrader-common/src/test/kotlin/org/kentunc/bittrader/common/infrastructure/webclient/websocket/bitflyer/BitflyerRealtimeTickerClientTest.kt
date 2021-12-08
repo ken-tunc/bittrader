@@ -30,7 +30,7 @@ internal class BitflyerRealtimeTickerClientTest {
     @ParameterizedTest
     @EnumSource(ProductCode::class)
     fun `subscribe three tickers`(productCode: ProductCode) = runBlocking {
-        target.subscribe(productCode)
+        target.subscribe(setOf(productCode))
             .take(3)
             .collect {
                 assertEquals(productCode, it.productCode)

@@ -28,12 +28,12 @@ internal class CandleFeedInteractorTest {
     @Test
     fun testFeedCandles() = runBlocking {
         // setup:
-        val productCode = ProductCode.BTC_JPY
-        val ticker = TestTicker.create(productCode = productCode)
-        coEvery { tickerService.subscribe(ProductCode.BTC_JPY) } returns flowOf(ticker)
+        val productCodes = ProductCode.values().toSet()
+        val ticker = TestTicker.create()
+        coEvery { tickerService.subscribe(productCodes) } returns flowOf(ticker)
 
         // exercise:
-        target.feedCandles(productCode)
+        target.feedCandles(productCodes)
 
         // verify:
         coVerify { candleService.feed(ticker) }

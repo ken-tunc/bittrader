@@ -28,25 +28,25 @@ internal class TickerRepositoryImplTest {
     @Test
     fun testSubscribe() = runBlocking {
         // setup:
-        val productCode = ProductCode.BTC_JPY
+        val productCodes = ProductCode.values().toSet()
         val ticker1 = TickerMessage(
-            productCode = productCode,
+            productCode = ProductCode.BTC_JPY,
             timestamp = Instant.now().toString(),
             bestBid = BigDecimal.valueOf(100.0),
             bestAsk = BigDecimal.valueOf(100.0),
             volume = BigDecimal.valueOf(100.0)
         )
         val ticker2 = TickerMessage(
-            productCode = productCode,
+            productCode = ProductCode.ETH_JPY,
             timestamp = Instant.now().toString(),
             bestBid = BigDecimal.valueOf(100.0),
             bestAsk = BigDecimal.valueOf(100.0),
             volume = BigDecimal.valueOf(100.0)
         )
-        coEvery { bitflyerRealtimeTickerClient.subscribe(productCode) } returns flowOf(ticker1, ticker2)
+        coEvery { bitflyerRealtimeTickerClient.subscribe(productCodes) } returns flowOf(ticker1, ticker2)
 
         // exercise:
-        val actual = target.subscribe(productCode).toList()
+        val actual = target.subscribe(productCodes).toList()
 
         // verify:
         assertAll(

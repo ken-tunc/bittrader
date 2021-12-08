@@ -1,21 +1,15 @@
 package org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakeException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.model.TickerMessage
-import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.model.TickerRequestParams
-import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.model.TickerSubscribeParams
-import org.kentunc.bittrader.common.infrastructure.webclient.websocket.model.JsonRPC2Request
 import org.slf4j.LoggerFactory
-import org.springframework.web.reactive.socket.WebSocketMessage
 import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient
-import reactor.core.publisher.Mono
-import reactor.core.publisher.Sinks
-import reactor.core.scheduler.Schedulers
+import reactor.core.publisher.Flux
+import reactor.core.publisher.FluxSink
 import reactor.util.retry.Retry
 import java.net.URI
 
@@ -24,42 +18,28 @@ class BitflyerRealtimeTickerClient(
     private val objectMapper: ObjectMapper,
     private val webSocketClient: ReactorNettyWebSocketClient,
     private val retryDurationMillis: Long = 1000L,
-    private val terminateCallback: (productCode: ProductCode) -> Unit = { log.info("$it subscription terminated.") }
 ) {
 
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java)
-        private const val SUBSCRIBE_METHOD = "subscribe"
     }
 
-    fun subscribe(productCode: ProductCode): Flow<TickerMessage> {
-        val buffer = Sinks.many().multicast().onBackpressureBuffer<TickerMessage>()
+    fun subscribe(produceCodes: Collection<ProductCode>): Flow<TickerMessage> {
+        return Flux.create<TickerMessage> { connect(Flux.fromIterable(produceCodes), it) }
+            .publish()
+            .autoConnect()
+            .asFlow()
+    }
 
-        val sessionMono = webSocketClient.execute(endpoint) { session ->
-            val request = JsonRPC2Request(method = SUBSCRIBE_METHOD, params = TickerRequestParams(productCode))
-            val requestMessage = Mono.fromCallable {
-                session.textMessage(objectMapper.writeValueAsString(request))
-            }
-
-            session.send(requestMessage)
-                .thenMany(
-                    session.receive()
-                        .map(WebSocketMessage::getPayloadAsText)
-                        .map { objectMapper.readValue<JsonRPC2Request<TickerSubscribeParams>>(it).params.message }
-                        .doOnNext { buffer.tryEmitNext(it) }
-                        .doOnTerminate { terminateCallback(productCode) }
-                        .then())
-                .then()
-        }.retryWhen(
-            Retry.indefinitely()
+    private fun connect(productCodes: Flux<ProductCode>, sink: FluxSink<TickerMessage>) {
+        webSocketClient.execute(endpoint, BitflyerRealtimeTickerHandler(productCodes, sink, objectMapper))
+            .retryWhen(Retry.indefinitely()
                 .filter { it is WebSocketClientHandshakeException }
                 .doBeforeRetry {
+                    log.info("retry subscription...")
                     Thread.sleep(retryDurationMillis)
                 })
-
-        return buffer.asFlux()
-            .publishOn(Schedulers.boundedElastic())
-            .doOnSubscribe { sessionMono.subscribe() }
-            .asFlow()
+            .doFinally { sink.complete() }
+            .subscribe()
     }
 }
