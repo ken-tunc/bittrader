@@ -1,16 +1,12 @@
 package org.kentunc.bittrader.candle.api.infrastructure.development
 
 import org.h2.tools.Server
-import org.slf4j.LoggerFactory
+import org.kentunc.bittrader.common.shared.extension.log
 import org.springframework.context.event.ContextClosedEvent
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
 
 class H2ConsoleServer(private var webServer: Server) {
-
-    companion object {
-        private val log = LoggerFactory.getLogger(this::class.java)
-    }
 
     @EventListener(ContextRefreshedEvent::class)
     fun start() {
