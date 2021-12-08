@@ -7,7 +7,7 @@ import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.
 import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.model.TickerRequestParams
 import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.model.TickerSubscribeParams
 import org.kentunc.bittrader.common.infrastructure.webclient.websocket.model.JsonRPC2Request
-import org.slf4j.LoggerFactory
+import org.kentunc.bittrader.common.shared.extension.log
 import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.WebSocketSession
 import reactor.core.publisher.Flux
@@ -23,7 +23,6 @@ internal class BitflyerRealtimeTickerHandler(
 
     companion object {
         private const val SUBSCRIBE_METHOD = "subscribe"
-        private val log = LoggerFactory.getLogger(this::class.java)
     }
 
     override fun handle(session: WebSocketSession): Mono<Void> {
