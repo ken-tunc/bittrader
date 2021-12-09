@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 
 @TestConfiguration
-class MockWebServerConfiguration {
+internal class WebClientTestConfiguration {
 
     @Bean
     fun mockWebServer() = MockWebServer()
@@ -16,7 +16,7 @@ class MockWebServerConfiguration {
     fun webClientProxy() = WebClientProxy()
 
     @Bean
-    fun mockWebServerHelper() = MockWebServerHelper(
+    fun webClientTestUtil() = WebClientTestUtil(
         mockWebServer(),
         jacksonObjectMapper().registerModule(JavaTimeModule())
     )

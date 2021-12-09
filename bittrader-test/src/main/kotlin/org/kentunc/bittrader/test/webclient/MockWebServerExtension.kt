@@ -8,7 +8,7 @@ import org.springframework.beans.factory.getBean
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-class MockWebServerExtension : BeforeAllCallback, AfterAllCallback {
+internal class MockWebServerExtension : BeforeAllCallback, AfterAllCallback {
 
     override fun beforeAll(context: ExtensionContext?) {
         val applicationContext = getApplicationContext(context) ?: return

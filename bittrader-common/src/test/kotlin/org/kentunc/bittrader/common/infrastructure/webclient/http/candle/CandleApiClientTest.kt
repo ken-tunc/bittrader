@@ -12,19 +12,19 @@ import org.kentunc.bittrader.common.presentation.model.candle.CandleSearchReques
 import org.kentunc.bittrader.common.presentation.model.ticker.TickerRequest
 import org.kentunc.bittrader.common.test.model.TestTicker
 import org.kentunc.bittrader.test.file.ResourceReader
-import org.kentunc.bittrader.test.webclient.AutoConfigureMockWebServer
-import org.kentunc.bittrader.test.webclient.MockWebServerHelper
+import org.kentunc.bittrader.test.webclient.WebClientTest
+import org.kentunc.bittrader.test.webclient.WebClientTestUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-@AutoConfigureMockWebServer(CandleApiClient::class)
+@WebClientTest(CandleApiClient::class)
 internal class CandleApiClientTest {
 
     @Autowired
-    private lateinit var helper: MockWebServerHelper
+    private lateinit var util: WebClientTestUtil
 
     @Autowired
     private lateinit var target: CandleApiClient
@@ -33,7 +33,7 @@ internal class CandleApiClientTest {
     fun testSearch() = runBlocking {
         // setup:
         val responseBody = ResourceReader.readResource("mock/candle/get_candles.json")
-        helper.enqueueResponse(responseBody)
+        util.enqueueResponse(responseBody)
         val expected = listOf(
             CandleResponse(
                 productCode = ProductCode.BTC_JPY,
@@ -65,7 +65,7 @@ internal class CandleApiClientTest {
         // verify:
         assertAll(
             { assertEquals(expected, actual) },
-            { helper.assertRequest(HttpMethod.GET, "/candles?product_code=BTC_JPY&duration=DAYS&max_num=2") }
+            { util.assertRequest(HttpMethod.GET, "/candles?product_code=BTC_JPY&duration=DAYS&max_num=2") }
         )
     }
 
@@ -73,12 +73,12 @@ internal class CandleApiClientTest {
     fun testFeed() = runBlocking {
         // setup:
         val request = TickerRequest.of(TestTicker.create())
-        helper.enqueueResponse(status = HttpStatus.NO_CONTENT)
+        util.enqueueResponse(status = HttpStatus.NO_CONTENT)
 
         // exercise:
         target.feed(request)
 
         // verify:
-        helper.assertRequest(HttpMethod.PUT, "/candles/feed", request)
+        util.assertRequest(HttpMethod.PUT, "/candles/feed", request)
     }
 }

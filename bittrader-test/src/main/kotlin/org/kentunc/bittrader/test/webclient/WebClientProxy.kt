@@ -3,7 +3,7 @@ package org.kentunc.bittrader.test.webclient
 import org.springframework.http.HttpMethod
 import org.springframework.web.reactive.function.client.WebClient
 
-class WebClientProxy : WebClient {
+internal class WebClientProxy : WebClient {
 
     private lateinit var webClient: WebClient
 
