@@ -10,7 +10,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class MockWebServerHelper(private val mockWebServer: MockWebServer, private val objectMapper: ObjectMapper) {
+class WebClientTestUtil(private val mockWebServer: MockWebServer, private val objectMapper: ObjectMapper) {
 
     fun enqueueResponse(
         body: String? = null,

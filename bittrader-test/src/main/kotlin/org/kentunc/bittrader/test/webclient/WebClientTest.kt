@@ -9,9 +9,9 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @SpringJUnitConfig
-@Import(MockWebServerConfiguration::class)
+@Import(WebClientTestConfiguration::class)
 @ExtendWith(MockWebServerExtension::class)
-annotation class AutoConfigureMockWebServer(
+annotation class WebClientTest(
     @get:AliasFor(
         annotation = SpringJUnitConfig::class,
         attribute = "classes"

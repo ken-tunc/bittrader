@@ -8,8 +8,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.kentunc.bittrader.candle.feeder.domain.exception.UnexpectedSubscribeException
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.BitflyerRealtimeTickerClient
 import org.kentunc.bittrader.common.infrastructure.webclient.websocket.bitflyer.model.TickerMessage
@@ -30,25 +28,25 @@ internal class TickerRepositoryImplTest {
     @Test
     fun testSubscribe() = runBlocking {
         // setup:
-        val productCode = ProductCode.BTC_JPY
+        val productCodes = ProductCode.values().toSet()
         val ticker1 = TickerMessage(
-            productCode = productCode,
+            productCode = ProductCode.BTC_JPY,
             timestamp = Instant.now().toString(),
             bestBid = BigDecimal.valueOf(100.0),
             bestAsk = BigDecimal.valueOf(100.0),
             volume = BigDecimal.valueOf(100.0)
         )
         val ticker2 = TickerMessage(
-            productCode = productCode,
+            productCode = ProductCode.ETH_JPY,
             timestamp = Instant.now().toString(),
             bestBid = BigDecimal.valueOf(100.0),
             bestAsk = BigDecimal.valueOf(100.0),
             volume = BigDecimal.valueOf(100.0)
         )
-        coEvery { bitflyerRealtimeTickerClient.subscribe(productCode) } returns flowOf(ticker1, ticker2)
+        coEvery { bitflyerRealtimeTickerClient.subscribe(productCodes) } returns flowOf(ticker1, ticker2)
 
         // exercise:
-        val actual = target.subscribe(productCode).toList()
+        val actual = target.subscribe(productCodes).toList()
 
         // verify:
         assertAll(
@@ -56,16 +54,5 @@ internal class TickerRepositoryImplTest {
             { assertEquals(ticker1.toTicker().id, actual[0].id) },
             { assertEquals(ticker2.toTicker().id, actual[1].id) },
         )
-    }
-
-    @Test
-    fun testSubscribe_thrown(): Unit = runBlocking {
-        // setup:
-        coEvery { bitflyerRealtimeTickerClient.subscribe(any()) } throws RuntimeException("test")
-
-        // exercise & verify:
-        assertThrows<UnexpectedSubscribeException> {
-            target.subscribe(ProductCode.BTC_JPY)
-        }
     }
 }
