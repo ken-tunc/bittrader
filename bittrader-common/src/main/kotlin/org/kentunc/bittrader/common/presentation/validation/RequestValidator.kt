@@ -1,5 +1,6 @@
 package org.kentunc.bittrader.common.presentation.validation
 
+import org.springframework.validation.BindException
 import org.springframework.validation.DataBinder
 import org.springframework.validation.Validator
 import org.springframework.web.server.ServerWebInputException
@@ -12,11 +13,7 @@ class RequestValidator(private val springValidator: Validator) {
             validate()
         }.bindingResult
         if (errors.hasErrors()) {
-            val message = errors.fieldErrors
-                .map { "[${it.field}] ${it.defaultMessage}" }
-                .toTypedArray()
-                .joinToString(", ")
-            throw ServerWebInputException(message)
+            throw BindException(errors)
         }
     }
 }
