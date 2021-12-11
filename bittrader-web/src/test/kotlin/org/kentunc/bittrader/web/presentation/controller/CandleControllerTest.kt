@@ -29,8 +29,9 @@ internal class CandleControllerTest : AbstractControllerTest() {
         // exercise & verify:
         val result = webTestClient.get()
             .uri {
-                it.path("/candles/{productCode}/{duration}")
-                    .build(productCode, duration)
+                it.path("/candles/{productCode}")
+                    .queryParam("duration", duration)
+                    .build(productCode)
             }
             .exchange()
             .expectStatus().isOk
@@ -38,6 +39,9 @@ internal class CandleControllerTest : AbstractControllerTest() {
             .returnResult()
         MockMvcWebTestClient.resultActionsFor(result)
             .andExpect(view().name("candle"))
+            .andExpect(model().attribute("productCodes", ProductCode.values()))
+            .andExpect(model().attribute("durations", Duration.values()))
+            .andExpect(model().attribute("activeDuration", duration))
             .andExpect(model().attributeExists("candleSticks"))
 
         coVerify {

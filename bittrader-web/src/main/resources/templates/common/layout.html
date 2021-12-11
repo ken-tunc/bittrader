@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header(title,links)">
+  <title th:replace="${title}">bittrader</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" media="all"
+        th:href="@{/webjars/bootstrap/{version}/css/bootstrap.min.css(version=${@webjarsConfig.versions['bootstrap']})}" />
+
+  <!--/* Per-page placeholder for additional links */-->
+  <th:block th:replace="${links}" />
+</head>
+<body th:fragment="common_body(content,styles)">
+<div th:insert="common/nav :: navbar"></div>
+<div id="content">
+  <div class="container">
+    <th:block th:replace="${content}" />
+  </div>
+</div>
+
+<script type="text/javascript"
+        th:src="@{/webjars/bootstrap/{version}/js/bootstrap.min.js(version=${@webjarsConfig.versions['bootstrap']})}"></script>
+
+<!--/* Per-page placeholder for additional styles */-->
+<th:block th:replace="${styles}" />
+</body>
+</html>
