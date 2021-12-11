@@ -14,5 +14,5 @@ server:
 bittrader:
   webjars:
     versions:
-      apexcharts: ${apexchartsVersion}
-      bootstrap: ${bootstrapVersion}
+      apexcharts: @apexchartsVersion@
+      bootstrap: @bootstrapVersion@
