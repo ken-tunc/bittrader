@@ -8,25 +8,31 @@ import org.kentunc.bittrader.web.application.CandleService
 import org.kentunc.bittrader.web.presentation.model.CandleStick
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/candles")
 class CandleController(private val candleService: CandleService, private val objectMapper: ObjectMapper) {
 
-    @GetMapping("/{productCode}/{duration}")
+    @GetMapping("/{productCode}")
     suspend fun candlestickChart(
         @PathVariable productCode: ProductCode,
-        @PathVariable duration: Duration,
+        @RequestParam(required = false) duration: Duration?,
         model: Model
     ): String {
-        val query = CandleQuery(productCode = productCode, duration = duration, maxNum = 300)
+        val activeDuration = duration ?: Duration.MINUTES
+        val query = CandleQuery(productCode = productCode, duration = activeDuration, maxNum = 300)
         val candleSticks = candleService.search(query)
             .toList()
             .map { CandleStick.of(it) }
-        model.addAttribute("candleSticks", objectMapper.writeValueAsString(candleSticks))
+        model["productCode"] = productCode
+        model["durations"] = Duration.values()
+        model["activeDuration"] = activeDuration
+        model["candleSticks"] = objectMapper.writeValueAsString(candleSticks)
         return "candle"
     }
 }

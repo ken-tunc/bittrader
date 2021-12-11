@@ -1,22 +1,18 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-  <title>bittrader web</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta charset="UTF-8" />
-</head>
-<body>
-<h1>Charts</h1>
-<h2>Candlestick charts</h2>
-<th:block th:each="productCode: ${productCodes}">
-  <h3 th:text="${productCode}">product code</h3>
-  <ul th:each="duration: ${durations}">
-    <li>
-      <a th:href="@{/candles/{productCode}/{duration}(productCode=${productCode},duration=${duration})}"
-         th:text="${duration}">link
-      </a>
-    </li>
-  </ul>
+<head th:replace="common/layout :: common_header(_,_)"></head>
+<body th:replace="common/layout :: common_body(~{:: #content},_)">
+<th:block id="content">
+  <h2>Charts</h2>
+  <th:block th:each="productCode: ${productCodes}">
+    <ul>
+      <li>
+        <a th:href="@{/candles/{productCode}(productCode=${productCode})}"
+           th:text="${productCode}">link
+        </a>
+      </li>
+    </ul>
+  </th:block>
 </th:block>
 </body>
 </html>

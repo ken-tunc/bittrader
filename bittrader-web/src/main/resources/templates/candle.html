@@ -1,12 +1,21 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-  <title>bittrader web</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta charset="UTF-8" />
-</head>
-<body>
-<div id="chart" style="max-width: 650px; margin: 35px auto;"></div>
+<head th:replace="common/layout :: common_header(_,_)"></head>
+<body th:replace="common/layout :: common_body(~{:: #content},~{::script})">
+<th:block id="content">
+  <h2 class="mb-3" th:text="|${productCode} charts|"></h2>
+
+  <nav class="nav nav-pills mb-3">
+    <a class="nav-link"
+       th:each="duration : ${durations}"
+       th:classappend="${duration == activeDuration} ? 'active' : ''"
+       th:href="@{/candles/{productCode}(productCode=${productCode},duration=${duration})}"
+       th:text="${#strings.toLowerCase(duration)}"
+    ></a>
+  </nav>
+
+  <div id="chart"></div>
+</th:block>
 <script th:inline="javascript">
   window.onload = function () {
     const candleSticks = JSON.parse([[${candleSticks}]]);
