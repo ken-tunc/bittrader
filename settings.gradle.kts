@@ -3,5 +3,6 @@ include(
     "bittrader-common",
     "bittrader-candle-api",
     "bittrader-candle-feeder",
-    "bittrader-test"
+    "bittrader-test",
+    "bittrader-web"
 )

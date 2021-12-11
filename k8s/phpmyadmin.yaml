@@ -4,7 +4,7 @@ metadata:
   name: bittrader-phpmyadmin
   labels:
     app: phpmyadmin
-    tier: backend
+    tier: frontend
 spec:
   type: LoadBalancer
   selector:
@@ -19,7 +19,7 @@ metadata:
   name: bittrader-phpmyadmin
   labels:
     app: phpmyadmin
-    tier: backend
+    tier: frontend
 spec:
   selector:
     matchLabels:
@@ -28,7 +28,7 @@ spec:
     metadata:
       labels:
         app: phpmyadmin
-        tier: backend
+        tier: frontend
     spec:
       containers:
         - name: phpmyadmin

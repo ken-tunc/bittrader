@@ -1,3 +1,4 @@
+import org.apache.tools.ant.filters.ReplaceTokens
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import org.springframework.boot.gradle.tasks.bundling.BootJar
@@ -68,7 +69,7 @@ subprojects {
     // docker image configuration
     val dockerRegistry: String by project
     val dockerUserName: String by project
-    tasks.getByName<BootBuildImage>("bootBuildImage") {
+    tasks.withType<BootBuildImage> {
         imageName = "$dockerRegistry/$dockerUserName/${rootProject.name}/${project.name}:latest"
         environment("BP_OCI_SOURCE", "https://github.com/$dockerUserName/${rootProject.name}")
         System.getenv()["GH_ACCESS_TOKEN"]?.also {
@@ -111,6 +112,17 @@ subprojects {
             }))
         }
     }
+
+    // expand project properties into application.yaml
+    tasks.withType<ProcessResources> {
+        val tokens = listOf(
+            "bootstrapVersion",
+            "apexchartsVersion"
+        ).associateWith { findProperty(it) as String }
+        filesMatching("**/application*.yaml") {
+            filter<ReplaceTokens>("tokens" to tokens)
+        }
+    }
 }
 
 // disable tasks for root project
@@ -118,6 +130,6 @@ tasks.withType<BootJar> {
     enabled = false
 }
 
-tasks.getByName<BootBuildImage>("bootBuildImage") {
+tasks.withType<BootBuildImage> {
     enabled = false
 }

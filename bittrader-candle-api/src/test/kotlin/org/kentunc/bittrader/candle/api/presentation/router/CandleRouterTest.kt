@@ -18,8 +18,7 @@ import org.kentunc.bittrader.common.test.model.TestTicker
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.test.web.reactive.server.WebTestClient
-import org.springframework.test.web.reactive.server.returnResult
-import reactor.test.StepVerifier
+import org.springframework.test.web.reactive.server.expectBodyList
 
 @CandleApiTest
 @AutoConfigureWebTestClient
@@ -39,21 +38,17 @@ internal class CandleRouterTest {
         coEvery { candleInteractor.findLatestCandles(any()) } returns candleList
 
         // exercise:
-        val source = webTestClient.get()
+        webTestClient.get()
             .uri {
                 it.path("/candles")
                     .queryParams(request.toMultiValueMap())
                     .build()
             }
             .exchange()
-            .expectStatus().isOk
-            .returnResult<CandleResponse>()
-            .responseBody
-
-        // verify:
-        StepVerifier.create(source)
-            .expectNextCount(candleList.size.toLong())
-            .verifyComplete()
+            .expectAll(
+                { it.expectStatus().isOk },
+                { it.expectBodyList<CandleResponse>().hasSize(candleList.size) }
+            )
 
         coVerify {
             candleInteractor.findLatestCandles(withArg {
@@ -76,7 +71,11 @@ internal class CandleRouterTest {
             .uri("/candles/feed")
             .bodyValue(TickerRequest.of(ticker))
             .exchange()
-            .expectStatus().isNoContent
+            .expectAll(
+                { it.expectStatus().isNoContent },
+                { it.expectBody().isEmpty }
+            )
+
 
         coVerify {
             candleInteractor.feedCandlesByTicker(withArg {

@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
+import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.util.LinkedMultiValueMap
@@ -27,6 +28,17 @@ internal class CandleSearchRequestTest {
         }
 
         assertThrows<ServerWebInputException> { CandleSearchRequest.from(params) }
+    }
+
+    @Test
+    fun testOf() {
+        val query = CandleQuery(ProductCode.BTC_JPY, Duration.DAYS, 10)
+        val actual = CandleSearchRequest.of(query)
+        assertAll(
+            { assertEquals(query.productCode, actual.productCode) },
+            { assertEquals(query.duration, actual.duration) },
+            { assertEquals(query.maxNum, actual.maxNum) },
+        )
     }
 
     @Test
