@@ -6,4 +6,4 @@ import org.springframework.context.annotation.Import
 
 @Configuration
 @Import(RequestValidatorConfiguration::class)
-class HandlerConfiguration
+class ControllerConfiguration

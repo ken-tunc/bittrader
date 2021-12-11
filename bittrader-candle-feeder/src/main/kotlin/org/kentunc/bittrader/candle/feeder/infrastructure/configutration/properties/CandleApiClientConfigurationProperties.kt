@@ -6,4 +6,4 @@ import java.net.URL
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "bittrader.internal.candle-api")
-data class CandleApiClientConfigurationProperties(val url: URL)
+data class CandleApiClientConfigurationProperties(val host: String, val port: Int)

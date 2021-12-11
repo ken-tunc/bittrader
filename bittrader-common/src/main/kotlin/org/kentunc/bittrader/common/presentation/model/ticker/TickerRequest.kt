@@ -29,7 +29,7 @@ data class TickerRequest(
         )
     }
 
-    fun toModel() = Ticker.of(
+    fun toTicker() = Ticker.of(
         id = TickerId(productCode, DateTime.of(dateTime)),
         bestBid = Price.of(bestBid),
         bestAsk = Price.of(bestAsk),
