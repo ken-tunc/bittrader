@@ -18,7 +18,8 @@ class BitflyerHeaderSigner(private val accessKey: String, private val secretKey:
 
     override fun injectHeader(clientRequest: ClientHttpRequest, body: ByteArray?) {
         val timestamp = DateTimeFactory.getInstant().toString()
-        val text = timestamp + clientRequest.method.toString() + clientRequest.uri.path + (body?.toString() ?: "")
+        val bodyString = body?.let { String(it) } ?: ""
+        val text = timestamp + clientRequest.method.toString() + clientRequest.uri.path + bodyString
 
         clientRequest.headers.apply {
             add(HEADER_ACCESS_KEY, accessKey)

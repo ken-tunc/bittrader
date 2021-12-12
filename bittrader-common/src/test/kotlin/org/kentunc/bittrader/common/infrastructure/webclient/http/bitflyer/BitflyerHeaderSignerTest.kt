@@ -35,7 +35,7 @@ internal class BitflyerHeaderSignerTest {
     @ArgumentsSource(TestArgumentsProvider::class)
     fun testInjectHeader(requestBody: ByteArray?, expected: String) {
         // setup:
-        val request = MockClientHttpRequest(HttpMethod.GET, URI("http://example.com"))
+        val request = MockClientHttpRequest(HttpMethod.GET, URI("http://example.com/path"))
         val instant = Instant.parse("2019-04-11T05:14:12.3739915Z")
         mockkObject(DateTimeFactory)
         every { DateTimeFactory.getInstant() } returns instant
@@ -54,8 +54,8 @@ internal class BitflyerHeaderSignerTest {
     private class TestArgumentsProvider : ArgumentsProvider {
         override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
             return Stream.of(
-                Arguments.arguments("body".toByteArray(), "9a58f8de7dd7cc25e3e56e63d9ca5b1f32636343b0ce7fc9a351fd5d51a7f45d"),
-                Arguments.arguments(null, "ec092f398330e4b9bad27d7e15c4a9c422c4563fe99266c3795133f1ca49cad6")
+                Arguments.arguments("body".toByteArray(), "4602d18bbc0a55d7d33cb139bb5d537d9aaed05bf5e86c2f8fbce55783304fbc"),
+                Arguments.arguments(null, "c6a885eb3713485aeead5ca2003258bbb47330a8229fa0186fd8e29587ed2b23")
             )
         }
     }
