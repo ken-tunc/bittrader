@@ -1,40 +1,35 @@
 package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer
 
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.RegisterExtension
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.TickerResponse
-import org.kentunc.bittrader.test.extension.WebClientExtension
 import org.kentunc.bittrader.test.file.ResourceReader
+import org.kentunc.bittrader.test.webclient.WebClientTest
+import org.kentunc.bittrader.test.webclient.WebClientTestUtil
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.Month
 
+@WebClientTest(BitflyerHttpPublicApiClient::class)
 internal class BitflyerHttpPublicApiClientTest {
 
-    companion object {
-        @JvmField
-        @RegisterExtension
-        internal val helper = WebClientExtension()
-    }
-
-    lateinit var target: BitflyerHttpPublicApiClient
-
-    @BeforeEach
-    internal fun setUp() {
-        target = BitflyerHttpPublicApiClient(helper.createWebClient())
-    }
+    @Autowired
+    private lateinit var util: WebClientTestUtil
+    
+    @Autowired
+    private lateinit var target: BitflyerHttpPublicApiClient
 
     @Test
     fun testGetTicker() = runBlocking {
         // setup:
         val productCode = ProductCode.BTC_JPY
         val responseBody = ResourceReader.readResource("mock/bitflyer/get_ticker.json")
-        helper.enqueueResponse(responseBody)
+        util.enqueueResponse(responseBody)
         val expected = TickerResponse(
             productCode = productCode,
             timestamp = LocalDateTime.of(2015, Month.JULY, 8, 2, 50, 59),
@@ -49,7 +44,7 @@ internal class BitflyerHttpPublicApiClientTest {
         // verify:
         assertAll(
             { assertEquals(expected, actual) },
-            { helper.assertRequest(HttpMethod.GET, "/ticker?product_code=$productCode")},
+            { util.assertRequest(HttpMethod.GET, "/ticker?product_code=$productCode")},
         )
     }
 }

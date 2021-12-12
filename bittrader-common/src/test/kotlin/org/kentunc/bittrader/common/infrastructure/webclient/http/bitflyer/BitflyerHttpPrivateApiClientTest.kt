@@ -4,9 +4,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.RegisterExtension
 import org.kentunc.bittrader.common.domain.model.market.CurrencyCode
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.order.OrderSide
@@ -17,33 +15,29 @@ import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.CommissionRateResponse
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.OrderRequest
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.OrderResponse
-import org.kentunc.bittrader.test.extension.WebClientExtension
 import org.kentunc.bittrader.test.file.ResourceReader
+import org.kentunc.bittrader.test.webclient.WebClientTest
+import org.kentunc.bittrader.test.webclient.WebClientTestUtil
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.Month
 
+@WebClientTest(BitflyerHttpPrivateApiClient::class)
 internal class BitflyerHttpPrivateApiClientTest {
 
-    companion object {
-        @JvmField
-        @RegisterExtension
-        internal val helper = WebClientExtension()
-    }
+    @Autowired
+    private lateinit var util: WebClientTestUtil
 
-    lateinit var target: BitflyerHttpPrivateApiClient
-
-    @BeforeEach
-    internal fun setUp() {
-        target = BitflyerHttpPrivateApiClient(helper.createWebClient())
-    }
+    @Autowired
+    private lateinit var target: BitflyerHttpPrivateApiClient
 
     @Test
     fun testGetBalances() = runBlocking {
         // setup:
         val responseBody = ResourceReader.readResource("mock/bitflyer/get_getbalance.json")
-        helper.enqueueResponse(responseBody)
+        util.enqueueResponse(responseBody)
         val expected = listOf(
             BalanceResponse(CurrencyCode.JPY, BigDecimal("1024078"), BigDecimal("508000")),
             BalanceResponse(CurrencyCode.BTC, BigDecimal("10.24"), BigDecimal("4.12")),
@@ -56,7 +50,7 @@ internal class BitflyerHttpPrivateApiClientTest {
         // verify:
         assertAll(
             { assertEquals(expected, actual) },
-            { helper.assertRequest(HttpMethod.GET, "/me/getbalance") }
+            { util.assertRequest(HttpMethod.GET, "/me/getbalance") }
         )
     }
 
@@ -65,7 +59,7 @@ internal class BitflyerHttpPrivateApiClientTest {
         // setup:
         val productCode = ProductCode.BTC_JPY
         val responseBody = ResourceReader.readResource("mock/bitflyer/get_getchildorders.json")
-        helper.enqueueResponse(responseBody)
+        util.enqueueResponse(responseBody)
         val expected = listOf(
             OrderResponse(
                 productCode = productCode,
@@ -95,7 +89,7 @@ internal class BitflyerHttpPrivateApiClientTest {
         // verify:
         assertAll(
             { assertEquals(expected, actual) },
-            { helper.assertRequest(HttpMethod.GET, "/me/getchildorders?product_code=$productCode") }
+            { util.assertRequest(HttpMethod.GET, "/me/getchildorders?product_code=$productCode") }
         )
     }
 
@@ -112,13 +106,13 @@ internal class BitflyerHttpPrivateApiClientTest {
             timeInForce = TimeInForce.GTC
         )
         val responseBody = ResourceReader.readResource("mock/bitflyer/post_sendchildorder.json")
-        helper.enqueueResponse(responseBody)
+        util.enqueueResponse(responseBody)
 
         // exercise:
         target.sendOrder(request)
 
         // verify:
-        helper.assertRequest(HttpMethod.POST, "/me/sendchildorder", request)
+        util.assertRequest(HttpMethod.POST, "/me/sendchildorder", request)
     }
 
     @Test
@@ -126,7 +120,7 @@ internal class BitflyerHttpPrivateApiClientTest {
         // setup:
         val productCode = ProductCode.BTC_JPY
         val responseBody = ResourceReader.readResource("mock/bitflyer/get_gettradingcommission.json")
-        helper.enqueueResponse(responseBody)
+        util.enqueueResponse(responseBody)
         val expected = CommissionRateResponse(BigDecimal("0.001"))
 
         // exercise:
@@ -135,7 +129,7 @@ internal class BitflyerHttpPrivateApiClientTest {
         // verify:
         assertAll(
             { assertEquals(expected, actual) },
-            { helper.assertRequest(HttpMethod.GET, "/me/gettradingcommission?product_code=$productCode") }
+            { util.assertRequest(HttpMethod.GET, "/me/gettradingcommission?product_code=$productCode") }
         )
     }
 }
