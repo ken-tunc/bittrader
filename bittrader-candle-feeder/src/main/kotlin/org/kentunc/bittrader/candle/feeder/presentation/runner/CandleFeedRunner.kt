@@ -1,17 +1,20 @@
 package org.kentunc.bittrader.candle.feeder.presentation.runner
 
+import kotlinx.coroutines.runBlocking
 import org.kentunc.bittrader.candle.feeder.application.CandleFeedInteractor
-import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.springframework.boot.ApplicationArguments
+import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
-import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component
 @Profile("feed")
-class CandleFeedRunner(private val candleFeedInteractor: CandleFeedInteractor) {
+class CandleFeedRunner(private val candleFeedInteractor: CandleFeedInteractor) : ApplicationRunner {
 
-    @EventListener(ApplicationReadyEvent::class)
-    fun feedCandles() {
-        candleFeedInteractor.feedCandles()
+    override fun run(args: ApplicationArguments?) {
+        runBlocking {
+            candleFeedInteractor.feedCandles(ProductCode.values().toSet())
+        }
     }
 }

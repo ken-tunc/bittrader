@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="common/layout :: common_header(_,_)"></head>
+<body th:replace="common/layout :: common_body(~{:: #content},_)">
+<th:block id="content">
+  <h2>Charts</h2>
+  <th:block th:each="productCode: ${productCodes}">
+    <ul>
+      <li>
+        <a th:href="@{/candles/{productCode}(productCode=${productCode})}"
+           th:text="${productCode}">link
+        </a>
+      </li>
+    </ul>
+  </th:block>
+</th:block>
+</body>
+</html>

@@ -1,8 +1,9 @@
 package org.kentunc.bittrader.common.domain.model.time
 
+import org.kentunc.bittrader.common.shared.annotation.Generated
 import java.time.LocalDateTime
 
-class TruncatedDateTime private constructor(private val localDateTime: LocalDateTime) {
+class TruncatedDateTime private constructor(private val localDateTime: LocalDateTime) : Comparable<TruncatedDateTime> {
 
     companion object {
         fun of(localDateTime: LocalDateTime, duration: Duration) =
@@ -15,6 +16,9 @@ class TruncatedDateTime private constructor(private val localDateTime: LocalDate
 
     override fun toString() = localDateTime.toString()
 
+    override fun compareTo(other: TruncatedDateTime) = this.localDateTime.compareTo(other.localDateTime)
+
+    @Generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -26,6 +30,7 @@ class TruncatedDateTime private constructor(private val localDateTime: LocalDate
         return true
     }
 
+    @Generated
     override fun hashCode(): Int {
         return localDateTime.hashCode()
     }

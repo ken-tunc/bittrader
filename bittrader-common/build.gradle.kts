@@ -14,6 +14,6 @@ tasks.getByName<Jar>("jar") {
     enabled = true
 }
 
-tasks.getByName<BootBuildImage>("bootBuildImage") {
+tasks.withType<BootBuildImage> {
     enabled = false
 }

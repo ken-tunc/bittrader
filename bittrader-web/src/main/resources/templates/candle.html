@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="common/layout :: common_header(_,_)"></head>
+<body th:replace="common/layout :: common_body(~{:: #content},~{::script})">
+<th:block id="content">
+  <h2 class="mb-3" th:text="|${productCode} charts|"></h2>
+
+  <nav class="nav nav-pills mb-3">
+    <a class="nav-link"
+       th:each="duration : ${durations}"
+       th:classappend="${duration == activeDuration} ? 'active' : ''"
+       th:href="@{/candles/{productCode}(productCode=${productCode},duration=${duration})}"
+       th:text="${#strings.toLowerCase(duration)}"
+    ></a>
+  </nav>
+
+  <div id="chart"></div>
+</th:block>
+<script th:inline="javascript">
+  window.onload = function () {
+    const candleSticks = JSON.parse([[${candleSticks}]]);
+    const options = {
+      series: [{
+        data: candleSticks.map(candleStick => {
+          return {
+            x: new Date(candleStick.dateTime),
+            y: candleStick.quotes
+          }
+        })
+      }],
+      chart: {
+        type: 'candlestick',
+        height: 350
+      },
+      title: {
+        text: 'CandleStick Chart',
+        align: 'left'
+      },
+      xaxis: {
+        type: 'datetime',
+        labels: {
+          datetimeUTC: false
+        }
+      },
+      yaxis: {
+        tooltip: {
+          enabled: true
+        }
+      }
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  }
+</script>
+<script
+    th:src="@{/webjars/apexcharts/{version}/dist/apexcharts.min.js(version=${@webjarsConfig.versions['apexcharts']})}"></script>
+</body>
+</html>

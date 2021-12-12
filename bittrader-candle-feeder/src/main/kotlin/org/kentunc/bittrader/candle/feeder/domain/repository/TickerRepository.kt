@@ -6,5 +6,5 @@ import org.kentunc.bittrader.common.domain.model.ticker.Ticker
 
 interface TickerRepository {
 
-    fun subscribe(productCode: ProductCode): Flow<Ticker>
+    fun subscribe(productCodes: Collection<ProductCode>): Flow<Ticker>
 }

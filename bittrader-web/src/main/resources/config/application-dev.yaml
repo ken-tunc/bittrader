@@ -1,0 +1,4 @@
+bittrader:
+  internal:
+    candle-api:
+      url: http://localhost:8081
