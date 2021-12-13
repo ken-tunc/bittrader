@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.TickerResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.ticker.TickerResponse
 import org.kentunc.bittrader.test.file.ResourceReader
 import org.kentunc.bittrader.test.webclient.WebClientTest
 import org.kentunc.bittrader.test.webclient.WebClientTestUtil

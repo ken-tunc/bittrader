@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model
+package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
@@ -31,7 +31,7 @@ data class OrderResponse(
         private val MARKET_PRICE_HOLDER = BigDecimal.ZERO
     }
 
-    fun toModel() = OrderSignal.of(
+    fun toOrderSignal() = OrderSignal.of(
         productCode = productCode,
         orderSide = side,
         orderType = orderType,

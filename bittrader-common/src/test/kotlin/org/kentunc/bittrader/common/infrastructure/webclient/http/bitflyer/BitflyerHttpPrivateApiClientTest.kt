@@ -11,10 +11,10 @@ import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.domain.model.order.OrderState
 import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.domain.model.order.TimeInForce
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.BalanceResponse
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.CommissionRateResponse
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.OrderRequest
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.OrderResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.BalanceResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.CommissionRateResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderRequest
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderResponse
 import org.kentunc.bittrader.test.file.ResourceReader
 import org.kentunc.bittrader.test.webclient.WebClientTest
 import org.kentunc.bittrader.test.webclient.WebClientTestUtil

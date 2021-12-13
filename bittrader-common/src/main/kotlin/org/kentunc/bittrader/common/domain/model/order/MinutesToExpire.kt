@@ -1,5 +1,7 @@
 package org.kentunc.bittrader.common.domain.model.order
 
+import org.kentunc.bittrader.common.shared.annotation.Generated
+
 class MinutesToExpire private constructor(private val value: Int) {
 
     init {
@@ -12,6 +14,7 @@ class MinutesToExpire private constructor(private val value: Int) {
 
     fun toInt() = value
 
+    @Generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -23,6 +26,7 @@ class MinutesToExpire private constructor(private val value: Int) {
         return true
     }
 
+    @Generated
     override fun hashCode(): Int {
         return value
     }

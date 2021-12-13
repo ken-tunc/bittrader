@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model
+package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.ticker
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
@@ -21,7 +21,7 @@ data class TickerResponse(
     val volume: BigDecimal
 ) {
 
-    fun toModel() = Ticker.of(
+    fun toTicker() = Ticker.of(
         id = TickerId(productCode = productCode, dateTime = DateTime.of(timestamp)),
         bestBid = Price.of(bestBid),
         bestAsk = Price.of(bestAsk),

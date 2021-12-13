@@ -1,5 +1,6 @@
 package org.kentunc.bittrader.common.domain.model.quote
 
+import org.kentunc.bittrader.common.shared.annotation.Generated
 import java.math.BigDecimal
 
 class Size private constructor(private val value: BigDecimal) {
@@ -10,6 +11,7 @@ class Size private constructor(private val value: BigDecimal) {
 
     companion object {
         fun of(value: BigDecimal) = Size(value)
+        fun of(value: Double) = Size(BigDecimal.valueOf(value))
     }
 
     fun toBigDecimal() = value
@@ -22,6 +24,7 @@ class Size private constructor(private val value: BigDecimal) {
         return Size(this.value.subtract(other.value))
     }
 
+    @Generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -32,6 +35,7 @@ class Size private constructor(private val value: BigDecimal) {
         return this.value.compareTo(other.value) == 0
     }
 
+    @Generated
     override fun hashCode(): Int {
         return value.hashCode()
     }

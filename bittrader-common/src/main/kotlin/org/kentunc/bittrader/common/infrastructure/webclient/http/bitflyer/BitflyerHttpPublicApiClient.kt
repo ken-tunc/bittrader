@@ -2,7 +2,7 @@ package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer
 
 import kotlinx.coroutines.reactive.awaitFirst
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.TickerResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.ticker.TickerResponse
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 

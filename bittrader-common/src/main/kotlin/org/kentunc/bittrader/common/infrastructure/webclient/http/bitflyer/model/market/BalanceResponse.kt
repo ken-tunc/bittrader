@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model
+package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.kentunc.bittrader.common.domain.model.market.Balance
@@ -13,7 +13,7 @@ data class BalanceResponse(
     val available: BigDecimal
 ) {
 
-    fun toModel() = Balance.of(
+    fun toBalance() = Balance.of(
         currencyCode = currencyCode,
         amount = Size.of(amount),
         available = Size.of(available)

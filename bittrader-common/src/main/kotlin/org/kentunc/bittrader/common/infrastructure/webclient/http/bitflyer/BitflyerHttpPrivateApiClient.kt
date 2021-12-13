@@ -4,10 +4,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.awaitFirst
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.BalanceResponse
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.CommissionRateResponse
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.OrderRequest
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.OrderResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.BalanceResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.CommissionRateResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderRequest
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderResponse
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToFlow
 import org.springframework.web.reactive.function.client.bodyToMono

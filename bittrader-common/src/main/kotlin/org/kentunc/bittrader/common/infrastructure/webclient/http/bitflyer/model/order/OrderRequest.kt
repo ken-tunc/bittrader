@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model
+package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
