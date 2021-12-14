@@ -6,7 +6,7 @@ import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.quote.Price
 import org.kentunc.bittrader.common.domain.model.quote.Size
 
-class Order private constructor(
+class Order (
     val productCode: ProductCode,
     val orderType: OrderType,
     val orderSide: OrderSide,

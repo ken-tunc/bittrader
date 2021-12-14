@@ -7,8 +7,8 @@ import org.kentunc.bittrader.common.domain.model.time.DateTime
 
 class OrderSignal private constructor(
     val productCode: ProductCode,
-    val orderSide: OrderSide,
     val orderType: OrderType,
+    val orderSide: OrderSide,
     val price: Price?,
     val size: Size,
     val averagePrice: Price,
@@ -16,16 +16,24 @@ class OrderSignal private constructor(
     val orderDate: DateTime
 ) {
 
+    init {
+        require(orderSide != OrderSide.NEUTRAL) { "Neutral side order is not allowed." }
+
+        val isValidOrder = (orderType == OrderType.LIMIT && price != null) ||
+                (orderType == OrderType.MARKET && price == null)
+        require(isValidOrder) { "Order type and price are invalid, order=$orderType, price=$price" }
+    }
+
     companion object {
         fun of(
             productCode: ProductCode,
-            orderSide: OrderSide,
             orderType: OrderType,
+            orderSide: OrderSide,
             price: Price?,
             size: Size,
             averagePrice: Price,
             state: OrderState,
             orderDate: DateTime
-        ) = OrderSignal(productCode, orderSide, orderType, price, size, averagePrice, state, orderDate)
+        ) = OrderSignal(productCode, orderType, orderSide, price, size, averagePrice, state, orderDate)
     }
 }
