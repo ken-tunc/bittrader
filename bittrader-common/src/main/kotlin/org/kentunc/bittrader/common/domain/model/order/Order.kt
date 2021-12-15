@@ -3,25 +3,12 @@ package org.kentunc.bittrader.common.domain.model.order
 import org.kentunc.bittrader.common.domain.model.market.Balance
 import org.kentunc.bittrader.common.domain.model.market.CommissionRate
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.quote.Price
-import org.kentunc.bittrader.common.domain.model.quote.Size
 
-class Order (
-    val productCode: ProductCode,
-    val orderType: OrderType,
-    val orderSide: OrderSide,
-    val price: Price?,
-    val size: Size,
+class Order private constructor(
+    val detail: OrderDetail,
     val minutesToExpire: MinutesToExpire,
     val timeInForce: TimeInForce
 ) {
-    init {
-        require(orderSide != OrderSide.NEUTRAL) { "Neutral side order is not allowed." }
-
-        val isValidOrder = (orderType == OrderType.LIMIT && price != null) ||
-                (orderType == OrderType.MARKET && price == null)
-        require(isValidOrder) { "Order type and price are invalid, order=$orderType, price=$price" }
-    }
 
     companion object {
         private val DEFAULT_EXPIRE_MINUTES = MinutesToExpire.of(10)
@@ -35,12 +22,15 @@ class Order (
             require(productCode.left == balance.currencyCode) {
                 "Invalid sell order: productCode=$productCode, balance currencyCode=${balance.currencyCode}"
             }
-            return Order(
+            val detail = OrderDetail.of(
                 productCode = productCode,
                 orderType = OrderType.MARKET,
                 orderSide = OrderSide.SELL,
                 price = null,
-                size = balance.available,
+                size = balance.available
+            )
+            return Order(
+                detail = detail,
                 minutesToExpire = minutesToExpire,
                 timeInForce = timeInForce
             )
@@ -57,12 +47,15 @@ class Order (
                 "Invalid buy order: productCode=$productCode, balance currencyCode=${balance.currencyCode}"
             }
             val adjustedSize = balance.available - commissionRate.fee(balance.available)
-            return Order(
+            val detail = OrderDetail.of(
                 productCode = productCode,
                 orderType = OrderType.MARKET,
                 orderSide = OrderSide.BUY,
                 price = null,
-                size = adjustedSize,
+                size = adjustedSize
+            )
+            return Order(
+                detail = detail,
                 minutesToExpire = minutesToExpire,
                 timeInForce = timeInForce
             )

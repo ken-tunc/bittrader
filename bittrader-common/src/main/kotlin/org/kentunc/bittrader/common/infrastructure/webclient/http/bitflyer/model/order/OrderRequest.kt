@@ -26,11 +26,11 @@ data class OrderRequest(
 
     companion object {
         fun of(order: Order) = OrderRequest(
-            productCode = order.productCode,
-            orderType = order.orderType,
-            side = order.orderSide,
-            price = order.price?.toBigDecimal(),
-            size = order.size.toBigDecimal(),
+            productCode = order.detail.productCode,
+            orderType = order.detail.orderType,
+            side = order.detail.orderSide,
+            price = order.detail.price?.toBigDecimal(),
+            size = order.detail.size.toBigDecimal(),
             minutesToExpire = order.minutesToExpire.toInt(),
             timeInForce = order.timeInForce
         )

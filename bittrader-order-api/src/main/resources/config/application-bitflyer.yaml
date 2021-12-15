@@ -1,0 +1,4 @@
+bittrader:
+  external:
+    bitflyer:
+      url: https://api.bitflyer.com/v1
