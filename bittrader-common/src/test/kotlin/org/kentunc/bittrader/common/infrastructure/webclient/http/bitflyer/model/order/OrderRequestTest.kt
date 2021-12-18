@@ -9,7 +9,7 @@ internal class OrderRequestTest {
 
     @Test
     fun testOf() {
-        val order = TestOrder.createBuyAll()
+        val order = TestOrder.createOrder()
         val actual = OrderRequest.of(order)
         assertAll(
             { assertEquals(order.detail.productCode, actual.productCode) },

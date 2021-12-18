@@ -13,7 +13,7 @@ internal class OrderSignalTest {
     @Test
     fun testOf() {
         // setup:
-        val detail = TestOrder.createBuyAll().detail
+        val detail = TestOrder.createDetail()
         val averagePrice = Price.of(1000.0)
         val state = OrderState.COMPLETED
         val orderDate = DateTime.of(LocalDateTime.now())
