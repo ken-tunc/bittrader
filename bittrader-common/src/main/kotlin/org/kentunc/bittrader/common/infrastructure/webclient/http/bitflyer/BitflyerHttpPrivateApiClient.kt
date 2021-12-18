@@ -1,6 +1,7 @@
 package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.reactive.awaitFirst
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
@@ -24,7 +25,10 @@ class BitflyerHttpPrivateApiClient(private val webClient: WebClient) {
 
     fun getBalances(): Flow<BalanceResponse> = webClient.get()
         .uri(PATH_BALANCE)
-        .exchangeToFlow { it.bodyToFlow() }
+        .exchangeToFlow { response ->
+            response.bodyToFlow<BalanceResponse>()
+                .filter { it.isValid() }
+        }
 
     fun getOrders(productCode: ProductCode): Flow<OrderResponse> = webClient.get()
         .uri {

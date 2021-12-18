@@ -1,6 +1,7 @@
 package org.kentunc.bittrader.common.domain.model.order
 
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -38,6 +39,19 @@ internal class OrderDetailTest {
                 orderType = orderType,
                 orderSide = OrderSide.BUY,
                 price = price,
+                size = Size.of(BigDecimal.ONE)
+            )
+        }
+    }
+
+    @Test
+    fun instantiate_invalidSide() {
+        assertThrows<IllegalArgumentException> {
+            OrderDetail.of(
+                productCode = ProductCode.ETH_JPY,
+                orderType = OrderType.MARKET,
+                orderSide = OrderSide.NEUTRAL,
+                price = null,
                 size = Size.of(BigDecimal.ONE)
             )
         }

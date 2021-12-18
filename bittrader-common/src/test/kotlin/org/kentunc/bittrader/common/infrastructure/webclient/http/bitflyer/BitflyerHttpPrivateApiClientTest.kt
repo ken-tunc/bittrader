@@ -39,9 +39,9 @@ internal class BitflyerHttpPrivateApiClientTest {
         val responseBody = ResourceReader.readResource("mock/bitflyer/get_getbalance.json")
         util.enqueueResponse(responseBody)
         val expected = listOf(
-            BalanceResponse(CurrencyCode.JPY, BigDecimal("1024078"), BigDecimal("508000")),
-            BalanceResponse(CurrencyCode.BTC, BigDecimal("10.24"), BigDecimal("4.12")),
-            BalanceResponse(CurrencyCode.ETH, BigDecimal("20.48"), BigDecimal("16.38"))
+            BalanceResponse(CurrencyCode.JPY.toString(), BigDecimal("1024078"), BigDecimal("508000")),
+            BalanceResponse(CurrencyCode.BTC.toString(), BigDecimal("10.24"), BigDecimal("4.12")),
+            BalanceResponse(CurrencyCode.ETH.toString(), BigDecimal("20.48"), BigDecimal("16.38"))
         )
 
         // exercise:

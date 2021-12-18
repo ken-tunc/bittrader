@@ -20,11 +20,13 @@ internal class OrderSignalTest {
 
         // exercise:
         val actual = OrderSignal.of(
-            productCode = detail.productCode,
-            orderType = detail.orderType,
-            orderSide = detail.orderSide,
-            price = detail.price,
-            size = detail.size,
+            detail = OrderDetail.of(
+                productCode = detail.productCode,
+                orderType = detail.orderType,
+                orderSide = detail.orderSide,
+                price = detail.price,
+                size = detail.size
+            ),
             averagePrice = averagePrice,
             state = state,
             orderDate = orderDate

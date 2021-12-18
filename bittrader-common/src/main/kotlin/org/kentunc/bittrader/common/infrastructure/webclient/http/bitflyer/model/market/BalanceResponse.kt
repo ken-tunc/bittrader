@@ -8,14 +8,16 @@ import java.math.BigDecimal
 
 data class BalanceResponse(
     @field:JsonProperty("currency_code")
-    val currencyCode: CurrencyCode,
+    val currencyCode: String,
     val amount: BigDecimal,
     val available: BigDecimal
 ) {
 
     fun toBalance() = Balance.of(
-        currencyCode = currencyCode,
+        currencyCode = CurrencyCode.valueOf(currencyCode),
         amount = Size.of(amount),
         available = Size.of(available)
     )
+
+    fun isValid(): Boolean = runCatching { CurrencyCode.valueOf(currencyCode) }.isSuccess
 }

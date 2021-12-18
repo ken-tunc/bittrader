@@ -13,6 +13,9 @@ class Order private constructor(
     companion object {
         private val DEFAULT_EXPIRE_MINUTES = MinutesToExpire.of(10)
 
+        fun of(detail: OrderDetail, minutesToExpire: MinutesToExpire, timeInForce: TimeInForce) =
+            Order(detail, minutesToExpire, timeInForce)
+
         fun ofSellAll(
             productCode: ProductCode,
             balance: Balance,
