@@ -5,8 +5,7 @@ spring:
     web-application-type: reactive
   profiles:
     group:
-      prod:
-        - demo
+      prod: []
       local:
         - demo
       test:

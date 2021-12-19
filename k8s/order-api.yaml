@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bittrader-order-api
+  labels:
+    app: order-api
+    tier: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: order-api
+  ports:
+    - port: 80
+      targetPort: 8082
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bittrader-order-api
+  labels:
+    app: order-api
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: order-api
+  template:
+    metadata:
+      labels:
+        app: order-api
+        tier: backend
+    spec:
+      containers:
+        - name: order-api
+          image: ghcr.io/ken-tunc/bittrader/bittrader-order-api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod,demo
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: bittrader-backend-config
+                  key: time_zone
