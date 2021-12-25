@@ -101,7 +101,7 @@ internal class OrderApiClientTest {
     @Test
     fun testSend() = runBlocking {
         // setup:
-        val request = OrderSignalRequest.of(TestOrder.createOrder())
+        val request = OrderSignalRequest.of(TestOrder.createOrderSignal())
         util.enqueueResponse(status = HttpStatus.NO_CONTENT)
 
         // exercise:

@@ -27,7 +27,7 @@ internal class OrderServiceTest {
     fun testGetOrderSignalList() = runBlocking {
         // setup:
         val productCode = ProductCode.BTC_JPY
-        val orderSignals = flowOf(TestOrder.createOrderSignal())
+        val orderSignals = flowOf(TestOrder.createOrder())
         coEvery { orderRepository.find(productCode) } returns orderSignals
 
         // exercise:
@@ -40,7 +40,7 @@ internal class OrderServiceTest {
     @Test
     fun testSend() = runBlocking {
         // setup:
-        val order = TestOrder.createOrder()
+        val order = TestOrder.createOrderSignal()
 
         // exercise:
         target.send(order)

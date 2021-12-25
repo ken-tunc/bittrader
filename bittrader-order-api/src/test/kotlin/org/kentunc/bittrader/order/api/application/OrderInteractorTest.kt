@@ -39,7 +39,7 @@ internal class OrderInteractorTest {
     @Test
     fun testSendOrder() = runBlocking {
         // setup:
-        val order = TestOrder.createOrder()
+        val order = TestOrder.createOrderSignal()
 
         // exercise:
         target.sendOrder(order)

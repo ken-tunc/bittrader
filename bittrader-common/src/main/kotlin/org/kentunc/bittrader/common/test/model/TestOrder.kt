@@ -25,7 +25,7 @@ object TestOrder {
         )
     }
 
-    fun createOrder(
+    fun createOrderSignal(
         productCode: ProductCode = ProductCode.BTC_JPY,
         orderType: OrderType = OrderType.LIMIT,
         orderSide: OrderSide = OrderSide.BUY,
@@ -41,7 +41,7 @@ object TestOrder {
         )
     }
 
-    fun createOrderSignal(
+    fun createOrder(
         productCode: ProductCode = ProductCode.BTC_JPY,
         orderType: OrderType = OrderType.LIMIT,
         orderSide: OrderSide = OrderSide.BUY,

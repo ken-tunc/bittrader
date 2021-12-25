@@ -2,8 +2,10 @@ package org.kentunc.bittrader.order.api.infrastructure.repository.live
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.CommissionRate
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
@@ -26,7 +28,9 @@ internal class LiveCommissionRateRepositoryImplTest {
         // setup:
         val productCode = ProductCode.BTC_JPY
         val commissionRate = CommissionRate.of(0.0015)
-        coEvery { bitflyerClient.getCommissionRate(productCode) } returns CommissionRateResponse(commissionRate.toBigDecimal())
+        val response = mockk<CommissionRateResponse>()
+        every { response.toCommissionRate() } returns commissionRate
+        coEvery { bitflyerClient.getCommissionRate(productCode) } returns response
 
         // exercise:
         val actual = target.get(productCode)

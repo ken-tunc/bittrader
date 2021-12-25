@@ -21,9 +21,9 @@ internal class OrderListTest {
     fun testSorted() {
         // setup:
         val baseDateTime = LocalDateTime.now()
-        val oldestOrder = TestOrder.createOrderSignal(orderDate = baseDateTime)
-        val intermediateOrder = TestOrder.createOrderSignal(orderDate = baseDateTime.plusMinutes(1))
-        val latestOrder = TestOrder.createOrderSignal(orderDate = baseDateTime.plusHours(1))
+        val oldestOrder = TestOrder.createOrder(orderDate = baseDateTime)
+        val intermediateOrder = TestOrder.createOrder(orderDate = baseDateTime.plusMinutes(1))
+        val latestOrder = TestOrder.createOrder(orderDate = baseDateTime.plusHours(1))
         val orders = listOf(intermediateOrder, latestOrder, oldestOrder)
 
         // exercise
@@ -60,8 +60,8 @@ internal class OrderListTest {
         assertThrows<IllegalArgumentException> {
             OrderList.of(
                 listOf(
-                    TestOrder.createOrderSignal(productCode = ProductCode.BTC_JPY),
-                    TestOrder.createOrderSignal(productCode = ProductCode.ETH_JPY)
+                    TestOrder.createOrder(productCode = ProductCode.BTC_JPY),
+                    TestOrder.createOrder(productCode = ProductCode.ETH_JPY)
                 )
             )
         }
@@ -89,7 +89,7 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.ACTIVE,
                             orderDate = baseDateTime
@@ -100,7 +100,7 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.REJECTED,
                             orderDate = baseDateTime
@@ -111,7 +111,7 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.COMPLETED,
                             orderDate = baseDateTime
@@ -122,12 +122,12 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.COMPLETED,
                             orderDate = baseDateTime
                         ),
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.SELL,
                             state = OrderState.ACTIVE,
                             orderDate = baseDateTime.plusMinutes(1)
@@ -138,10 +138,10 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY, state = OrderState.COMPLETED, orderDate = baseDateTime
                         ),
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.SELL,
                             state = OrderState.CANCELED,
                             orderDate = baseDateTime.plusMinutes(1)
@@ -152,10 +152,10 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY, state = OrderState.COMPLETED, orderDate = baseDateTime
                         ),
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.SELL,
                             state = OrderState.COMPLETED,
                             orderDate = baseDateTime.plusMinutes(1)
@@ -178,20 +178,20 @@ internal class OrderListTest {
                     null
                 ),
                 arguments(
-                    listOf(TestOrder.createOrderSignal(orderSide = OrderSide.SELL)),
+                    listOf(TestOrder.createOrder(orderSide = OrderSide.SELL)),
                     null
                 ),
                 arguments(
-                    listOf(TestOrder.createOrderSignal(orderSide = OrderSide.SELL)),
+                    listOf(TestOrder.createOrder(orderSide = OrderSide.SELL)),
                     null
                 ),
                 arguments(
-                    listOf(TestOrder.createOrderSignal(orderSide = OrderSide.BUY, state = OrderState.ACTIVE)),
+                    listOf(TestOrder.createOrder(orderSide = OrderSide.BUY, state = OrderState.ACTIVE)),
                     null
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.COMPLETED,
                             averagePrice = price
@@ -201,7 +201,7 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.COMPLETED,
                             averagePrice = price
@@ -211,13 +211,13 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.COMPLETED,
                             averagePrice = Price.of(200.0),
                             orderDate = baseDateTime
                         ),
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.COMPLETED,
                             averagePrice = price,
@@ -228,13 +228,13 @@ internal class OrderListTest {
                 ),
                 arguments(
                     listOf(
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.COMPLETED,
                             averagePrice = price,
                             orderDate = baseDateTime
                         ),
-                        TestOrder.createOrderSignal(
+                        TestOrder.createOrder(
                             orderSide = OrderSide.BUY,
                             state = OrderState.ACTIVE,
                             averagePrice = Price.of(200.0),

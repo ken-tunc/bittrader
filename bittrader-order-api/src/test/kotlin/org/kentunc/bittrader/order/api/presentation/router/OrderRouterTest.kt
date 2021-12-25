@@ -31,7 +31,7 @@ internal class OrderRouterTest {
     fun testGet() {
         // setup:
         val productCode = ProductCode.BTC_JPY
-        val orderList = OrderList.of(listOf(TestOrder.createOrderSignal()))
+        val orderList = OrderList.of(listOf(TestOrder.createOrder()))
         coEvery { orderInteractor.getOrderListByProductCode(productCode) } returns orderList
 
         // exercise & verify:
@@ -50,7 +50,7 @@ internal class OrderRouterTest {
     @Test
     fun testSend() {
         // setup:
-        val order = TestOrder.createOrder()
+        val order = TestOrder.createOrderSignal()
 
         // exercise & verify:
         webTestClient.post()
