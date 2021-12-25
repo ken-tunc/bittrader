@@ -15,7 +15,7 @@ import org.kentunc.bittrader.common.test.model.TestOrder
 import java.time.LocalDateTime
 import java.util.stream.Stream
 
-internal class OrderSignalListTest {
+internal class OrderListTest {
 
     @Test
     fun testSorted() {
@@ -27,38 +27,38 @@ internal class OrderSignalListTest {
         val orders = listOf(intermediateOrder, latestOrder, oldestOrder)
 
         // exercise
-        val orderSignalList = OrderSignalList.of(orders)
+        val orderList = OrderList.of(orders)
 
         // verify
         assertAll(
-            { assertFalse(orderSignalList.isEmpty) },
-            { assertEquals(orders.size, orderSignalList.size) },
-            { assertEquals(oldestOrder.orderDate, orderSignalList.toList()[0].orderDate) },
-            { assertEquals(intermediateOrder.orderDate, orderSignalList.toList()[1].orderDate) },
-            { assertEquals(latestOrder.orderDate, orderSignalList.toList()[2].orderDate) }
+            { assertFalse(orderList.isEmpty) },
+            { assertEquals(orders.size, orderList.size) },
+            { assertEquals(oldestOrder.orderDate, orderList.toList()[0].orderDate) },
+            { assertEquals(intermediateOrder.orderDate, orderList.toList()[1].orderDate) },
+            { assertEquals(latestOrder.orderDate, orderList.toList()[2].orderDate) }
         )
     }
 
     @Test
     fun testEmpty() {
-        val orderSignalList = OrderSignalList.of(listOf())
+        val orderList = OrderList.of(listOf())
         assertAll(
-            { assertTrue(orderSignalList.isEmpty) },
-            { assertEquals(0, orderSignalList.size) }
+            { assertTrue(orderList.isEmpty) },
+            { assertEquals(0, orderList.size) }
         )
     }
 
     @ParameterizedTest
     @ArgumentsSource(LastBuyPriceProvider::class)
-    fun testLastBuyPrice(orderSignals: List<OrderSignal>, expected: Price?) {
-        val orderSignalList = OrderSignalList.of(orderSignals)
-        assertEquals(expected, orderSignalList.lastBuyPrice())
+    fun testLastBuyPrice(orders: List<Order>, expected: Price?) {
+        val orderList = OrderList.of(orders)
+        assertEquals(expected, orderList.lastBuyPrice())
     }
 
     @Test
     fun instantiate_invalidProductCodes() {
         assertThrows<IllegalArgumentException> {
-            OrderSignalList.of(
+            OrderList.of(
                 listOf(
                     TestOrder.createOrderSignal(productCode = ProductCode.BTC_JPY),
                     TestOrder.createOrderSignal(productCode = ProductCode.ETH_JPY)
@@ -69,11 +69,11 @@ internal class OrderSignalListTest {
 
     @ParameterizedTest
     @ArgumentsSource(OrdersProvider::class)
-    fun `canSell and canBuy`(orders: List<OrderSignal>, canBuy: Boolean, canSell: Boolean) {
-        val orderSignalList = OrderSignalList.of(orders)
+    fun `canSell and canBuy`(orders: List<Order>, canBuy: Boolean, canSell: Boolean) {
+        val orderList = OrderList.of(orders)
         assertAll(
-            { assertEquals(canBuy, orderSignalList.canBuy()) },
-            { assertEquals(canSell, orderSignalList.canSell()) }
+            { assertEquals(canBuy, orderList.canBuy()) },
+            { assertEquals(canSell, orderList.canSell()) }
         )
     }
 
@@ -83,7 +83,7 @@ internal class OrderSignalListTest {
             return Stream.of(
                 // orders, canBuy, canSell
                 arguments(
-                    listOf<Order>(),
+                    listOf<OrderSignal>(),
                     true,
                     false
                 ),
@@ -174,7 +174,7 @@ internal class OrderSignalListTest {
             val price = Price.of(100.0)
             return Stream.of(
                 arguments(
-                    listOf<OrderSignal>(),
+                    listOf<Order>(),
                     null
                 ),
                 arguments(

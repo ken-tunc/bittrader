@@ -28,7 +28,7 @@ data class OrderResponse(
         private val MARKET_PRICE_HOLDER = BigDecimal.ZERO
     }
 
-    fun toOrderSignal() = OrderSignal.of(
+    fun toOrder() = Order.of(
         detail = OrderDetail.of(
             productCode = productCode,
             orderSide = side,

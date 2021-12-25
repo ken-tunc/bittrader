@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.test.model.TestOrder
 
-internal class OrderRequestTest {
+internal class OrderSignalRequestTest {
 
     @Test
     fun testOf() {
         val order = TestOrder.createOrder()
-        val actual = OrderRequest.of(order)
+        val actual = OrderSignalRequest.of(order)
         assertAll(
             { assertEquals(order.detail.productCode, actual.productCode) },
             { assertEquals(order.detail.orderType, actual.orderType) },

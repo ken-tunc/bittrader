@@ -2,7 +2,7 @@ package org.kentunc.bittrader.order.api.infrastructure.repository.demo
 
 import org.kentunc.bittrader.common.domain.model.market.CurrencyCode
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.order.OrderSignal
+import org.kentunc.bittrader.common.domain.model.order.Order
 import java.math.BigDecimal
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 class DemoDatabase(initialBalances: Map<CurrencyCode, BigDecimal>) {
 
     private val balanceMap = ConcurrentHashMap(initialBalances)
-    private val orderSignals = CopyOnWriteArrayList<OrderSignal>()
+    private val orders = CopyOnWriteArrayList<Order>()
 
     fun getBalances() = balanceMap.toMap()
 
@@ -28,10 +28,10 @@ class DemoDatabase(initialBalances: Map<CurrencyCode, BigDecimal>) {
         balanceMap[into.currencyCode] = balanceMap[into.currencyCode]!!.plus(into.size)
     }
 
-    fun getOrderSignals(productCode: ProductCode): List<OrderSignal> =
-        orderSignals.filter { it.detail.productCode == productCode }
+    fun getOrderSignals(productCode: ProductCode): List<Order> =
+        orders.filter { it.detail.productCode == productCode }
 
-    fun addOrder(order: OrderSignal) {
-        orderSignals.add(order)
+    fun addOrder(order: Order) {
+        orders.add(order)
     }
 }

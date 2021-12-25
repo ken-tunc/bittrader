@@ -2,3 +2,5 @@ bittrader:
   internal:
     candle-api:
       url: http://localhost:8081
+    order-api:
+      url: http://localhost:8082

@@ -4,15 +4,27 @@
 <body th:replace="common/layout :: common_body(~{:: #content},_)">
 <th:block id="content">
   <h2>Charts</h2>
-  <th:block th:each="productCode: ${productCodes}">
+  <th:block th:each="productCode : ${productCodes}">
     <ul>
       <li>
-        <a th:href="@{/candles/{productCode}(productCode=${productCode})}"
-           th:text="${productCode}">link
-        </a>
+        <a th:href="@{/charts/{productCode}(productCode=${productCode})}" th:text="${productCode}">link</a>
       </li>
     </ul>
   </th:block>
+
+  <h2>Orders</h2>
+  <th:block th:each="productCode : ${productCodes}">
+    <ul>
+      <li>
+        <a th:href="@{/orders/{productCode}(productCode=${productCode})}" th:text="${productCode}">link</a>
+      </li>
+    </ul>
+  </th:block>
+
+  <h2>Balances</h2>
+  <ul>
+    <li><a th:href="@{/balances}" th:text="Balances">link</a></li>
+  </ul>
 </th:block>
 </body>
 </html>

@@ -3,13 +3,13 @@ package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.mode
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.order.Order
+import org.kentunc.bittrader.common.domain.model.order.OrderSignal
 import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.domain.model.order.TimeInForce
 import java.math.BigDecimal
 
-data class OrderRequest(
+data class OrderSignalRequest(
     @field:JsonProperty("product_code")
     val productCode: ProductCode,
     @field:JsonProperty("child_order_type")
@@ -25,14 +25,14 @@ data class OrderRequest(
 ) {
 
     companion object {
-        fun of(order: Order) = OrderRequest(
-            productCode = order.detail.productCode,
-            orderType = order.detail.orderType,
-            side = order.detail.orderSide,
-            price = order.detail.price?.toBigDecimal(),
-            size = order.detail.size.toBigDecimal(),
-            minutesToExpire = order.minutesToExpire.toInt(),
-            timeInForce = order.timeInForce
+        fun of(orderSignal: OrderSignal) = OrderSignalRequest(
+            productCode = orderSignal.detail.productCode,
+            orderType = orderSignal.detail.orderType,
+            side = orderSignal.detail.orderSide,
+            price = orderSignal.detail.price?.toBigDecimal(),
+            size = orderSignal.detail.size.toBigDecimal(),
+            minutesToExpire = orderSignal.minutesToExpire.toInt(),
+            timeInForce = orderSignal.timeInForce
         )
     }
 }

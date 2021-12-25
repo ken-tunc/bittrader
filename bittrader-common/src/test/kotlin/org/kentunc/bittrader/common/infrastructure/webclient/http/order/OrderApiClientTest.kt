@@ -10,8 +10,8 @@ import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.domain.model.order.OrderState
 import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.presentation.model.order.OrderDetailDto
-import org.kentunc.bittrader.common.presentation.model.order.OrderRequest
-import org.kentunc.bittrader.common.presentation.model.order.OrderSignalResponse
+import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
+import org.kentunc.bittrader.common.presentation.model.order.OrderResponse
 import org.kentunc.bittrader.common.test.model.TestOrder
 import org.kentunc.bittrader.test.file.ResourceReader
 import org.kentunc.bittrader.test.webclient.WebClientTest
@@ -38,7 +38,7 @@ internal class OrderApiClientTest {
         val responseBody = ResourceReader.readResource("mock/order/get_orders_product_code.json")
         util.enqueueResponse(body = responseBody)
         val expected = listOf(
-            OrderSignalResponse(
+            OrderResponse(
                 detail = OrderDetailDto(
                     productCode = ProductCode.BTC_JPY,
                     orderType = OrderType.MARKET,
@@ -50,7 +50,7 @@ internal class OrderApiClientTest {
                 state = OrderState.COMPLETED,
                 orderDate = LocalDateTime.of(2020, Month.DECEMBER, 30, 4, 12, 42)
             ),
-            OrderSignalResponse(
+            OrderResponse(
                 detail = OrderDetailDto(
                     productCode = ProductCode.BTC_JPY,
                     orderType = OrderType.MARKET,
@@ -62,7 +62,7 @@ internal class OrderApiClientTest {
                 state = OrderState.COMPLETED,
                 orderDate = LocalDateTime.of(2020, Month.DECEMBER, 30, 4, 16, 57)
             ),
-            OrderSignalResponse(
+            OrderResponse(
                 detail = OrderDetailDto(
                     productCode = ProductCode.BTC_JPY,
                     orderType = OrderType.LIMIT,
@@ -74,7 +74,7 @@ internal class OrderApiClientTest {
                 state = OrderState.COMPLETED,
                 orderDate = LocalDateTime.of(2020, Month.DECEMBER, 30, 9, 9, 15)
             ),
-            OrderSignalResponse(
+            OrderResponse(
                 detail = OrderDetailDto(
                     productCode = ProductCode.BTC_JPY,
                     orderType = OrderType.LIMIT,
@@ -101,7 +101,7 @@ internal class OrderApiClientTest {
     @Test
     fun testSend() = runBlocking {
         // setup:
-        val request = OrderRequest.of(TestOrder.createOrder())
+        val request = OrderSignalRequest.of(TestOrder.createOrder())
         util.enqueueResponse(status = HttpStatus.NO_CONTENT)
 
         // exercise:

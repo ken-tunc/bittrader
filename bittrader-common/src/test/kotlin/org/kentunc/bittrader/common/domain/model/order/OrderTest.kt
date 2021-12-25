@@ -1,89 +1,47 @@
 package org.kentunc.bittrader.common.domain.model.order
 
-import io.mockk.every
-import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.kentunc.bittrader.common.domain.model.market.Balance
-import org.kentunc.bittrader.common.domain.model.market.CommissionRate
-import org.kentunc.bittrader.common.domain.model.market.CurrencyCode
-import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.quote.Size
+import org.kentunc.bittrader.common.domain.model.quote.Price
+import org.kentunc.bittrader.common.domain.model.time.DateTime
+import org.kentunc.bittrader.common.test.model.TestOrder
+import java.time.LocalDateTime
 
 internal class OrderTest {
 
     @Test
-    fun testOfSellAll_valid() {
+    fun testOf() {
         // setup:
-        val productCode = ProductCode.BTC_JPY
-        val balance = Balance.of(productCode.left, Size.of(1000.0), Size.of(1000.0))
-        val minutesToExpire = MinutesToExpire.of(30)
-        val timeInForce = TimeInForce.FOK
+        val detail = TestOrder.createDetail()
+        val averagePrice = Price.of(1000.0)
+        val state = OrderState.COMPLETED
+        val orderDate = DateTime.of(LocalDateTime.now())
 
         // exercise:
-        val actual = Order.ofSellAll(productCode, balance, minutesToExpire, timeInForce)
+        val actual = Order.of(
+            detail = OrderDetail.of(
+                productCode = detail.productCode,
+                orderType = detail.orderType,
+                orderSide = detail.orderSide,
+                price = detail.price,
+                size = detail.size
+            ),
+            averagePrice = averagePrice,
+            state = state,
+            orderDate = orderDate
+        )
 
         // verify:
         assertAll(
-            { assertEquals(productCode, actual.detail.productCode) },
-            { assertEquals(OrderType.MARKET, actual.detail.orderType) },
-            { assertEquals(OrderSide.SELL, actual.detail.orderSide) },
-            { assertNull(actual.detail.price) },
-            { assertEquals(balance.available, actual.detail.size) },
-            { assertEquals(minutesToExpire, actual.minutesToExpire) },
-            { assertEquals(timeInForce, actual.timeInForce) },
+            { assertEquals(detail.productCode, actual.detail.productCode) },
+            { assertEquals(detail.orderType, actual.detail.orderType) },
+            { assertEquals(detail.orderSide, actual.detail.orderSide) },
+            { assertEquals(detail.price, actual.detail.price) },
+            { assertEquals(detail.size, actual.detail.size) },
+            { assertEquals(averagePrice, actual.averagePrice) },
+            { assertEquals(state, actual.state) },
+            { assertEquals(orderDate, actual.orderDate) },
         )
-    }
-
-    @Test
-    fun testOfSellAll_invalid() {
-        // setup:
-        val productCode = ProductCode.BTC_JPY
-        val balance = Balance.of(CurrencyCode.ETH, Size.of(1000.0), Size.of(1000.0))
-
-        // exercise & verify:
-        assertThrows<IllegalArgumentException> {
-            Order.ofSellAll(productCode, balance)
-        }
-    }
-
-    @Test
-    fun testOfBuyAll() {
-        // setup:
-        val productCode = ProductCode.BTC_JPY
-        val balance = Balance.of(productCode.right, Size.of(1000.0), Size.of(1000.0))
-        val commissionRate = mockk<CommissionRate>()
-        val minutesToExpire = MinutesToExpire.of(30)
-        val timeInForce = TimeInForce.FOK
-        val fee = Size.of(900.0)
-        every { commissionRate.fee(any()) } returns fee
-
-        // exercise:
-        val actual = Order.ofBuyAll(productCode, balance, commissionRate, minutesToExpire, timeInForce)
-
-        // verify:
-        assertAll(
-            { assertEquals(productCode, actual.detail.productCode) },
-            { assertEquals(OrderType.MARKET, actual.detail.orderType) },
-            { assertEquals(OrderSide.BUY, actual.detail.orderSide) },
-            { assertNull(actual.detail.price) },
-            { assertEquals(balance.available - fee, actual.detail.size) },
-            { assertEquals(minutesToExpire, actual.minutesToExpire) },
-            { assertEquals(timeInForce, actual.timeInForce) },
-        )
-    }
-
-    @Test
-    fun testOfBuyAll_invalid() {
-        // setup:
-        val productCode = ProductCode.BTC_JPY
-        val balance = Balance.of(CurrencyCode.ETH, Size.of(1000.0), Size.Companion.of(1000.0))
-        val commissionRate = CommissionRate.of(0.0015)
-
-        // exercise & verify:
-        assertThrows<IllegalArgumentException> {
-            Order.ofBuyAll(productCode, balance, commissionRate)
-        }
     }
 }

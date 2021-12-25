@@ -7,7 +7,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.order.OrderSignalList
+import org.kentunc.bittrader.common.domain.model.order.OrderList
 import org.kentunc.bittrader.common.test.model.TestOrder
 import org.kentunc.bittrader.order.api.domain.service.OrderService
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,14 +26,14 @@ internal class OrderInteractorTest {
     fun testGetOrderSignalListByProductCode() = runBlocking {
         // setup:
         val productCode = ProductCode.BTC_JPY
-        val orderSignalList = OrderSignalList.of(listOf())
-        coEvery { orderService.getOrderSignalList(productCode) } returns orderSignalList
+        val orderList = OrderList.of(listOf())
+        coEvery { orderService.getOrderSignalList(productCode) } returns orderList
 
         // exercise:
-        val actual = target.getOrderSignalListByProductCode(productCode)
+        val actual = target.getOrderListByProductCode(productCode)
 
         // verify:
-        assertEquals(orderSignalList, actual)
+        assertEquals(orderList, actual)
     }
 
     @Test

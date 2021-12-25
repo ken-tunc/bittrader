@@ -1,67 +1,17 @@
 package org.kentunc.bittrader.common.domain.model.order
 
-import org.kentunc.bittrader.common.domain.model.market.Balance
-import org.kentunc.bittrader.common.domain.model.market.CommissionRate
-import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.quote.Price
+import org.kentunc.bittrader.common.domain.model.time.DateTime
 
 class Order private constructor(
     val detail: OrderDetail,
-    val minutesToExpire: MinutesToExpire,
-    val timeInForce: TimeInForce
+    val averagePrice: Price,
+    val state: OrderState,
+    val orderDate: DateTime
 ) {
 
     companion object {
-        private val DEFAULT_EXPIRE_MINUTES = MinutesToExpire.of(10)
-
-        fun of(detail: OrderDetail, minutesToExpire: MinutesToExpire, timeInForce: TimeInForce) =
-            Order(detail, minutesToExpire, timeInForce)
-
-        fun ofSellAll(
-            productCode: ProductCode,
-            balance: Balance,
-            minutesToExpire: MinutesToExpire = DEFAULT_EXPIRE_MINUTES,
-            timeInForce: TimeInForce = TimeInForce.GTC
-        ): Order {
-            require(productCode.left == balance.currencyCode) {
-                "Invalid sell order: productCode=$productCode, balance currencyCode=${balance.currencyCode}"
-            }
-            val detail = OrderDetail.of(
-                productCode = productCode,
-                orderType = OrderType.MARKET,
-                orderSide = OrderSide.SELL,
-                price = null,
-                size = balance.available
-            )
-            return Order(
-                detail = detail,
-                minutesToExpire = minutesToExpire,
-                timeInForce = timeInForce
-            )
-        }
-
-        fun ofBuyAll(
-            productCode: ProductCode,
-            balance: Balance,
-            commissionRate: CommissionRate,
-            minutesToExpire: MinutesToExpire = DEFAULT_EXPIRE_MINUTES,
-            timeInForce: TimeInForce = TimeInForce.GTC
-        ): Order {
-            require(productCode.right == balance.currencyCode) {
-                "Invalid buy order: productCode=$productCode, balance currencyCode=${balance.currencyCode}"
-            }
-            val adjustedSize = balance.available - commissionRate.fee(balance.available)
-            val detail = OrderDetail.of(
-                productCode = productCode,
-                orderType = OrderType.MARKET,
-                orderSide = OrderSide.BUY,
-                price = null,
-                size = adjustedSize
-            )
-            return Order(
-                detail = detail,
-                minutesToExpire = minutesToExpire,
-                timeInForce = timeInForce
-            )
-        }
+        fun of(detail: OrderDetail, averagePrice: Price, state: OrderState, orderDate: DateTime) =
+            Order(detail, averagePrice, state, orderDate)
     }
 }

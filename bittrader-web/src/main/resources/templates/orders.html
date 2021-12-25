@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="common/layout :: common_header(~{::title},_)">
+  <title>bittrader - orders</title>
+</head>
+<body th:replace="common/layout :: common_body(~{:: #content},_)">
+<th:block id="content">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Side</th>
+      <th scope="col">Type</th>
+      <th scope="col">Price</th>
+      <th scope="col">Size</th>
+      <th scope="col">State</th>
+      <th scope="col">Date</th>
+      <th scope="col">Average price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${orders}">
+      <td th:text="${row.orderSide}">side</td>
+      <td th:text="${row.orderType}">type</td>
+      <td th:text="${row.price}">price</td>
+      <td th:text="${row.size}">size</td>
+      <td th:text="${row.state}">state</td>
+      <td th:text="${row.orderDate}">date</td>
+      <td th:text="${row.averagePrice}">average price</td>
+    </tr>
+    </tbody>
+  </table>
+</th:block>
+</body>
+</html>

@@ -2,21 +2,21 @@ package org.kentunc.bittrader.common.domain.model.order
 
 import org.kentunc.bittrader.common.domain.model.quote.Price
 
-class OrderSignalList private constructor(orderSignals: List<OrderSignal>) {
+class OrderList private constructor(orders: List<Order>) {
 
     init {
-        val productCodes = orderSignals.map { it.detail.productCode }.toSet()
+        val productCodes = orders.map { it.detail.productCode }.toSet()
         require(productCodes.size <= 1) { "multiple product codes are found. got=$productCodes" }
     }
 
-    private val sorted = orderSignals.sortedBy { it.orderDate }
+    private val sorted = orders.sortedBy { it.orderDate }
     val size: Int
         get() = sorted.size
     val isEmpty: Boolean
         get() = sorted.isEmpty()
 
     companion object {
-        fun of(orderSignals: List<OrderSignal>) = OrderSignalList(orderSignals)
+        fun of(orders: List<Order>) = OrderList(orders)
     }
 
     fun canBuy(): Boolean {

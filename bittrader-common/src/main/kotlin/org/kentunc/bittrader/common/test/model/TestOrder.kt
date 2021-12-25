@@ -33,8 +33,8 @@ object TestOrder {
         size: Size = Size.of(150.0),
         minutesToExpire: MinutesToExpire = MinutesToExpire.of(10),
         timeInForce: TimeInForce = TimeInForce.GTC
-    ): Order {
-        return Order.of(
+    ): OrderSignal {
+        return OrderSignal.of(
             detail = createDetail(productCode, orderType, orderSide, price, size),
             minutesToExpire = minutesToExpire,
             timeInForce = timeInForce
@@ -50,8 +50,8 @@ object TestOrder {
         averagePrice: Price = Price.of(200.0),
         state: OrderState = OrderState.COMPLETED,
         orderDate: LocalDateTime = LocalDateTime.now()
-    ): OrderSignal {
-        return OrderSignal.of(
+    ): Order {
+        return Order.of(
             detail = createDetail(productCode, orderType, orderSide, price, size),
             averagePrice = averagePrice,
             state = state,

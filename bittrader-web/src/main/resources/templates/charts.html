@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="common/layout :: common_header(_,_)"></head>
+<head th:replace="common/layout :: common_header(~{::title},_)">
+  <title>bittrader - charts</title>
+</head>
 <body th:replace="common/layout :: common_body(~{:: #content},~{::script})">
 <th:block id="content">
   <h2 class="mb-3" th:text="|${productCode} charts|"></h2>
@@ -9,7 +11,7 @@
     <a class="nav-link"
        th:each="duration : ${durations}"
        th:classappend="${duration == activeDuration} ? 'active' : ''"
-       th:href="@{/candles/{productCode}(productCode=${productCode},duration=${duration})}"
+       th:href="@{/charts/{productCode}(productCode=${productCode},duration=${duration})}"
        th:text="${#strings.toLowerCase(duration)}"
     ></a>
   </nav>

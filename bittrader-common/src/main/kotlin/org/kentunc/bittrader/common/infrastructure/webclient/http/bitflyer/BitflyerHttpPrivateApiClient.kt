@@ -7,7 +7,7 @@ import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.BalanceResponse
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.CommissionRateResponse
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderRequest
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderResponse
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToFlow
@@ -38,9 +38,9 @@ class BitflyerHttpPrivateApiClient(private val webClient: WebClient) {
         }
         .exchangeToFlow { it.bodyToFlow() }
 
-    suspend fun sendOrder(orderRequest: OrderRequest): Void? = webClient.post()
+    suspend fun sendOrder(orderSignalRequest: OrderSignalRequest): Void? = webClient.post()
         .uri(PATH_SEND_ORDER)
-        .bodyValue(orderRequest)
+        .bodyValue(orderSignalRequest)
         .exchangeToMono { it.releaseBody() }
         .awaitFirstOrNull()
 

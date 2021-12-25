@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.test.model.TestOrder
 
-internal class OrderRequestTest {
+internal class OrderSignalRequestTest {
 
     @Test
     fun testOf() {
         val order = TestOrder.createOrder()
-        val actual = OrderRequest.of(order)
+        val actual = OrderSignalRequest.of(order)
         assertAll(
             { assertEquals(order.detail.productCode, actual.detail.productCode) },
             { assertEquals(order.detail.orderType, actual.detail.orderType) },
@@ -25,7 +25,7 @@ internal class OrderRequestTest {
     @Test
     fun testToOrder() {
         val order = TestOrder.createOrder()
-        val orderRequest = OrderRequest(
+        val orderSignalRequest = OrderSignalRequest(
             detail = OrderDetailDto(
                 productCode = order.detail.productCode,
                 orderType = order.detail.orderType,
@@ -36,7 +36,7 @@ internal class OrderRequestTest {
             minutesToExpire = order.minutesToExpire.toInt(),
             timeInForce = order.timeInForce
         )
-        val actual = orderRequest.toOrder()
+        val actual = orderSignalRequest.toOrderSignal()
         assertAll(
             { assertEquals(order.detail.productCode, actual.detail.productCode) },
             { assertEquals(order.detail.orderType, actual.detail.orderType) },

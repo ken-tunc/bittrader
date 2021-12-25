@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
-@RequestMapping("/candles")
-class CandleController(private val candleService: CandleService, private val objectMapper: ObjectMapper) {
+@RequestMapping("/charts")
+class ChartController(private val candleService: CandleService, private val objectMapper: ObjectMapper) {
 
     @GetMapping("/{productCode}")
     suspend fun candlestickChart(
@@ -33,6 +33,6 @@ class CandleController(private val candleService: CandleService, private val obj
         model["durations"] = Duration.values()
         model["activeDuration"] = activeDuration
         model["candleSticks"] = objectMapper.writeValueAsString(candleSticks)
-        return "candle"
+        return "charts"
     }
 }
