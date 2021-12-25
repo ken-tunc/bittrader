@@ -43,7 +43,7 @@ class BitflyerLightningApiClientConfiguration(private val properties: BitflyerLi
     ): BitflyerHttpPrivateApiClient {
         // NOTE: Enable hmac base authentication.
         // ref. https://andrew-flower.com/blog/Custom-HMAC-Auth-with-Spring-WebClient
-        val signer = BitflyerHeaderSigner(properties.accessKey, properties.secretKey)
+        val signer = BitflyerHeaderSigner(properties.accessKey.trim(), properties.secretKey.trim())
         val connector = MessageSigningHttpConnector(signer)
         val jsonEncoder = BodyProvidingJsonEncoder(connector::signWithBody)
         val jsonDecoder = Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON)

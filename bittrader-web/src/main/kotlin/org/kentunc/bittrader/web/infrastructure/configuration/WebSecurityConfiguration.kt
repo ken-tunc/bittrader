@@ -31,8 +31,8 @@ class WebSecurityConfiguration(private val properties: WebSecurityConfigurationP
     @Bean
     fun userDetailsService(): MapReactiveUserDetailsService {
         val user = User.builder()
-            .username(properties.username)
-            .password("{noop}${properties.password}")
+            .username(properties.username.trim())
+            .password("{noop}${properties.password.trim()}")
             .roles(properties.role)
             .build()
         return MapReactiveUserDetailsService(user)

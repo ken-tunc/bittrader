@@ -6,3 +6,4 @@ bittrader:
     exclude-paths:
       - "/"
       - "/charts/**"
+      - "/webjars/**"
