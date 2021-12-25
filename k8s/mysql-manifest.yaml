@@ -61,12 +61,12 @@ spec:
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: bittrader-backend-secret
+                  name: bittrader-mysql-secret
                   key: mysql_password
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: bittrader-backend-secret
+                  name: bittrader-mysql-secret
                   key: mysql_root_password
             - name: MYSQL_DATABASE
               valueFrom:

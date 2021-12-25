@@ -47,7 +47,7 @@ spec:
             - name: PMA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: bittrader-backend-secret
+                  name: bittrader-mysql-secret
                   key: mysql_password
             - name: PMA_ARBITRARY
               value: "1"
