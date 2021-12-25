@@ -4,7 +4,6 @@ import org.kentunc.bittrader.common.domain.model.order.Order
 import org.kentunc.bittrader.common.domain.model.order.OrderState
 import org.kentunc.bittrader.common.domain.model.quote.Price
 import org.kentunc.bittrader.common.domain.model.time.DateTime
-import org.kentunc.bittrader.common.shared.annotation.LocalDateTimeFormat
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -12,7 +11,6 @@ data class OrderResponse(
     val detail: OrderDetailDto,
     val averagePrice: BigDecimal,
     val state: OrderState,
-    @field:LocalDateTimeFormat
     val orderDate: LocalDateTime
 ) {
 
