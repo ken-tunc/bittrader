@@ -42,7 +42,7 @@ class OrderSignalList private constructor(orderSignals: List<OrderSignal>) {
     fun lastBuyPrice(): Price? {
         return sorted.filter { it.detail.orderSide == OrderSide.BUY }
             .lastOrNull { it.state == OrderState.COMPLETED }
-            ?.detail?.price
+            ?.averagePrice
     }
 
     fun toList() = sorted.toList()

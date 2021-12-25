@@ -1,0 +1,17 @@
+[
+  {
+    "currencyCode": "JPY",
+    "amount": 10000.0,
+    "available": 90000.0
+  },
+  {
+    "currencyCode": "BTC",
+    "amount": 0.00000767,
+    "available": 0.00000767
+  },
+  {
+    "currencyCode": "ETH",
+    "amount": 0.0,
+    "available": 0.0
+  }
+]

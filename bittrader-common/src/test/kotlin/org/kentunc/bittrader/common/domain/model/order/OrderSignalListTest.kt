@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.quote.Price
 import org.kentunc.bittrader.common.test.model.TestOrder
 import java.time.LocalDateTime
 import java.util.stream.Stream
@@ -34,8 +35,7 @@ internal class OrderSignalListTest {
             { assertEquals(orders.size, orderSignalList.size) },
             { assertEquals(oldestOrder.orderDate, orderSignalList.toList()[0].orderDate) },
             { assertEquals(intermediateOrder.orderDate, orderSignalList.toList()[1].orderDate) },
-            { assertEquals(latestOrder.orderDate, orderSignalList.toList()[2].orderDate) },
-            { assertEquals(latestOrder.detail.price, orderSignalList.lastBuyPrice()) }
+            { assertEquals(latestOrder.orderDate, orderSignalList.toList()[2].orderDate) }
         )
     }
 
@@ -44,9 +44,15 @@ internal class OrderSignalListTest {
         val orderSignalList = OrderSignalList.of(listOf())
         assertAll(
             { assertTrue(orderSignalList.isEmpty) },
-            { assertEquals(0, orderSignalList.size) },
-            { assertNull(orderSignalList.lastBuyPrice()) }
+            { assertEquals(0, orderSignalList.size) }
         )
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(LastBuyPriceProvider::class)
+    fun testLastBuyPrice(orderSignals: List<OrderSignal>, expected: Price?) {
+        val orderSignalList = OrderSignalList.of(orderSignals)
+        assertEquals(expected, orderSignalList.lastBuyPrice())
     }
 
     @Test
@@ -157,6 +163,85 @@ internal class OrderSignalListTest {
                     ),
                     true,
                     false
+                ),
+            )
+        }
+    }
+
+    private class LastBuyPriceProvider : ArgumentsProvider {
+        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
+            val baseDateTime = LocalDateTime.now()
+            val price = Price.of(100.0)
+            return Stream.of(
+                arguments(
+                    listOf<OrderSignal>(),
+                    null
+                ),
+                arguments(
+                    listOf(TestOrder.createOrderSignal(orderSide = OrderSide.SELL)),
+                    null
+                ),
+                arguments(
+                    listOf(TestOrder.createOrderSignal(orderSide = OrderSide.SELL)),
+                    null
+                ),
+                arguments(
+                    listOf(TestOrder.createOrderSignal(orderSide = OrderSide.BUY, state = OrderState.ACTIVE)),
+                    null
+                ),
+                arguments(
+                    listOf(
+                        TestOrder.createOrderSignal(
+                            orderSide = OrderSide.BUY,
+                            state = OrderState.COMPLETED,
+                            averagePrice = price
+                        )
+                    ),
+                    price
+                ),
+                arguments(
+                    listOf(
+                        TestOrder.createOrderSignal(
+                            orderSide = OrderSide.BUY,
+                            state = OrderState.COMPLETED,
+                            averagePrice = price
+                        )
+                    ),
+                    price
+                ),
+                arguments(
+                    listOf(
+                        TestOrder.createOrderSignal(
+                            orderSide = OrderSide.BUY,
+                            state = OrderState.COMPLETED,
+                            averagePrice = Price.of(200.0),
+                            orderDate = baseDateTime
+                        ),
+                        TestOrder.createOrderSignal(
+                            orderSide = OrderSide.BUY,
+                            state = OrderState.COMPLETED,
+                            averagePrice = price,
+                            orderDate = baseDateTime.plusMinutes(1)
+                        )
+                    ),
+                    price
+                ),
+                arguments(
+                    listOf(
+                        TestOrder.createOrderSignal(
+                            orderSide = OrderSide.BUY,
+                            state = OrderState.COMPLETED,
+                            averagePrice = price,
+                            orderDate = baseDateTime
+                        ),
+                        TestOrder.createOrderSignal(
+                            orderSide = OrderSide.BUY,
+                            state = OrderState.ACTIVE,
+                            averagePrice = Price.of(200.0),
+                            orderDate = baseDateTime.plusMinutes(1)
+                        )
+                    ),
+                    price
                 ),
             )
         }

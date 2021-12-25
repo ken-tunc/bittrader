@@ -1,0 +1,50 @@
+[
+  {
+    "detail": {
+      "productCode": "BTC_JPY",
+      "orderType": "MARKET",
+      "orderSide": "BUY",
+      "size": 0.001,
+      "price": null
+    },
+    "averagePrice": 2874417.0,
+    "state": "COMPLETED",
+    "orderDate": "2020-12-30T04:12:42"
+  },
+  {
+    "detail": {
+      "productCode": "BTC_JPY",
+      "orderType": "MARKET",
+      "orderSide": "SELL",
+      "size": 0.001,
+      "price": null
+    },
+    "averagePrice": 2870002.0,
+    "state": "COMPLETED",
+    "orderDate": "2020-12-30T04:16:57"
+  },
+  {
+    "detail": {
+      "productCode": "BTC_JPY",
+      "orderType": "LIMIT",
+      "orderSide": "BUY",
+      "size": 0.001,
+      "price": 2854953.0
+    },
+    "averagePrice": 2852132.0,
+    "state": "COMPLETED",
+    "orderDate": "2020-12-30T09:09:15"
+  },
+  {
+    "detail": {
+      "productCode": "BTC_JPY",
+      "orderType": "LIMIT",
+      "orderSide": "SELL",
+      "size": 0.001,
+      "price": 2854953.0
+    },
+    "averagePrice": 2854953.0,
+    "state": "COMPLETED",
+    "orderDate": "2020-12-30T09:09:32"
+  }
+]

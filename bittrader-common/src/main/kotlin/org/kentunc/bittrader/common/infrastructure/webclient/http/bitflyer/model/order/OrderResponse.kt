@@ -33,7 +33,7 @@ data class OrderResponse(
             productCode = productCode,
             orderSide = side,
             orderType = orderType,
-            price = if (price == MARKET_PRICE_HOLDER) null else Price.of(price),
+            price = if (price.compareTo(MARKET_PRICE_HOLDER) == 0) null else Price.of(price),
             size = Size.of(size)
         ),
         averagePrice = Price.of(averagePrice),
