@@ -16,3 +16,5 @@ data:
   # Replace them in real usage
   mysql_password: cGFzc3dvcmQ=
   mysql_root_password: cm9vdFBhc3N3b3Jk
+  bitflyer_access_key: YWNjZXNzLWtleQo=
+  bitflyer_secret_key: c2VjcmV0LWtleQo=

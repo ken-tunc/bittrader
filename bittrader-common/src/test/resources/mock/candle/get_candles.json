@@ -2,13 +2,7 @@
   {
     "productCode": "BTC_JPY",
     "duration": "DAYS",
-    "dateTime": [
-      2021,
-      12,
-      2,
-      0,
-      0
-    ],
+    "dateTime": "2021-12-02T00:00:00",
     "open": 6425957.5,
     "close": 6440994.5,
     "high": 6440994.5,
@@ -18,13 +12,7 @@
   {
     "productCode": "BTC_JPY",
     "duration": "DAYS",
-    "dateTime": [
-      2021,
-      12,
-      4,
-      0,
-      0
-    ],
+    "dateTime": "2021-12-04T00:00:00",
     "open": 6008137.0,
     "close": 5234281.5,
     "high": 6015319.0,

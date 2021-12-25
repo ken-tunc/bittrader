@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: bittrader-order-api
+  main:
+    web-application-type: reactive
+  profiles:
+    group:
+      prod: []
+      local:
+        - demo
+      test:
+        - demo
+    include:
+      - bitflyer
+  lifecycle:
+    timeout-per-shutdown-phase: 5s
+server:
+  shutdown: graceful
+  port: 8082

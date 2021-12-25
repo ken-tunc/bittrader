@@ -11,7 +11,7 @@ import org.kentunc.bittrader.test.rules.LayerDependencyRulesTest
     packagesOf = [BittraderCandleFeederApplication::class],
     importOptions = [ImportOption.DoNotIncludeTests::class]
 )
-class RuleSetsTest {
+internal class RuleSetsTest {
 
     @ArchTest
     private val layerDependencyRules = ArchTests.`in`(LayerDependencyRulesTest::class.java)

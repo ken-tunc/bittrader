@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.web.test.WebApplicationTest
 
 @WebApplicationTest
-class BittraderWebApplicationTests {
+internal class BittraderWebApplicationTests {
 
     @Test
     fun contextLoads() {

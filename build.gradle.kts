@@ -101,6 +101,7 @@ subprojects {
             classDirectories.setFrom(files(classDirectories.files.map {
                 fileTree(it).apply {
                     exclude(
+                        "**/demo/**",
                         "**/development/**",
                         "**/test/**",
                         "**/*Application*",

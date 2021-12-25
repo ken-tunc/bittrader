@@ -24,7 +24,7 @@ class CandleHandler(private val validator: RequestValidator, private val candleI
     suspend fun feed(request: ServerRequest): ServerResponse {
         val ticker = request.awaitBody<TickerRequest>()
         validator.validate(ticker)
-        candleInteractor.feedCandlesByTicker(ticker.toModel())
+        candleInteractor.feedCandlesByTicker(ticker.toTicker())
         return ServerResponse.noContent().buildAndAwait()
     }
 }
