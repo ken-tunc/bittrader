@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class OrderInteractor(private val orderService: OrderService) {
 
-    suspend fun getOrderSignalListByProductId(productCode: ProductCode): OrderSignalList =
+    suspend fun getOrderSignalListByProductCode(productCode: ProductCode): OrderSignalList =
         orderService.getOrderSignalList(productCode)
 
     suspend fun sendOrder(order: Order) {

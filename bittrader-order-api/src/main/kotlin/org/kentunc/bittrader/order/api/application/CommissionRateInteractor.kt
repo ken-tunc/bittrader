@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service
 @Service
 class CommissionRateInteractor(private val commissionRateService: CommissionRateService) {
 
-    suspend fun getByProductId(productCode: ProductCode): CommissionRate = commissionRateService.get(productCode)
+    suspend fun getByProductCode(productCode: ProductCode): CommissionRate = commissionRateService.get(productCode)
 }

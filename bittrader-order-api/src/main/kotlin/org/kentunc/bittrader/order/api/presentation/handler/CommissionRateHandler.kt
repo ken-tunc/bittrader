@@ -14,7 +14,7 @@ class CommissionRateHandler(private val commissionRateInteractor: CommissionRate
     suspend fun get(request: ServerRequest): ServerResponse {
         val productCode = request.pathVariable("productCode")
             .let { ProductCode.valueOf(it) }
-        val commissionRate = commissionRateInteractor.getByProductId(productCode)
+        val commissionRate = commissionRateInteractor.getByProductCode(productCode)
         return ServerResponse.ok()
             .bodyValueAndAwait(CommissionRateResponse.of(commissionRate))
     }

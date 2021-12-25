@@ -24,15 +24,15 @@ class DemoApplicationConfiguration(private val properties: DemoApplicationConfig
     fun demoBroker(bitflyerHttpPublicApiClient: BitflyerHttpPublicApiClient) =
         DemoBroker(demoDatabase(), bitflyerHttpPublicApiClient, commissionRateRepository())
 
-//    @Bean
+    @Bean
     @Primary
     fun balanceRepository(demoBroker: DemoBroker) = DemoBalanceRepositoryImpl(demoBroker)
 
-//    @Bean
+    @Bean
     @Primary
     fun commissionRateRepository() = DemoCommissionRateRepositoryImpl(properties.commissionRate)
 
-//    @Bean
+    @Bean
     @Primary
     fun orderRepository(demoBroker: DemoBroker) = DemoOrderRepositoryImpl(demoBroker)
 }

@@ -14,7 +14,7 @@ class OrderHandler(private val requestValidator: RequestValidator, private val o
     suspend fun get(request: ServerRequest): ServerResponse {
         val productCode = request.pathVariable("productCode")
             .let { ProductCode.valueOf(it) }
-        val orderSignals = orderInteractor.getOrderSignalListByProductId(productCode)
+        val orderSignals = orderInteractor.getOrderSignalListByProductCode(productCode)
             .toList()
             .map { OrderSignalResponse.of(it) }
         return ServerResponse.ok()

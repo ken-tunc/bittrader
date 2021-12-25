@@ -8,7 +8,7 @@ import org.kentunc.bittrader.common.BasePackageMarker
 import org.kentunc.bittrader.test.rules.LayerDependencyRulesTest
 
 @AnalyzeClasses(packagesOf = [BasePackageMarker::class], importOptions = [ImportOption.DoNotIncludeTests::class])
-class RuleSetsTest {
+internal class RuleSetsTest {
 
     @ArchTest
     private val layerDependencyRules = ArchTests.`in`(LayerDependencyRulesTest::class.java)
