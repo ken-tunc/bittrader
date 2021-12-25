@@ -5,14 +5,14 @@ my bitcoin trader
 [![codecov](https://codecov.io/gh/ken-tunc/bittrader/branch/main/graph/badge.svg?token=SYOIQR2X1D)](https://codecov.io/gh/ken-tunc/bittrader)
 
 ## Deploy
-1. Build docker images by bootBuildImage gradle task.
-```
-$ ./gradlew bootBuildImage
-```
-
-2. Deploy application to Kubernetes cluster
+Deploy application to Kubernetes cluster
 ```
 $ kubectl apply -f ./k8s
+```
+
+## Build docker images
+```
+$ ./gradlew bootBuildImage
 ```
 
 ## System architecture
