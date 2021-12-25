@@ -27,15 +27,15 @@ class DemoBroker(
             )
         }
 
-    fun getOrderSignals(productCode: ProductCode): List<OrderSignal> = db.getOrderSignals(productCode)
+    fun getOrderSignals(productCode: ProductCode): List<Order> = db.getOrderSignals(productCode)
 
-    suspend fun sendOrder(order: Order) {
-        val ticker = bitflyerHttpPublicApiClient.getTicker(order.detail.productCode).toTicker()
-        val commissionRate = commissionRateRepository.get(order.detail.productCode)
+    suspend fun sendOrder(orderSignal: OrderSignal) {
+        val ticker = bitflyerHttpPublicApiClient.getTicker(orderSignal.detail.productCode).toTicker()
+        val commissionRate = commissionRateRepository.get(orderSignal.detail.productCode)
 
-        val currencyPair = when (order.detail.orderSide) {
-            OrderSide.BUY -> buy(order, ticker, commissionRate)
-            OrderSide.SELL -> sell(order, ticker, commissionRate)
+        val currencyPair = when (orderSignal.detail.orderSide) {
+            OrderSide.BUY -> buy(orderSignal, ticker, commissionRate)
+            OrderSide.SELL -> sell(orderSignal, ticker, commissionRate)
             else -> throw IllegalStateException("Neutral side order is not allowed.")
         }
         val (from, into) = currencyPair
@@ -47,13 +47,13 @@ class DemoBroker(
 
         val orderState = if (canExchange) OrderState.COMPLETED else OrderState.REJECTED
         db.addOrder(
-            OrderSignal.of(
+            Order.of(
                 detail = OrderDetail.of(
-                    productCode = order.detail.productCode,
-                    orderSide = order.detail.orderSide,
-                    orderType = order.detail.orderType,
-                    price = order.detail.price,
-                    size = order.detail.size
+                    productCode = orderSignal.detail.productCode,
+                    orderSide = orderSignal.detail.orderSide,
+                    orderType = orderSignal.detail.orderType,
+                    price = orderSignal.detail.price,
+                    size = orderSignal.detail.size
                 ),
                 averagePrice = ticker.midPrice,
                 state = orderState,
@@ -61,14 +61,14 @@ class DemoBroker(
             )
         )
         log.info(
-            "Send order: productCode=${order.detail.productCode}, side=${order.detail.orderSide}, " +
-                    "type=${order.detail.orderType}, price=${order.detail.price}, size=${order.detail.size}, " +
+            "Send order: productCode=${orderSignal.detail.productCode}, side=${orderSignal.detail.orderSide}, " +
+                    "type=${orderSignal.detail.orderType}, price=${orderSignal.detail.price}, size=${orderSignal.detail.size}, " +
                     "averagePrice=${ticker.midPrice}, state=$orderState"
         )
     }
 
-    private fun buy(order: Order, ticker: Ticker, commissionRate: CommissionRate): Pair<Currency, Currency> {
-        val detail = order.detail
+    private fun buy(orderSignal: OrderSignal, ticker: Ticker, commissionRate: CommissionRate): Pair<Currency, Currency> {
+        val detail = orderSignal.detail
         val actualOrderSize = when (detail.orderType) {
             OrderType.MARKET -> ticker.bestAsk.toBigDecimal() * detail.size.toBigDecimal()
             OrderType.LIMIT -> detail.price!!.toBigDecimal() * detail.size.toBigDecimal()
@@ -80,8 +80,8 @@ class DemoBroker(
         return Pair(from, into)
     }
 
-    private fun sell(order: Order, ticker: Ticker, commissionRate: CommissionRate): Pair<Currency, Currency> {
-        val detail = order.detail
+    private fun sell(orderSignal: OrderSignal, ticker: Ticker, commissionRate: CommissionRate): Pair<Currency, Currency> {
+        val detail = orderSignal.detail
         val fee = commissionRate.fee(detail.size)
         val from = Currency(detail.productCode.right, (detail.size + fee).toBigDecimal())
 

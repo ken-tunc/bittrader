@@ -44,3 +44,13 @@ spec:
                 configMapKeyRef:
                   name: bittrader-backend-config
                   key: time_zone
+            - name: BASIC_AUTH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: bittrader-web-secret
+                  key: username
+            - name: BASIC_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bittrader-web-secret
+                  key: password

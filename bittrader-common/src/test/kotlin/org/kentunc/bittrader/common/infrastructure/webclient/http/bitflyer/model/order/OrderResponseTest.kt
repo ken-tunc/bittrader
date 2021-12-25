@@ -31,7 +31,7 @@ internal class OrderResponseTest {
             state = OrderState.COMPLETED,
             orderDate = LocalDateTime.now()
         )
-        val actual = response.toOrderSignal()
+        val actual = response.toOrder()
         assertAll(
             { assertEquals(response.productCode, actual.detail.productCode) },
             { assertEquals(response.side, actual.detail.orderSide) },

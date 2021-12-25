@@ -6,9 +6,9 @@ import io.mockk.coVerify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.order.OrderSignalList
-import org.kentunc.bittrader.common.presentation.model.order.OrderRequest
-import org.kentunc.bittrader.common.presentation.model.order.OrderSignalResponse
+import org.kentunc.bittrader.common.domain.model.order.OrderList
+import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
+import org.kentunc.bittrader.common.presentation.model.order.OrderResponse
 import org.kentunc.bittrader.common.test.model.TestOrder
 import org.kentunc.bittrader.order.api.application.OrderInteractor
 import org.kentunc.bittrader.order.api.test.OrderApiTest
@@ -31,8 +31,8 @@ internal class OrderRouterTest {
     fun testGet() {
         // setup:
         val productCode = ProductCode.BTC_JPY
-        val orderSignalList = OrderSignalList.of(listOf(TestOrder.createOrderSignal()))
-        coEvery { orderInteractor.getOrderSignalListByProductCode(productCode) } returns orderSignalList
+        val orderList = OrderList.of(listOf(TestOrder.createOrder()))
+        coEvery { orderInteractor.getOrderListByProductCode(productCode) } returns orderList
 
         // exercise & verify:
         webTestClient.get()
@@ -43,19 +43,19 @@ internal class OrderRouterTest {
             .exchange()
             .expectAll(
                 { it.expectStatus().isOk },
-                { it.expectBodyList<OrderSignalResponse>().hasSize(1) }
+                { it.expectBodyList<OrderResponse>().hasSize(1) }
             )
     }
 
     @Test
     fun testSend() {
         // setup:
-        val order = TestOrder.createOrder()
+        val order = TestOrder.createOrderSignal()
 
         // exercise & verify:
         webTestClient.post()
             .uri("/orders")
-            .bodyValue(OrderRequest.of(order))
+            .bodyValue(OrderSignalRequest.of(order))
             .exchange()
             .expectAll(
                 { it.expectStatus().isNoContent },

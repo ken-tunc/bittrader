@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="common/layout :: common_header(~{::title},_)">
+  <title>bittrader - balances</title>
+</head>
+<body th:replace="common/layout :: common_body(~{:: #content},_)">
+<th:block id="content">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Currency</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Available</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${balances}">
+      <td th:text="${row.currencyCode}">side</td>
+      <td th:text="${row.amount}">type</td>
+      <td th:text="${row.available}">price</td>
+    </tr>
+    </tbody>
+  </table>
+</th:block>
+</body>
+</html>

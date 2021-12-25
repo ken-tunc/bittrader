@@ -55,7 +55,7 @@ spec:
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: bittrader-backend-secret
+                  name: bittrader-mysql-secret
                   key: mysql_password
             - name: TZ
               valueFrom:

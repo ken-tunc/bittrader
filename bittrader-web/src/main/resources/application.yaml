@@ -5,8 +5,11 @@ spring:
     web-application-type: reactive
   profiles:
     group:
+      prod:
+        - auth
       local:
         - dev
+        - auth
       test:
         - dev
 server:

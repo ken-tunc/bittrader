@@ -13,7 +13,7 @@ import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.domain.model.order.TimeInForce
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.BalanceResponse
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.CommissionRateResponse
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderRequest
+import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderResponse
 import org.kentunc.bittrader.test.file.ResourceReader
 import org.kentunc.bittrader.test.webclient.WebClientTest
@@ -96,7 +96,7 @@ internal class BitflyerHttpPrivateApiClientTest {
     @Test
     fun testSendOrder() = runBlocking {
         // setup:
-        val request = OrderRequest(
+        val request = OrderSignalRequest(
             productCode = ProductCode.BTC_JPY,
             orderType = OrderType.LIMIT,
             side = OrderSide.BUY,

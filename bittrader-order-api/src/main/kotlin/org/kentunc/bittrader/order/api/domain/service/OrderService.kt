@@ -2,21 +2,21 @@ package org.kentunc.bittrader.order.api.domain.service
 
 import kotlinx.coroutines.flow.toList
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.order.Order
-import org.kentunc.bittrader.common.domain.model.order.OrderSignalList
+import org.kentunc.bittrader.common.domain.model.order.OrderSignal
+import org.kentunc.bittrader.common.domain.model.order.OrderList
 import org.kentunc.bittrader.order.api.domain.repository.OrderRepository
 import org.springframework.stereotype.Service
 
 @Service
 class OrderService(private val orderRepository: OrderRepository) {
 
-    suspend fun getOrderSignalList(productCode: ProductCode): OrderSignalList {
+    suspend fun getOrderSignalList(productCode: ProductCode): OrderList {
         return orderRepository.find(productCode)
             .toList()
-            .let { OrderSignalList.of(it) }
+            .let { OrderList.of(it) }
     }
 
-    suspend fun send(order: Order): Void? {
-        return orderRepository.send(order)
+    suspend fun send(orderSignal: OrderSignal): Void? {
+        return orderRepository.send(orderSignal)
     }
 }

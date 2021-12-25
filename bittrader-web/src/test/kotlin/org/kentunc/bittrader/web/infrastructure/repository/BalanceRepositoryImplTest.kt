@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.order.api.infrastructure.repository.live
+package org.kentunc.bittrader.web.infrastructure.repository
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
@@ -9,31 +9,31 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.BitflyerHttpPrivateApiClient
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.BalanceResponse
+import org.kentunc.bittrader.common.infrastructure.webclient.http.order.BalanceApiClient
+import org.kentunc.bittrader.common.presentation.model.market.BalanceResponse
 import org.kentunc.bittrader.common.test.model.TestBalance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
-@SpringJUnitConfig(LiveBalanceRepositoryImpl::class)
-internal class LiveBalanceRepositoryImplTest {
+@SpringJUnitConfig(BalanceRepositoryImpl::class)
+internal class BalanceRepositoryImplTest {
 
     @MockkBean
-    private lateinit var bitflyerClient: BitflyerHttpPrivateApiClient
+    private lateinit var balanceApiClient: BalanceApiClient
 
     @Autowired
-    private lateinit var target: LiveBalanceRepositoryImpl
+    private lateinit var target: BalanceRepositoryImpl
 
     @Test
-    fun testFindAll() = runBlocking {
+    fun testGet() = runBlocking {
         // setup:
         val balance = TestBalance.create()
         val response = mockk<BalanceResponse>()
         every { response.toBalance() } returns balance
-        every { bitflyerClient.getBalances() } returns flowOf(response)
+        every { balanceApiClient.get() } returns flowOf(response)
 
         // exercise:
-        val actual = target.findAll().toList()
+        val actual = target.get().toList()
 
         // verify:
         assertAll(

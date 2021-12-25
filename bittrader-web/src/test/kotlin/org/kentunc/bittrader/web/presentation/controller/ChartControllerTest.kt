@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.client.MockMvcWebTestClient
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
 
-internal class CandleControllerTest : AbstractControllerTest() {
+internal class ChartControllerTest : AbstractControllerTest() {
 
     @MockkBean
     private lateinit var candleService: CandleService
@@ -31,7 +31,7 @@ internal class CandleControllerTest : AbstractControllerTest() {
         // exercise & verify:
         val result = webTestClient.get()
             .uri {
-                it.path("/candles/{productCode}")
+                it.path("/charts/{productCode}")
                     .build(productCode)
             }
             .exchange()
@@ -39,7 +39,7 @@ internal class CandleControllerTest : AbstractControllerTest() {
             .expectBody()
             .returnResult()
         MockMvcWebTestClient.resultActionsFor(result)
-            .andExpect(view().name("candle"))
+            .andExpect(view().name("charts"))
             .andExpect(model().attribute("productCodes", ProductCode.values()))
             .andExpect(model().attribute("durations", Duration.values()))
             .andExpect(model().attribute("activeDuration", duration))
@@ -64,7 +64,7 @@ internal class CandleControllerTest : AbstractControllerTest() {
         // exercise & verify:
         val result = webTestClient.get()
             .uri {
-                it.path("/candles/{productCode}")
+                it.path("/charts/{productCode}")
                     .queryParam("duration", duration)
                     .build(productCode)
             }
@@ -73,7 +73,7 @@ internal class CandleControllerTest : AbstractControllerTest() {
             .expectBody()
             .returnResult()
         MockMvcWebTestClient.resultActionsFor(result)
-            .andExpect(view().name("candle"))
+            .andExpect(view().name("charts"))
             .andExpect(model().attribute("productCodes", ProductCode.values()))
             .andExpect(model().attribute("durations", Duration.values()))
             .andExpect(model().attribute("activeDuration", duration))

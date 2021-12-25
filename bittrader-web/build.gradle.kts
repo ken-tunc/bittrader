@@ -4,6 +4,7 @@ dependencies {
     implementation(project(":bittrader-common"))
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.webjars:bootstrap:$bootstrapVersion")
     implementation("org.webjars.npm:apexcharts:$apexchartsVersion")
     testImplementation(project(":bittrader-test"))

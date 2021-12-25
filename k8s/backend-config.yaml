@@ -10,11 +10,29 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: bittrader-backend-secret
+  name: bittrader-mysql-secret
 type: Opaque
 data:
   # Replace them in real usage
   mysql_password: cGFzc3dvcmQ=
   mysql_root_password: cm9vdFBhc3N3b3Jk
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bittrader-bitflyer-secret
+type: Opaque
+data:
+  # Replace them in real usage
   bitflyer_access_key: YWNjZXNzLWtleQo=
   bitflyer_secret_key: c2VjcmV0LWtleQo=
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bittrader-web-secret
+type: Opaque
+data:
+  # Replace them in real usage
+  username: dXNlcgo=
+  password: cGFzc3dvcmQK

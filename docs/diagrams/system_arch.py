@@ -33,7 +33,10 @@ def main():
 
         client = Client("Browser")
 
-        client - web_svc - web_pod - candle_api_svc
+        client - web_svc - web_pod
+        web_pod - candle_api_svc
+        web_pod - order_api_svc
+
         client - phpmyadmin_svc - phpmyadmin_pod - mysql_svc
 
         candle_api_svc - candle_api_pod - mysql_svc - mysql_pod - mysql_pvc
