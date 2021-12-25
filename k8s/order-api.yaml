@@ -39,6 +39,16 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod,demo
+            - name: BITFLYER_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: bittrader-backend-secret
+                  key: bitflyer_access_key
+            - name: BITFLYER_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: bittrader-backend-secret
+                  key: bitflyer_secret_key
             - name: TZ
               valueFrom:
                 configMapKeyRef:
