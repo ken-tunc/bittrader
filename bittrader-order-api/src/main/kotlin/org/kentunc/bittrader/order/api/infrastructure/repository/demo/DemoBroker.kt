@@ -3,7 +3,12 @@ package org.kentunc.bittrader.order.api.infrastructure.repository.demo
 import org.kentunc.bittrader.common.domain.model.market.Balance
 import org.kentunc.bittrader.common.domain.model.market.CommissionRate
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.order.*
+import org.kentunc.bittrader.common.domain.model.order.Order
+import org.kentunc.bittrader.common.domain.model.order.OrderDetail
+import org.kentunc.bittrader.common.domain.model.order.OrderSide
+import org.kentunc.bittrader.common.domain.model.order.OrderSignal
+import org.kentunc.bittrader.common.domain.model.order.OrderState
+import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.domain.model.quote.Size
 import org.kentunc.bittrader.common.domain.model.ticker.Ticker
 import org.kentunc.bittrader.common.domain.model.time.DateTime
@@ -62,8 +67,8 @@ class DemoBroker(
         )
         log.info(
             "Send order: productCode=${orderSignal.detail.productCode}, side=${orderSignal.detail.orderSide}, " +
-                    "type=${orderSignal.detail.orderType}, price=${orderSignal.detail.price}, size=${orderSignal.detail.size}, " +
-                    "averagePrice=${ticker.midPrice}, state=$orderState"
+                "type=${orderSignal.detail.orderType}, price=${orderSignal.detail.price}, size=${orderSignal.detail.size}, " +
+                "averagePrice=${ticker.midPrice}, state=$orderState"
         )
     }
 

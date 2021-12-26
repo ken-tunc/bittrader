@@ -36,7 +36,7 @@ class Candle private constructor(
         }
         require(this.id.dateTime == TruncatedDateTime.of(ticker.id.dateTime, this.id.duration)) {
             "datetime mismatch: this=${this.id.dateTime}, ticker=${ticker.id.dateTime}, " +
-                    "duration=${this.id.duration}"
+                "duration=${this.id.duration}"
         }
 
         val price = ticker.midPrice

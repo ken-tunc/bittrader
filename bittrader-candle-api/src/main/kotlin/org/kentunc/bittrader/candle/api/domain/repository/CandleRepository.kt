@@ -4,8 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import org.kentunc.bittrader.common.domain.model.candle.Candle
 import org.kentunc.bittrader.common.domain.model.candle.CandleId
 import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
-import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.time.Duration
 
 interface CandleRepository {
 

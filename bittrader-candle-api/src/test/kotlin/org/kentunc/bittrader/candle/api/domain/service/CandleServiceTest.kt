@@ -1,10 +1,13 @@
 package org.kentunc.bittrader.candle.api.domain.service
 
 import com.ninjasquad.springmockk.MockkBean
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockkObject
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.domain.repository.CandleRepository
 import org.kentunc.bittrader.common.domain.model.candle.Candle
@@ -78,9 +81,11 @@ internal class CandleServiceTest {
 
         // verify:
         coVerify {
-            candleRepository.update(withArg {
-                assertEquals(matched.id, it.id)
-            })
+            candleRepository.update(
+                withArg {
+                    assertEquals(matched.id, it.id)
+                }
+            )
         }
     }
 }

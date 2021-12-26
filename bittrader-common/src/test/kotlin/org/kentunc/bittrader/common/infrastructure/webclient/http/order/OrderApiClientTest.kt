@@ -10,8 +10,8 @@ import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.domain.model.order.OrderState
 import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.presentation.model.order.OrderDetailDto
-import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.presentation.model.order.OrderResponse
+import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.test.model.TestOrder
 import org.kentunc.bittrader.test.file.ResourceReader
 import org.kentunc.bittrader.test.webclient.WebClientTest

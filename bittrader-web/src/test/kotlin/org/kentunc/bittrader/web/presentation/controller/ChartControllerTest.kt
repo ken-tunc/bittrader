@@ -46,10 +46,12 @@ internal class ChartControllerTest : AbstractControllerTest() {
             .andExpect(model().attributeExists("candleSticks"))
 
         coVerify {
-            candleService.search(withArg {
-                assertEquals(productCode, it.productCode)
-                assertEquals(duration, it.duration)
-            })
+            candleService.search(
+                withArg {
+                    assertEquals(productCode, it.productCode)
+                    assertEquals(duration, it.duration)
+                }
+            )
         }
     }
 
@@ -80,10 +82,12 @@ internal class ChartControllerTest : AbstractControllerTest() {
             .andExpect(model().attributeExists("candleSticks"))
 
         coVerify {
-            candleService.search(withArg {
-                assertEquals(productCode, it.productCode)
-                assertEquals(duration, it.duration)
-            })
+            candleService.search(
+                withArg {
+                    assertEquals(productCode, it.productCode)
+                    assertEquals(duration, it.duration)
+                }
+            )
         }
     }
 }

@@ -1,6 +1,6 @@
 package org.kentunc.bittrader.common.infrastructure.webclient.http.connector
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 
 internal class ClientHttpConnectorFactoryTest {

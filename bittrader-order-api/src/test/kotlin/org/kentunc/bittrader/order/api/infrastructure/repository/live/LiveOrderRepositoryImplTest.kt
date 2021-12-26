@@ -54,8 +54,12 @@ internal class LiveOrderRepositoryImplTest {
         target.send(order)
 
         // verify:
-        coVerify { bitflyerClient.sendOrder(withArg {
-            assertEquals(order.detail.productCode, it.productCode)
-        }) }
+        coVerify {
+            bitflyerClient.sendOrder(
+                withArg {
+                    assertEquals(order.detail.productCode, it.productCode)
+                }
+            )
+        }
     }
 }

@@ -6,8 +6,7 @@ import org.kentunc.bittrader.candle.api.test.CandleApiTest
 @CandleApiTest
 internal class BittraderCandleApiApplicationTests {
 
-	@Test
-	fun contextLoads() {
-	}
-
+    @Test
+    fun contextLoads() {
+    }
 }

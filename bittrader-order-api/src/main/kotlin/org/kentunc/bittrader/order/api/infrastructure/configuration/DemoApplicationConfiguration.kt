@@ -2,7 +2,11 @@ package org.kentunc.bittrader.order.api.infrastructure.configuration
 
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.BitflyerHttpPublicApiClient
 import org.kentunc.bittrader.order.api.infrastructure.configuration.properties.DemoApplicationConfigurationProperties
-import org.kentunc.bittrader.order.api.infrastructure.repository.demo.*
+import org.kentunc.bittrader.order.api.infrastructure.repository.demo.DemoBalanceRepositoryImpl
+import org.kentunc.bittrader.order.api.infrastructure.repository.demo.DemoBroker
+import org.kentunc.bittrader.order.api.infrastructure.repository.demo.DemoCommissionRateRepositoryImpl
+import org.kentunc.bittrader.order.api.infrastructure.repository.demo.DemoDatabase
+import org.kentunc.bittrader.order.api.infrastructure.repository.demo.DemoOrderRepositoryImpl
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

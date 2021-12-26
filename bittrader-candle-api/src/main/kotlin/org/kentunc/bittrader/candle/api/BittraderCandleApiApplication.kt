@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class BittraderCandleApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<BittraderCandleApiApplication>(*args)
+    runApplication<BittraderCandleApiApplication>(*args)
 }

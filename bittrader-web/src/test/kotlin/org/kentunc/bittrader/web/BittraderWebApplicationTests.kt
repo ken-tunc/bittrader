@@ -9,5 +9,4 @@ internal class BittraderWebApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

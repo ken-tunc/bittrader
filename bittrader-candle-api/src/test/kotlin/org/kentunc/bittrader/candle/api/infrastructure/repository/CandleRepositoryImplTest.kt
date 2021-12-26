@@ -8,7 +8,9 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.CandleDao
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.CandleEntity

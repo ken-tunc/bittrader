@@ -1,8 +1,9 @@
 package org.kentunc.bittrader.common.domain.model.quote
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.function.Executable
 
 internal class PriceTest {
 

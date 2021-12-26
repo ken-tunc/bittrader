@@ -51,13 +51,15 @@ internal class CandleRouterTest {
             )
 
         coVerify {
-            candleInteractor.findLatestCandles(withArg {
-                assertAll(
-                    { assertEquals(request.productCode, it.productCode) },
-                    { assertEquals(request.duration, it.duration) },
-                    { assertEquals(request.maxNum, it.maxNum) },
-                )
-            })
+            candleInteractor.findLatestCandles(
+                withArg {
+                    assertAll(
+                        { assertEquals(request.productCode, it.productCode) },
+                        { assertEquals(request.duration, it.duration) },
+                        { assertEquals(request.maxNum, it.maxNum) },
+                    )
+                }
+            )
         }
     }
 
@@ -76,16 +78,17 @@ internal class CandleRouterTest {
                 { it.expectBody().isEmpty }
             )
 
-
         coVerify {
-            candleInteractor.feedCandlesByTicker(withArg {
-                assertAll(
-                    { assertEquals(ticker.id, it.id) },
-                    { assertEquals(ticker.bestBid, it.bestBid) },
-                    { assertEquals(ticker.bestAsk, it.bestAsk) },
-                    { assertEquals(ticker.volume, it.volume) },
-                )
-            })
+            candleInteractor.feedCandlesByTicker(
+                withArg {
+                    assertAll(
+                        { assertEquals(ticker.id, it.id) },
+                        { assertEquals(ticker.bestBid, it.bestBid) },
+                        { assertEquals(ticker.bestAsk, it.bestAsk) },
+                        { assertEquals(ticker.volume, it.volume) },
+                    )
+                }
+            )
         }
     }
 }

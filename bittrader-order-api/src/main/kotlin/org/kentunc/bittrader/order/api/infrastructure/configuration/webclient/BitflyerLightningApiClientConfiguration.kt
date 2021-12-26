@@ -60,7 +60,8 @@ class BitflyerLightningApiClientConfiguration(private val properties: BitflyerLi
                             it.defaultCodecs().jackson2JsonDecoder(jsonDecoder)
                         }
                         .build()
-                ))
+                )
+            )
             .build()
             .let { BitflyerHttpPrivateApiClient(it) }
     }

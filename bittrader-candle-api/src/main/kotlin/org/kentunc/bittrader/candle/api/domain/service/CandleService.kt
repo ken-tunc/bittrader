@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 class CandleService(private val candleRepository: CandleRepository) {
 
     @Transactional(readOnly = true)
-    suspend fun findLatest(query: CandleQuery) : CandleList {
+    suspend fun findLatest(query: CandleQuery): CandleList {
         return candleRepository.find(query)
             .toList()
             .let { CandleList.of(it) }

@@ -3,11 +3,9 @@ package org.kentunc.bittrader.web.presentation.controller
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import kotlinx.coroutines.flow.flowOf
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.test.model.TestBalance
 import org.kentunc.bittrader.web.application.BalanceService
-import org.springframework.test.web.reactive.server.returnResult
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
