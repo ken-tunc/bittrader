@@ -3,7 +3,6 @@ package org.kentunc.bittrader.candle.api.application
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.coEvery
 import io.mockk.coVerifyAll
-import io.mockk.every
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

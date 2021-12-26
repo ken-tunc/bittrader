@@ -3,8 +3,8 @@ package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.mode
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.order.OrderSignal
 import org.kentunc.bittrader.common.domain.model.order.OrderSide
+import org.kentunc.bittrader.common.domain.model.order.OrderSignal
 import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.domain.model.order.TimeInForce
 import java.math.BigDecimal

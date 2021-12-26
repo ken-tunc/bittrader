@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.order.OrderList
-import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.presentation.model.order.OrderResponse
+import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.test.model.TestOrder
 import org.kentunc.bittrader.order.api.application.OrderInteractor
 import org.kentunc.bittrader.order.api.test.OrderApiTest
@@ -63,9 +63,11 @@ internal class OrderRouterTest {
             )
 
         coVerify {
-            orderInteractor.sendOrder(withArg {
-                assertEquals(order.detail.productCode, it.detail.productCode)
-            })
+            orderInteractor.sendOrder(
+                withArg {
+                    assertEquals(order.detail.productCode, it.detail.productCode)
+                }
+            )
         }
     }
 }

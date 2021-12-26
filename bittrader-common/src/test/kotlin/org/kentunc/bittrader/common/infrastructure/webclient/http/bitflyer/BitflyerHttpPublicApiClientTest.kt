@@ -20,7 +20,7 @@ internal class BitflyerHttpPublicApiClientTest {
 
     @Autowired
     private lateinit var util: WebClientTestUtil
-    
+
     @Autowired
     private lateinit var target: BitflyerHttpPublicApiClient
 
@@ -44,7 +44,7 @@ internal class BitflyerHttpPublicApiClientTest {
         // verify:
         assertAll(
             { assertEquals(expected, actual) },
-            { util.assertRequest(HttpMethod.GET, "/ticker?product_code=$productCode")},
+            { util.assertRequest(HttpMethod.GET, "/ticker?product_code=$productCode") },
         )
     }
 }

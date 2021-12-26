@@ -11,7 +11,7 @@ object TestBalance {
         currencyCode: CurrencyCode = CurrencyCode.BTC,
         amount: BigDecimal = BigDecimal.valueOf(2000.0),
         available: BigDecimal = BigDecimal.valueOf(1900.0)
-    ) : Balance {
+    ): Balance {
         return Balance.of(
             currencyCode = currencyCode,
             amount = Size.of(amount),

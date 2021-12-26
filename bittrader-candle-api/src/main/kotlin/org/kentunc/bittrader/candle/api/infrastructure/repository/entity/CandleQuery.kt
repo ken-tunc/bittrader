@@ -1,8 +1,6 @@
 package org.kentunc.bittrader.candle.api.infrastructure.repository.entity
 
 import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
-import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.data.domain.Sort
 import org.springframework.data.relational.core.query.Criteria
 import org.springframework.data.relational.core.query.Query

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 class CandleInteractor(private val candleService: CandleService) {
 
     @Transactional(readOnly = true)
-    suspend fun findLatestCandles(query: CandleQuery) : CandleList {
+    suspend fun findLatestCandles(query: CandleQuery): CandleList {
         return candleService.findLatest(query)
     }
 

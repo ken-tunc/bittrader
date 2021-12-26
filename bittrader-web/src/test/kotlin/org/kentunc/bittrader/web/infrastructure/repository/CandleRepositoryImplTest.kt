@@ -14,7 +14,6 @@ import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.infrastructure.webclient.http.candle.CandleApiClient
 import org.kentunc.bittrader.common.presentation.model.candle.CandleResponse
-import org.kentunc.bittrader.common.test.model.TestCandle
 import org.kentunc.bittrader.common.test.model.TestCandleList
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
@@ -45,13 +44,15 @@ internal class CandleRepositoryImplTest {
         // verify:
         assertEquals(2, actual.size)
         coVerify {
-            candleApiClient.search(withArg {
-                assertAll(
-                    { assertEquals(query.productCode, it.productCode) },
-                    { assertEquals(query.duration, it.duration) },
-                    { assertEquals(query.maxNum, it.maxNum) },
-                )
-            })
+            candleApiClient.search(
+                withArg {
+                    assertAll(
+                        { assertEquals(query.productCode, it.productCode) },
+                        { assertEquals(query.duration, it.duration) },
+                        { assertEquals(query.maxNum, it.maxNum) },
+                    )
+                }
+            )
         }
     }
 }

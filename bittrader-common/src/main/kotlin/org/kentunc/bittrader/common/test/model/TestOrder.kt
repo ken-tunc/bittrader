@@ -1,7 +1,14 @@
 package org.kentunc.bittrader.common.test.model
 
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.order.*
+import org.kentunc.bittrader.common.domain.model.order.MinutesToExpire
+import org.kentunc.bittrader.common.domain.model.order.Order
+import org.kentunc.bittrader.common.domain.model.order.OrderDetail
+import org.kentunc.bittrader.common.domain.model.order.OrderSide
+import org.kentunc.bittrader.common.domain.model.order.OrderSignal
+import org.kentunc.bittrader.common.domain.model.order.OrderState
+import org.kentunc.bittrader.common.domain.model.order.OrderType
+import org.kentunc.bittrader.common.domain.model.order.TimeInForce
 import org.kentunc.bittrader.common.domain.model.quote.Price
 import org.kentunc.bittrader.common.domain.model.quote.Size
 import org.kentunc.bittrader.common.domain.model.time.DateTime

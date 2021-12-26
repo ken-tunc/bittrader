@@ -1,6 +1,9 @@
 package org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.CurrencyCode
 import java.math.BigDecimal
