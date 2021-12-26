@@ -7,6 +7,7 @@ plugins {
     id("org.springframework.boot") version "2.6.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("jacoco")
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
     kotlin("jvm") version "1.6.0"
     kotlin("plugin.spring") version "1.6.0"
 }
@@ -27,6 +28,7 @@ subprojects {
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
         plugin("jacoco")
+        plugin("org.jlleitschuh.gradle.ktlint")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.kotlin.plugin.spring")
     }
@@ -98,19 +100,23 @@ subprojects {
 
     tasks.withType<JacocoReport> {
         afterEvaluate {
-            classDirectories.setFrom(files(classDirectories.files.map {
-                fileTree(it).apply {
-                    exclude(
-                        "**/demo/**",
-                        "**/development/**",
-                        "**/test/**",
-                        "**/*Application*",
-                        "**/*Configuration*",
-                        "**/*ConfigurationProperties*",
-                        "**/*Exception",
-                    )
-                }
-            }))
+            classDirectories.setFrom(
+                files(
+                    classDirectories.files.map {
+                        fileTree(it).apply {
+                            exclude(
+                                "**/demo/**",
+                                "**/development/**",
+                                "**/test/**",
+                                "**/*Application*",
+                                "**/*Configuration*",
+                                "**/*ConfigurationProperties*",
+                                "**/*Exception",
+                            )
+                        }
+                    }
+                )
+            )
         }
     }
 
@@ -124,6 +130,13 @@ subprojects {
             filter<ReplaceTokens>("tokens" to tokens)
         }
     }
+
+    // run formatter on compile
+    tasks {
+        compileKotlin {
+            dependsOn(ktlintFormat)
+        }
+    }
 }
 
 // disable tasks for root project
@@ -133,4 +146,14 @@ tasks.withType<BootJar> {
 
 tasks.withType<BootBuildImage> {
     enabled = false
+}
+
+// add format git pre-commit hook when using Intellij Idea.
+tasks {
+    build {
+        dependsOn(addKtlintFormatGitPreCommitHook)
+        if (File(".idea").exists()) {
+            dependsOn(ktlintApplyToIdea)
+        }
+    }
 }
