@@ -9,5 +9,5 @@ enum class Duration(private val unit: TemporalUnit) {
     HOURS(ChronoUnit.HOURS),
     DAYS(ChronoUnit.DAYS);
 
-    internal fun toTemporalUnit(): TemporalUnit = unit
+    fun toTemporalUnit(): TemporalUnit = unit
 }

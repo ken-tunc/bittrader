@@ -12,8 +12,6 @@ class OrderDetail private constructor(
     val size: Size
 ) {
     init {
-        require(orderSide != OrderSide.NEUTRAL) { "Neutral side order is not allowed." }
-
         val isValidMarketOrder = orderType == OrderType.LIMIT && price != null
         val isValidLimitOrder = orderType == OrderType.MARKET && price == null
         require(isValidMarketOrder || isValidLimitOrder) {

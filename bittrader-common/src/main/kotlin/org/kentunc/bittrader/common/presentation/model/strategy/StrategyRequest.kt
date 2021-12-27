@@ -1,20 +1,18 @@
-package org.kentunc.bittrader.common.presentation.model.candle
+package org.kentunc.bittrader.common.presentation.model.strategy
 
-import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.server.ServerWebInputException
 
-data class CandleSearchRequest(val productCode: ProductCode, val duration: Duration, val maxNum: Int?) {
+data class StrategyRequest(val productCode: ProductCode, val duration: Duration) {
 
     companion object {
         private const val PRODUCT_CODE_KEY = "product_code"
         private const val DURATION_KEY = "duration"
-        private const val MAX_NUM_CODE_KEY = "max_num"
 
-        fun from(params: MultiValueMap<String, String>): CandleSearchRequest {
+        fun from(params: MultiValueMap<String, String>): StrategyRequest {
             val productCode = runCatching {
                 params.getFirst(PRODUCT_CODE_KEY)!!.let { ProductCode.valueOf(it) }
             }.getOrElse { throw ServerWebInputException("invalid product code.") }
@@ -23,27 +21,14 @@ data class CandleSearchRequest(val productCode: ProductCode, val duration: Durat
                 params.getFirst(DURATION_KEY)!!.let { Duration.valueOf(it) }
             }.getOrElse { throw ServerWebInputException("invalid duration.") }
 
-            val maxNum = runCatching {
-                params.getFirst(MAX_NUM_CODE_KEY)?.let { Integer.valueOf(it) }
-            }.getOrElse { throw ServerWebInputException("invalid max num.") }
-
-            return CandleSearchRequest(productCode, duration, maxNum)
+            return StrategyRequest(productCode, duration)
         }
-
-        fun of(query: CandleQuery) = CandleSearchRequest(
-            productCode = query.productCode,
-            duration = query.duration,
-            maxNum = query.maxNum
-        )
     }
-
-    fun toCandleQuery() = CandleQuery(productCode, duration, maxNum)
 
     fun toMultiValueMap(): MultiValueMap<String, String> {
         return LinkedMultiValueMap<String, String>().apply {
             add(PRODUCT_CODE_KEY, productCode.toString())
             add(DURATION_KEY, duration.toString())
-            maxNum?.also { add(MAX_NUM_CODE_KEY, it.toString()) }
         }
     }
 }

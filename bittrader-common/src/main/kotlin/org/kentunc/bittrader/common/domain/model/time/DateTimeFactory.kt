@@ -16,5 +16,9 @@ object DateTimeFactory {
         return ZonedDateTime.now(getZoneId()).toInstant()
     }
 
+    fun getZonedDateTime(localDateTime: LocalDateTime): ZonedDateTime {
+        return ZonedDateTime.of(localDateTime, getZoneId())
+    }
+
     private fun getZoneId() = ZoneId.systemDefault()
 }
