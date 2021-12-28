@@ -33,8 +33,6 @@ subprojects {
         plugin("org.jetbrains.kotlin.plugin.spring")
     }
 
-    val springmockkVersion: String by project
-    val archunitVersion: String by project
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -43,12 +41,6 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-        testImplementation("org.springframework.boot:spring-boot-starter-test") {
-            exclude(module = "mockito-core")
-        }
-        testImplementation("io.projectreactor:reactor-test")
-        testImplementation("com.ninja-squad:springmockk:$springmockkVersion")
-        testImplementation("com.tngtech.archunit:archunit-junit5:$archunitVersion")
     }
 
     configurations {
