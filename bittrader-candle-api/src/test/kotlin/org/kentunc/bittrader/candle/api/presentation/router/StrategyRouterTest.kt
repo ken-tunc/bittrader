@@ -13,7 +13,8 @@ import org.kentunc.bittrader.candle.api.test.CandleApiTest
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.strategy.TradePosition
 import org.kentunc.bittrader.common.domain.model.time.Duration
-import org.kentunc.bittrader.common.presentation.model.strategy.StrategyRequest
+import org.kentunc.bittrader.common.presentation.model.strategy.OptimizeRequest
+import org.kentunc.bittrader.common.presentation.model.strategy.TradePositionRequest
 import org.kentunc.bittrader.common.presentation.model.strategy.TradePositionResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
@@ -33,7 +34,7 @@ internal class StrategyRouterTest {
     @Test
     fun testGetPosition() {
         // setup:
-        val request = StrategyRequest(ProductCode.BTC_JPY, Duration.DAYS)
+        val request = TradePositionRequest(ProductCode.BTC_JPY, Duration.DAYS)
         val position = TradePosition.SHOULD_BUY
         val totalOrderDecision = mockk<TotalOrderDecision>()
         every { totalOrderDecision.totalPosition } returns position
@@ -64,15 +65,12 @@ internal class StrategyRouterTest {
     @Test
     fun testOptimize() {
         // setup:
-        val request = StrategyRequest(ProductCode.BTC_JPY, Duration.DAYS)
+        val request = OptimizeRequest(ProductCode.BTC_JPY, Duration.DAYS)
 
         // exercise & verify:
         webTestClient.post()
-            .uri {
-                it.path("/strategies/optimize")
-                    .queryParams(request.toMultiValueMap())
-                    .build()
-            }
+            .uri("/strategies/optimize")
+            .bodyValue(request)
             .exchange()
             .expectAll(
                 { it.expectStatus().isNoContent },

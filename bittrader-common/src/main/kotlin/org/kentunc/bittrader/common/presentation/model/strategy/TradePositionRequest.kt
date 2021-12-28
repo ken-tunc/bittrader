@@ -6,13 +6,13 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.server.ServerWebInputException
 
-data class StrategyRequest(val productCode: ProductCode, val duration: Duration) {
+data class TradePositionRequest(val productCode: ProductCode, val duration: Duration) {
 
     companion object {
         private const val PRODUCT_CODE_KEY = "product_code"
         private const val DURATION_KEY = "duration"
 
-        fun from(params: MultiValueMap<String, String>): StrategyRequest {
+        fun from(params: MultiValueMap<String, String>): TradePositionRequest {
             val productCode = runCatching {
                 params.getFirst(PRODUCT_CODE_KEY)!!.let { ProductCode.valueOf(it) }
             }.getOrElse { throw ServerWebInputException("invalid product code.") }
@@ -21,7 +21,7 @@ data class StrategyRequest(val productCode: ProductCode, val duration: Duration)
                 params.getFirst(DURATION_KEY)!!.let { Duration.valueOf(it) }
             }.getOrElse { throw ServerWebInputException("invalid duration.") }
 
-            return StrategyRequest(productCode, duration)
+            return TradePositionRequest(productCode, duration)
         }
     }
 
