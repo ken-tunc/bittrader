@@ -12,8 +12,13 @@ class TradeScheduler(
     private val tradeInteractor: TradeInteractor
 ) {
 
-    @Scheduled(cron = "\${bittrader.trade.cron}")
+    @Scheduled(cron = "\${bittrader.scheduling.trade-cron}")
     fun scheduleTrade() = runBlocking {
         tradeInteractor.trade(productCode, duration)
+    }
+
+    @Scheduled(cron = "\${bittrader.scheduling.optimize-cron}")
+    fun scheduleOptimizeStrategies() = runBlocking {
+        tradeInteractor.optimizeStrategies(productCode, duration)
     }
 }

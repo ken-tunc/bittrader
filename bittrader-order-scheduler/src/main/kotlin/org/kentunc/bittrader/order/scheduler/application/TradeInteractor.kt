@@ -36,4 +36,8 @@ class TradeInteractor(
             TradePosition.NEUTRAL -> Unit
         }
     }
+
+    suspend fun optimizeStrategies(productCode: ProductCode, duration: Duration) {
+        strategyService.optimize(productCode, duration)
+    }
 }

@@ -3,9 +3,11 @@ spring:
     name: bittrader-order-scheduler
   profiles:
     group:
-      prod: []
+      prod:
+        - scheduling
       local:
         - dev
+        - scheduling
       test:
         - dev
     include:
