@@ -28,6 +28,6 @@ data class EmaParamsEntity(
 
     fun toStrategyValues() = StrategyValues.of(
         id = StrategyValuesId(productCode, duration),
-        values = EmaParams(shortTimeFrame, longTimeFrame)
+        params = EmaParams(shortTimeFrame, longTimeFrame)
     )
 }

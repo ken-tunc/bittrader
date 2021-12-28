@@ -24,7 +24,7 @@ abstract class AbstractStrategyService<T : StrategyParams>(private val strategyP
     override suspend fun makeOrderDecision(candleList: CandleList, id: StrategyValuesId): TradeDecision<T> {
         val params = strategyParamsRepository.get(id)
         val barSeries = candleList.toBarSeries()
-        val strategy = buildStrategy(barSeries, params.values)
+        val strategy = buildStrategy(barSeries, params.params)
         val endIndex = barSeries.endIndex
 
         if (strategy.shouldEnter(endIndex)) {

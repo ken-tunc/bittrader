@@ -67,7 +67,7 @@ internal class CandleDaoTest {
     }
 
     @Test
-    fun testSave(): Unit = runBlocking {
+    fun testInsert(): Unit = runBlocking {
         val newCandle = CandleEntity.of(TestCandle.create(productCode = ProductCode.ETH_JPY))
         assertDoesNotThrow { target.insert(newCandle) }
     }

@@ -18,7 +18,7 @@ class EmaConfiguration(private val properties: EmaConfigurationProperties) {
     fun defaultParams() = EmaParams(properties.defaultShortTimeFrame, properties.defaultLongTimeFrame)
 
     fun paramsForOptimize(): List<EmaParams> =
-        properties.shortTimeFrameRange.zip(properties.longTimeFrameRange)
+        properties.shortTimeFrameRange.flatMap { shortTimeFrame -> properties.longTimeFrameRange.map { shortTimeFrame to it } }
             .filter { (shortTimeFrame, longTimeFrame) -> shortTimeFrame < longTimeFrame }
             .map { (shortTimeFrame, longTimeFrame) -> EmaParams(shortTimeFrame, longTimeFrame) }
 }

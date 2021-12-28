@@ -11,11 +11,15 @@ class TotalOrderDecision private constructor(decisions: List<TradeDecision<*>>) 
     }
 
     companion object {
+        private val POSITION_PRIORITY =
+            listOf(TradePosition.NEUTRAL, TradePosition.SHOULD_BUY, TradePosition.SHOULD_SELL)
+
         fun of(decisions: List<TradeDecision<*>>) = TotalOrderDecision(decisions)
     }
 
     val totalPosition: TradePosition = decisions.groupingBy { it.position }
         .eachCount()
+        .toSortedMap(compareBy { POSITION_PRIORITY.indexOf(it) })
         .maxByOrNull { it.value }?.key
         ?: TradePosition.NEUTRAL
 }
