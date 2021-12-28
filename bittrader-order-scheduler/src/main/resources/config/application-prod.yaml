@@ -1,0 +1,6 @@
+bittrader:
+  internal:
+    candle-api:
+      url: http://bittrader-candle-api
+    order-api:
+      url: http://bittrader-order-api

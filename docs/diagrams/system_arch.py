@@ -16,6 +16,7 @@ def main():
 
             order_api_svc = Service("bittrader-order-api")
             order_api_pod = Pod("bittrader-order-api")
+            order_scheduler_pod = Pod("bittrader-order-scheduler")
 
             web_svc = Service("bittrader-web")
             web_pod = Pod("bittrader-web")
@@ -43,6 +44,9 @@ def main():
         candle_feeder_pod - bitflyer_realtime
         candle_feeder_pod - candle_api_svc
         order_api_svc - order_api_pod - bitflyer_http
+
+        order_scheduler_pod - candle_api_svc
+        order_scheduler_pod - order_api_svc
 
     system_arch
 

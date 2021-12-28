@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bittrader-candle-feeder
+  name: bittrader-order-scheduler
   labels:
-    app: candle-feeder
+    app: order-scheduler
     tier: backend
 spec:
   selector:
     matchLabels:
-      app: candle-feeder
+      app: order-scheduler
   template:
     metadata:
       labels:
-        app: candle-feeder
+        app: order-scheduler
         tier: backend
     spec:
       containers:
-        - name: candle-feeder
-          image: ghcr.io/ken-tunc/bittrader/bittrader-candle-feeder
+        - name: order-scheduler
+          image: ghcr.io/ken-tunc/bittrader/bittrader-order-scheduler
           imagePullPolicy: Always
           env:
             - name: SPRING_PROFILES_ACTIVE

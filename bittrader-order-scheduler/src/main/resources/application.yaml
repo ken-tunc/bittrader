@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: bittrader-order-scheduler
+  profiles:
+    group:
+      prod:
+        - scheduling
+      local:
+        - dev
+        - scheduling
+      test:
+        - dev
+    include:
+      - trade
+server:
+  port: 8083
