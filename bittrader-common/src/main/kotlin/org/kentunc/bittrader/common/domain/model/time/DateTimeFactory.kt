@@ -13,7 +13,11 @@ object DateTimeFactory {
     }
 
     fun getInstant(): Instant {
-        return ZonedDateTime.now(getZoneId()).toInstant()
+        return getZonedDateTime(LocalDateTime.now()).toInstant()
+    }
+
+    fun getZonedDateTime(localDateTime: LocalDateTime): ZonedDateTime {
+        return ZonedDateTime.of(localDateTime, getZoneId())
     }
 
     private fun getZoneId() = ZoneId.systemDefault()
