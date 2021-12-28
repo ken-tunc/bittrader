@@ -1,6 +1,5 @@
 package org.kentunc.bittrader.web.infrastructure.configuration
 
-import org.kentunc.bittrader.web.infrastructure.configuration.properties.WebSecurityConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Profile

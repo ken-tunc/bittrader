@@ -1,0 +1,8 @@
+bittrader:
+  trade:
+    order:
+      minutes-to-expire: 5
+      time-in-force: GTC
+    cron: "*/1 * * * * *"
+    product-code: BTC_JPY
+    duration: MINUTES
