@@ -2,15 +2,14 @@ package org.kentunc.bittrader.test.webclient
 
 import org.springframework.http.HttpMethod
 import org.springframework.web.reactive.function.client.WebClient
+import kotlin.properties.Delegates
 
 internal class WebClientProxy : WebClient {
 
-    private lateinit var webClient: WebClient
+    private var webClient: WebClient by Delegates.notNull()
 
-    fun initialize(baseUrl: String) {
-        webClient = WebClient.builder()
-            .baseUrl(baseUrl)
-            .build()
+    fun build(builder: WebClient.Builder) {
+        webClient = builder.build()
     }
 
     override fun get() = webClient.get()
