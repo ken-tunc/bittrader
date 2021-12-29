@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.order.api.infrastructure.configuration
+package org.kentunc.bittrader.common.infrastructure.configuration
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.BitflyerHeaderSigner
@@ -7,6 +7,8 @@ import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.Bitfl
 import org.kentunc.bittrader.common.infrastructure.webclient.http.connector.BodyProvidingJsonEncoder
 import org.kentunc.bittrader.common.infrastructure.webclient.http.connector.ClientHttpConnectorFactory
 import org.kentunc.bittrader.common.infrastructure.webclient.http.connector.MessageSigningHttpConnector
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,14 +21,16 @@ import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
 @EnableConfigurationProperties(BitflyerLightningApiClientConfigurationProperties::class)
-class BitflyerLightningApiClientConfiguration(private val properties: BitflyerLightningApiClientConfigurationProperties) {
+@ConditionalOnProperty(prefix = "bittrader.external.bitflyer.http", name = ["url", "access-key", "secret-key"])
+@ConditionalOnBean(ObjectMapper::class)
+class BitflyerLightningApiClientAutoConfiguration(
+    private val properties: BitflyerLightningApiClientConfigurationProperties,
+    private val clientHttpConnectorFactory: ClientHttpConnectorFactory
+) {
 
     @Bean
-    fun bitflyerPublicApiClient(clientHttpConnectorFactory: ClientHttpConnectorFactory): BitflyerHttpPublicApiClient {
-        val connector = clientHttpConnectorFactory.create(
-            properties.connectTimeout,
-            properties.readTimeout
-        )
+    fun bitflyerPublicApiClient(): BitflyerHttpPublicApiClient {
+        val connector = clientHttpConnectorFactory.create(properties.connectTimeout, properties.readTimeout)
         return WebClient.builder()
             .baseUrl(properties.url)
             .clientConnector(connector)
@@ -36,10 +40,7 @@ class BitflyerLightningApiClientConfiguration(private val properties: BitflyerLi
     }
 
     @Bean
-    fun bitflyerPrivateApiClient(
-        clientHttpConnectorFactory: ClientHttpConnectorFactory,
-        objectMapper: ObjectMapper
-    ): BitflyerHttpPrivateApiClient {
+    fun bitflyerPrivateApiClient(objectMapper: ObjectMapper): BitflyerHttpPrivateApiClient {
         // NOTE: Enable hmac base authentication.
         // ref. https://andrew-flower.com/blog/Custom-HMAC-Auth-with-Spring-WebClient
         val signer = BitflyerHeaderSigner(properties.accessKey.trim(), properties.secretKey.trim())

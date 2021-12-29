@@ -1,4 +1,5 @@
 bittrader:
   external:
     bitflyer:
-      endpoint: wss://ws.lightstream.bitflyer.com/json-rpc
+      websocket:
+        endpoint: wss://ws.lightstream.bitflyer.com/json-rpc
