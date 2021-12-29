@@ -5,6 +5,7 @@ metadata:
   labels:
     app: order-scheduler
     tier: backend
+    probe: actuator
 spec:
   selector:
     matchLabels:
@@ -20,21 +21,7 @@ spec:
           image: ghcr.io/ken-tunc/bittrader/bittrader-order-scheduler
           imagePullPolicy: Always
           ports:
-            - containerPort: 8083
-          livenessProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 8083
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
-          readinessProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 8083
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
+            - containerPort: 8080
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod

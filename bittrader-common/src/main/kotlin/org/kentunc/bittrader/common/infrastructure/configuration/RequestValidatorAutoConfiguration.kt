@@ -1,12 +1,16 @@
-package org.kentunc.bittrader.common.presentation.configuration
+package org.kentunc.bittrader.common.infrastructure.configuration
 
 import org.kentunc.bittrader.common.presentation.validation.RequestValidator
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.validation.Validator
 
 @Configuration
-class RequestValidatorConfiguration {
+@ConditionalOnWebApplication
+@ConditionalOnBean(Validator::class)
+class RequestValidatorAutoConfiguration {
 
     @Bean
     fun requestValidator(validator: Validator) = RequestValidator(validator)

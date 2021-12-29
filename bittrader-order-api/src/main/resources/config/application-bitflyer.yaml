@@ -1,6 +1,7 @@
 bittrader:
   external:
     bitflyer:
-      url: https://api.bitflyer.com/v1
-      access-key: ${BITFLYER_ACCESS_KEY:access-key}
-      secret-key: ${BITFLYER_SECRET_KEY:secret-key}
+      http:
+        url: https://api.bitflyer.com/v1
+        access-key: ${BITFLYER_ACCESS_KEY:access-key}
+        secret-key: ${BITFLYER_SECRET_KEY:secret-key}

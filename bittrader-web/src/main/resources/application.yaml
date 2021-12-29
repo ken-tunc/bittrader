@@ -15,5 +15,3 @@ spring:
     include:
       - management
       - webjars
-server:
-  port: 8080

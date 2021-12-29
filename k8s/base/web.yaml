@@ -10,7 +10,7 @@ spec:
   selector:
     app: web
   ports:
-    - port: 8080
+    - port: 80
       targetPort: 8080
 ---
 apiVersion: apps/v1
@@ -20,6 +20,7 @@ metadata:
   labels:
     app: web
     tier: backend
+    probe: actuator
 spec:
   selector:
     matchLabels:
@@ -36,20 +37,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-          livenessProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
-          readinessProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod

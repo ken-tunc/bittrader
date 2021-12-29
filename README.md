@@ -7,7 +7,7 @@ my bitcoin trader
 ## Deploy
 Deploy application to Kubernetes cluster
 ```
-$ kubectl apply -f ./k8s
+$ kustomize build ./k8s/overlays/local | kubectl apply -f -
 ```
 
 ## Build docker images

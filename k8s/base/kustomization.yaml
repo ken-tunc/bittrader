@@ -1,0 +1,12 @@
+resources:
+  - backend-config.yaml
+  - candle-api.yaml
+  - candle-feeder.yaml
+  - mysql.yaml
+  - order-api.yaml
+  - phpmyadmin.yaml
+  - web.yaml
+patches:
+  - path: actuator.patch.yaml
+    target:
+      labelSelector: "probe=actuator"

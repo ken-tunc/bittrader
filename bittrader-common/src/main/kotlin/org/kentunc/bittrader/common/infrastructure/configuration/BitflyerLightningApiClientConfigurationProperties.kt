@@ -1,10 +1,10 @@
-package org.kentunc.bittrader.order.api.infrastructure.configuration
+package org.kentunc.bittrader.common.infrastructure.configuration
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
-@ConfigurationProperties(prefix = "bittrader.external.bitflyer")
+@ConfigurationProperties(prefix = "bittrader.external.bitflyer.http")
 data class BitflyerLightningApiClientConfigurationProperties(
     val url: String,
     val accessKey: String,

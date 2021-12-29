@@ -11,7 +11,7 @@ spec:
     app: candle-api
   ports:
     - port: 80
-      targetPort: 8081
+      targetPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -20,6 +20,7 @@ metadata:
   labels:
     app: candle-api
     tier: backend
+    probe: actuator
 spec:
   replicas: 2
   selector:
@@ -36,21 +37,7 @@ spec:
           image: ghcr.io/ken-tunc/bittrader/bittrader-candle-api
           imagePullPolicy: Always
           ports:
-            - containerPort: 8081
-          livenessProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 8081
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
-          readinessProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 8081
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
+            - containerPort: 8080
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod

@@ -5,11 +5,14 @@ spring:
     web-application-type: reactive
   profiles:
     group:
-      prod: []
+      prod:
+        - demo
       local:
         - demo
+        - dev
       test:
         - demo
+        - dev
     include:
       - bitflyer
       - management
@@ -17,4 +20,3 @@ spring:
     timeout-per-shutdown-phase: 5s
 server:
   shutdown: graceful
-  port: 8082
