@@ -1,0 +1,7 @@
+resources:
+  - ../../base
+  - backend-secrets.yaml
+patches:
+  - path: pull-images-if-not-present.patch.yaml
+    target:
+      kind: Deployment
