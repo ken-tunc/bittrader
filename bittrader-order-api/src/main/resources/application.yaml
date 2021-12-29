@@ -12,6 +12,7 @@ spring:
         - demo
     include:
       - bitflyer
+      - management
   lifecycle:
     timeout-per-shutdown-phase: 5s
 server:

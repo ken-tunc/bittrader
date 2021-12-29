@@ -12,10 +12,8 @@ spring:
         - auth
       test:
         - dev
+    include:
+      - management
+      - webjars
 server:
   port: 8080
-bittrader:
-  webjars:
-    versions:
-      apexcharts: @apexchartsVersion@
-      bootstrap: @bootstrapVersion@

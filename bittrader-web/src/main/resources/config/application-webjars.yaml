@@ -1,0 +1,5 @@
+bittrader:
+  webjars:
+    versions:
+      apexcharts: @apexchartsVersion@
+      bootstrap: @bootstrapVersion@

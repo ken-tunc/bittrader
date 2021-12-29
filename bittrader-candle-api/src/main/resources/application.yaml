@@ -12,6 +12,7 @@ spring:
       test:
         - h2
     include:
+      - management
       - strategy
   lifecycle:
     timeout-per-shutdown-phase: 5s

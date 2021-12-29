@@ -5,5 +5,7 @@ bittrader:
     role: "USER"
     exclude-paths:
       - "/"
+      - "/favicon.ico"
       - "/charts/**"
       - "/webjars/**"
+      - "/actuator/**"
