@@ -72,12 +72,12 @@ internal class AbstractStrategyServiceTest {
     }
 
     @Test
-    fun testOptimize() = runBlocking {
+    fun testOptimize_update() = runBlocking {
         // setup:
         val candleList = TestCandleList.create()
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = mockk<StrategyParams>()
-        every { strategyParamsRepository.getForOptimize() } returns flowOf(params)
+        val optimized = mockk<StrategyParams>()
+        every { strategyParamsRepository.getForOptimize() } returns flowOf(optimized)
 
         val record = mockk<TradingRecord>()
         mockkConstructor(BarSeriesManager::class)
@@ -87,11 +87,39 @@ internal class AbstractStrategyServiceTest {
         mockkConstructor(GrossProfitCriterion::class)
         every { anyConstructed<GrossProfitCriterion>().calculate(any(), record) } returns profit
 
+        val current = mockk<StrategyParams>()
+        coEvery { strategyParamsRepository.get(id) } returns StrategyValues.of(id, current)
+
         // exercise:
         target.optimize(candleList, id)
 
         // verify:
-        coVerify { strategyParamsRepository.save(id, params) }
+        coVerify { strategyParamsRepository.save(id, optimized) }
+    }
+
+    @Test
+    fun testOptimize_no_update() = runBlocking {
+        // setup:
+        val candleList = TestCandleList.create()
+        val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
+        val current = mockk<StrategyParams>()
+        every { strategyParamsRepository.getForOptimize() } returns flowOf(current)
+
+        val record = mockk<TradingRecord>()
+        mockkConstructor(BarSeriesManager::class)
+        every { anyConstructed<BarSeriesManager>().run(strategy) } returns record
+
+        val profit = mockk<Num>(relaxed = true)
+        mockkConstructor(GrossProfitCriterion::class)
+        every { anyConstructed<GrossProfitCriterion>().calculate(any(), record) } returns profit
+
+        coEvery { strategyParamsRepository.get(id) } returns StrategyValues.of(id, current)
+
+        // exercise:
+        target.optimize(candleList, id)
+
+        // verify:
+        coVerify(exactly = 0) { strategyParamsRepository.save(id, current) }
     }
 
     private class MockStrategyProvider : ArgumentsProvider {

@@ -39,7 +39,7 @@ abstract class AbstractStrategyService<T : StrategyParams>(private val strategyP
     @Transactional
     override suspend fun optimize(candleList: CandleList, id: StrategyValuesId) {
         val series = candleList.toBarSeries()
-        strategyParamsRepository.getForOptimize()
+        val optimizedParams = strategyParamsRepository.getForOptimize()
             .map {
                 val strategy = buildStrategy(series, it)
                 val tradingRecord = BarSeriesManager(series).run(strategy)
@@ -48,6 +48,12 @@ abstract class AbstractStrategyService<T : StrategyParams>(private val strategyP
             }
             .toList()
             .maxByOrNull { it.second }
-            ?.also { strategyParamsRepository.save(id, it.first) }
+            ?.first
+            ?: return
+
+        val currentParams = strategyParamsRepository.get(id)
+        if (currentParams.params != optimizedParams) {
+            strategyParamsRepository.save(id, optimizedParams)
+        }
     }
 }
