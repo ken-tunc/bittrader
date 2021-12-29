@@ -13,5 +13,3 @@ spring:
     include:
       - management
       - trade
-server:
-  port: 8083

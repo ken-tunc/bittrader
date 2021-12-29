@@ -11,7 +11,7 @@ spec:
     app: order-api
   ports:
     - port: 80
-      targetPort: 8082
+      targetPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,24 +35,24 @@ spec:
           image: ghcr.io/ken-tunc/bittrader/bittrader-order-api
           imagePullPolicy: Always
           ports:
-            - containerPort: 8082
+            - containerPort: 8080
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8082
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8082
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: prod,demo
+              value: prod
             - name: BITFLYER_ACCESS_KEY
               valueFrom:
                 secretKeyRef:

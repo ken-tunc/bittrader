@@ -9,8 +9,10 @@ spring:
         - mysql
       local:
         - h2
+        - dev
       test:
         - h2
+        - dev
     include:
       - management
       - strategy
@@ -18,4 +20,3 @@ spring:
     timeout-per-shutdown-phase: 5s
 server:
   shutdown: graceful
-  port: 8081

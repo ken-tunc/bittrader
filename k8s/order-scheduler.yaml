@@ -20,21 +20,21 @@ spec:
           image: ghcr.io/ken-tunc/bittrader/bittrader-order-scheduler
           imagePullPolicy: Always
           ports:
-            - containerPort: 8083
+            - containerPort: 8080
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8083
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8083
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 1
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
