@@ -8,8 +8,6 @@ import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.common.domain.model.time.Duration
-import org.kentunc.bittrader.common.shared.extension.forEachParallel
-import org.kentunc.bittrader.common.shared.extension.mapParallel
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -29,7 +27,7 @@ class StrategyInteractor(
         val candleList = candleService.findLatest(candleQuery)
         val strategyValuesId = StrategyValuesId(productCode, duration)
 
-        val decisions = strategyServices.mapParallel { it.makeOrderDecision(candleList, strategyValuesId) }
+        val decisions = strategyServices.map { it.makeOrderDecision(candleList, strategyValuesId) }
         return TotalOrderDecision.of(decisions)
     }
 
@@ -39,7 +37,7 @@ class StrategyInteractor(
         val candleList = candleService.findLatest(candleQuery)
         val strategyValuesId = StrategyValuesId(productCode, duration)
 
-        strategyServices.forEachParallel {
+        strategyServices.forEach {
             it.optimize(candleList, strategyValuesId)
         }
     }

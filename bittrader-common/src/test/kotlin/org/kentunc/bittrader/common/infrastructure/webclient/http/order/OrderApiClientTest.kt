@@ -108,6 +108,6 @@ internal class OrderApiClientTest {
         target.send(request)
 
         // verify:
-        util.assertRequest(HttpMethod.POST, "/orders")
+        util.assertRequest(HttpMethod.POST, "/orders", request)
     }
 }

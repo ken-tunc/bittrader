@@ -6,6 +6,7 @@ metadata:
     app: candle-feeder
     tier: backend
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: candle-feeder

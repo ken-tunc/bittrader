@@ -7,19 +7,24 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.springframework.beans.factory.getBean
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.web.reactive.function.client.WebClient
 
 internal class MockWebServerExtension : BeforeAllCallback, AfterAllCallback {
 
     override fun beforeAll(context: ExtensionContext?) {
         val applicationContext = getApplicationContext(context) ?: return
         val mockWebServer = applicationContext.getBean<MockWebServer>()
-        applicationContext.getBean<WebClientProxy>()
+        val webClientBuilder = WebClient.builder()
             // NOTE: MockWebServer#url calls MockWebServer#start internally.
-            .initialize(mockWebServer.url("/").toString())
+            .baseUrl(mockWebServer.url("/").toString())
+        applicationContext.getBean<WebClientProxy>()
+            .build(webClientBuilder)
     }
 
     override fun afterAll(context: ExtensionContext?) {
-        getApplicationContext(context)?.getBean<MockWebServer>()?.shutdown()
+        getApplicationContext(context)
+            ?.getBean<MockWebServer>()
+            ?.shutdown()
     }
 
     private fun getApplicationContext(context: ExtensionContext?): ApplicationContext? {

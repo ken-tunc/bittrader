@@ -3,7 +3,7 @@ package org.kentunc.bittrader.test.webclient
 import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertAll
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -32,13 +32,14 @@ class WebClientTestUtil(private val mockWebServer: MockWebServer, private val ob
     fun assertRequest(method: HttpMethod, path: String, body: Any? = null) {
         val recordedRequest = mockWebServer.takeRequest()
         assertAll(
-            { Assertions.assertEquals(method.name, recordedRequest.method) },
-            { Assertions.assertEquals(path, recordedRequest.path) },
+            { assertEquals(method.name, recordedRequest.method) },
+            { assertEquals(path, recordedRequest.path) },
+            { body ?: run { assertEquals(0, recordedRequest.bodySize) } },
             {
                 body?.also {
                     val expected = objectMapper.writeValueAsString(body)
                     val actual = recordedRequest.body.readUtf8()
-                    Assertions.assertEquals(expected, actual)
+                    assertEquals(expected, actual)
                 }
             }
         )
