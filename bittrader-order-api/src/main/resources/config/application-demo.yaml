@@ -2,7 +2,7 @@ bittrader:
   demo:
     balances:
       - currency-code: JPY
-        amount: 100000
+        amount: 1000000
       - currency-code: BTC
         amount: 0
       - currency-code: ETH

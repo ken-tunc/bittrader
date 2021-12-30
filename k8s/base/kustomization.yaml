@@ -4,6 +4,7 @@ resources:
   - candle-feeder.yaml
   - mysql.yaml
   - order-api.yaml
+  - order-scheduler.yaml
   - phpmyadmin.yaml
   - web.yaml
 patches:
