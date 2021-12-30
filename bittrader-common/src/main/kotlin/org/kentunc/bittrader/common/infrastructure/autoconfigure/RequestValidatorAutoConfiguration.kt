@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.configuration
+package org.kentunc.bittrader.common.infrastructure.autoconfigure
 
 import org.kentunc.bittrader.common.presentation.validation.RequestValidator
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean

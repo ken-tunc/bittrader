@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.configuration
+package org.kentunc.bittrader.common.infrastructure.autoconfigure
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
