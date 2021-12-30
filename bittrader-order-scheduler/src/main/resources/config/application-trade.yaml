@@ -1,5 +1,0 @@
-bittrader:
-  trade:
-    order:
-      minutes-to-expire: 5
-      time-in-force: GTC

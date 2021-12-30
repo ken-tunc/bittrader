@@ -10,8 +10,10 @@ import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.infrastructure.webclient.http.order.OrderApiClient
 import org.kentunc.bittrader.common.presentation.model.order.OrderResponse
+import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.test.model.TestOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
@@ -46,14 +48,9 @@ internal class OrderRepositoryImplTest {
 
     @Test
     fun testSendOrder() = runBlocking {
-        val orderSignal = TestOrder.createOrderSignal()
-        target.sendOrder(orderSignal)
-        coVerify {
-            orderApiClient.send(
-                withArg {
-                    assertEquals(orderSignal.detail.productCode, it.detail.productCode)
-                }
-            )
-        }
+        val productCode = ProductCode.BTC_JPY
+        val orderSide = OrderSide.BUY
+        target.sendOrder(productCode, orderSide)
+        coVerify { orderApiClient.send(OrderSignalRequest(productCode, orderSide)) }
     }
 }

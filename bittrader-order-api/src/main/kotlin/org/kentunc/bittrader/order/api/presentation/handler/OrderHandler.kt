@@ -1,6 +1,7 @@
 package org.kentunc.bittrader.order.api.presentation.handler
 
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.presentation.model.order.OrderResponse
 import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.presentation.validation.RequestValidator
@@ -26,9 +27,12 @@ class OrderHandler(private val requestValidator: RequestValidator, private val o
     }
 
     suspend fun send(request: ServerRequest): ServerResponse {
-        val order = request.awaitBody<OrderSignalRequest>()
-        requestValidator.validate(order)
-        orderInteractor.sendOrder(order.toOrderSignal())
+        val orderRequest = request.awaitBody<OrderSignalRequest>()
+        requestValidator.validate(orderRequest)
+        when (orderRequest.orderSide) {
+            OrderSide.BUY -> orderInteractor.sendBuyAllOrder(orderRequest.productCode)
+            OrderSide.SELL -> orderInteractor.sendSellAllOrder(orderRequest.productCode)
+        }
         return ServerResponse.noContent()
             .buildAndAwait()
     }

@@ -16,13 +16,11 @@ class Size private constructor(private val value: BigDecimal) {
 
     fun toBigDecimal() = value
 
-    operator fun plus(other: Size): Size {
-        return Size(this.value.add(other.value))
-    }
+    operator fun plus(other: Size) = Size(this.value.add(other.value))
 
-    operator fun minus(other: Size): Size {
-        return Size(this.value.subtract(other.value))
-    }
+    operator fun minus(other: Size) = Size(this.value.subtract(other.value))
+
+    operator fun div(price: Price) = Size(this.value.divide(price.toBigDecimal()))
 
     @Generated
     override fun equals(other: Any?): Boolean {

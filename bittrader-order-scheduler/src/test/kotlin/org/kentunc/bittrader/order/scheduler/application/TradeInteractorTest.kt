@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.domain.model.strategy.TradePosition
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.order.scheduler.domain.service.OrderService
 import org.kentunc.bittrader.order.scheduler.domain.service.StrategyService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
-@SpringJUnitConfig(classes = [TradeInteractor::class], initializers = [ConfigDataApplicationContextInitializer::class])
+@SpringJUnitConfig(TradeInteractor::class)
 internal class TradeInteractorTest {
 
     @MockkBean(relaxed = true)
@@ -40,8 +40,8 @@ internal class TradeInteractorTest {
         target.trade(productCode, duration)
 
         // verify:
-        coVerify(exactly = numBuyOrder) { orderService.sendBuyAllOrderIfPossible(productCode, any(), any()) }
-        coVerify(exactly = numSellOrder) { orderService.sendSellAllOrderIfPossible(productCode, any(), any()) }
+        coVerify(exactly = numBuyOrder) { orderService.sendOrder(productCode, OrderSide.BUY) }
+        coVerify(exactly = numSellOrder) { orderService.sendOrder(productCode, OrderSide.SELL) }
     }
 
     @Test

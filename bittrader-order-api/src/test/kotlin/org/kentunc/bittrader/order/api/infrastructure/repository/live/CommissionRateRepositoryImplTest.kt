@@ -11,17 +11,18 @@ import org.kentunc.bittrader.common.domain.model.market.CommissionRate
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.BitflyerHttpPrivateApiClient
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.CommissionRateResponse
+import org.kentunc.bittrader.order.api.infrastructure.repository.CommissionRateRepositoryImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
-@SpringJUnitConfig(LiveCommissionRateRepositoryImpl::class)
-internal class LiveCommissionRateRepositoryImplTest {
+@SpringJUnitConfig(CommissionRateRepositoryImpl::class)
+internal class CommissionRateRepositoryImplTest {
 
     @MockkBean
     private lateinit var bitflyerClient: BitflyerHttpPrivateApiClient
 
     @Autowired
-    private lateinit var target: LiveCommissionRateRepositoryImpl
+    private lateinit var target: CommissionRateRepositoryImpl
 
     @Test
     fun testGet() = runBlocking {

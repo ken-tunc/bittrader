@@ -3,10 +3,12 @@ package org.kentunc.bittrader.order.api.presentation.router
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.coEvery
 import io.mockk.coVerify
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.order.OrderList
+import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.presentation.model.order.OrderResponse
 import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
 import org.kentunc.bittrader.common.test.model.TestOrder
@@ -47,27 +49,23 @@ internal class OrderRouterTest {
             )
     }
 
-    @Test
-    fun testSend() {
+    @ParameterizedTest
+    @CsvSource("BUY,1,0", "SELL,0,1")
+    fun testSend(orderSide: OrderSide, numBuyOrder: Int, numSellOrder: Int) {
         // setup:
-        val order = TestOrder.createOrderSignal()
+        val productCode = ProductCode.BTC_JPY
 
         // exercise & verify:
         webTestClient.post()
             .uri("/orders")
-            .bodyValue(OrderSignalRequest.of(order))
+            .bodyValue(OrderSignalRequest(productCode, orderSide))
             .exchange()
             .expectAll(
                 { it.expectStatus().isNoContent },
                 { it.expectBody().isEmpty }
             )
 
-        coVerify {
-            orderInteractor.sendOrder(
-                withArg {
-                    assertEquals(order.detail.productCode, it.detail.productCode)
-                }
-            )
-        }
+        coVerify(exactly = numBuyOrder) { orderInteractor.sendBuyAllOrder(productCode) }
+        coVerify(exactly = numSellOrder) { orderInteractor.sendSellAllOrder(productCode) }
     }
 }
