@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.order.OrderList
-import org.kentunc.bittrader.common.test.model.TestOrder
 import org.kentunc.bittrader.order.api.domain.service.OrderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
@@ -37,14 +36,26 @@ internal class OrderInteractorTest {
     }
 
     @Test
-    fun testSendOrder() = runBlocking {
+    fun testSendBuyAllOrder() = runBlocking {
         // setup:
-        val order = TestOrder.createOrderSignal()
+        val productCode = ProductCode.BTC_JPY
 
         // exercise:
-        target.sendOrder(order)
+        target.sendBuyAllOrder(productCode)
 
         // verify:
-        coVerify { orderService.send(order) }
+        coVerify { orderService.sendBuyAllOrder(productCode) }
+    }
+
+    @Test
+    fun testSendSellAllOrder() = runBlocking {
+        // setup:
+        val productCode = ProductCode.BTC_JPY
+
+        // exercise:
+        target.sendSellAllOrder(productCode)
+
+        // verify:
+        coVerify { orderService.sendSellAllOrder(productCode) }
     }
 }

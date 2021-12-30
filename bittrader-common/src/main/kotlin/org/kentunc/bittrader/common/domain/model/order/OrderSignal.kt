@@ -3,6 +3,7 @@ package org.kentunc.bittrader.common.domain.model.order
 import org.kentunc.bittrader.common.domain.model.market.Balance
 import org.kentunc.bittrader.common.domain.model.market.CommissionRate
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.ticker.Ticker
 
 class OrderSignal private constructor(
     val detail: OrderDetail,
@@ -43,18 +44,24 @@ class OrderSignal private constructor(
             productCode: ProductCode,
             balance: Balance,
             commissionRate: CommissionRate,
+            ticker: Ticker,
             minutesToExpire: MinutesToExpire = DEFAULT_EXPIRE_MINUTES,
             timeInForce: TimeInForce = TimeInForce.GTC
         ): OrderSignal {
             require(productCode.right == balance.currencyCode) {
                 "Invalid buy order: productCode=$productCode, balance currencyCode=${balance.currencyCode}"
             }
-            val adjustedSize = balance.available - commissionRate.fee(balance.available)
+            require(productCode == ticker.id.productCode) {
+                "Invalid buy order: productCode=$productCode, ticker productCode=${ticker.id.productCode}"
+            }
+            val price = ticker.bestAsk
+            val buySize = balance.buySize(ticker.bestAsk)
+            val adjustedSize = buySize - commissionRate.fee(buySize)
             val detail = OrderDetail.of(
                 productCode = productCode,
-                orderType = OrderType.MARKET,
+                orderType = OrderType.LIMIT,
                 orderSide = OrderSide.BUY,
-                price = null,
+                price = price,
                 size = adjustedSize
             )
             return OrderSignal(

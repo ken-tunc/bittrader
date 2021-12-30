@@ -12,7 +12,6 @@ import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.presentation.model.order.OrderDetailDto
 import org.kentunc.bittrader.common.presentation.model.order.OrderResponse
 import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
-import org.kentunc.bittrader.common.test.model.TestOrder
 import org.kentunc.bittrader.test.file.ResourceReader
 import org.kentunc.bittrader.test.webclient.WebClientTest
 import org.kentunc.bittrader.test.webclient.WebClientTestUtil
@@ -101,7 +100,7 @@ internal class OrderApiClientTest {
     @Test
     fun testSend() = runBlocking {
         // setup:
-        val request = OrderSignalRequest.of(TestOrder.createOrderSignal())
+        val request = OrderSignalRequest(ProductCode.BTC_JPY, OrderSide.BUY)
         util.enqueueResponse(status = HttpStatus.NO_CONTENT)
 
         // exercise:

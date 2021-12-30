@@ -14,17 +14,18 @@ import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.BitflyerHttpPrivateApiClient
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.order.OrderResponse
 import org.kentunc.bittrader.common.test.model.TestOrder
+import org.kentunc.bittrader.order.api.infrastructure.repository.OrderRepositoryImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
-@SpringJUnitConfig(LiveOrderRepositoryImpl::class)
-internal class LiveOrderRepositoryImplTest {
+@SpringJUnitConfig(OrderRepositoryImpl::class)
+internal class OrderRepositoryImplTest {
 
     @MockkBean(relaxed = true)
     private lateinit var bitflyerClient: BitflyerHttpPrivateApiClient
 
     @Autowired
-    private lateinit var target: LiveOrderRepositoryImpl
+    private lateinit var target: OrderRepositoryImpl
 
     @Test
     fun testFind() = runBlocking {

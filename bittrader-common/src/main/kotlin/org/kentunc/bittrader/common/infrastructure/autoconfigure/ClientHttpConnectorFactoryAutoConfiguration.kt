@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.configuration
+package org.kentunc.bittrader.common.infrastructure.autoconfigure
 
 import org.kentunc.bittrader.common.infrastructure.webclient.http.connector.ClientHttpConnectorFactory
 import org.springframework.context.annotation.Bean

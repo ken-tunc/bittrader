@@ -12,14 +12,13 @@ import org.kentunc.bittrader.common.domain.model.order.OrderType
 import org.kentunc.bittrader.common.domain.model.quote.Size
 import org.kentunc.bittrader.common.domain.model.ticker.Ticker
 import org.kentunc.bittrader.common.domain.model.time.DateTime
-import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.BitflyerHttpPublicApiClient
-import org.kentunc.bittrader.common.shared.extension.log
 import org.kentunc.bittrader.order.api.domain.repository.CommissionRateRepository
+import org.kentunc.bittrader.order.api.domain.repository.TickerRepository
 import java.time.LocalDateTime
 
 class DemoBroker(
     private val db: DemoDatabase,
-    private val bitflyerHttpPublicApiClient: BitflyerHttpPublicApiClient,
+    private val tickerRepository: TickerRepository,
     private val commissionRateRepository: CommissionRateRepository
 ) {
 
@@ -35,7 +34,7 @@ class DemoBroker(
     fun getOrderSignals(productCode: ProductCode): List<Order> = db.getOrderSignals(productCode)
 
     suspend fun sendOrder(orderSignal: OrderSignal) {
-        val ticker = bitflyerHttpPublicApiClient.getTicker(orderSignal.detail.productCode).toTicker()
+        val ticker = tickerRepository.get(orderSignal.detail.productCode)
         val commissionRate = commissionRateRepository.get(orderSignal.detail.productCode)
 
         val currencyPair = when (orderSignal.detail.orderSide) {
@@ -65,14 +64,13 @@ class DemoBroker(
                 orderDate = DateTime.of(LocalDateTime.now())
             )
         )
-        log.info(
-            "Send order: productCode=${orderSignal.detail.productCode}, side=${orderSignal.detail.orderSide}, " +
-                "type=${orderSignal.detail.orderType}, price=${orderSignal.detail.price}, size=${orderSignal.detail.size}, " +
-                "averagePrice=${ticker.midPrice}, state=$orderState"
-        )
     }
 
-    private fun buy(orderSignal: OrderSignal, ticker: Ticker, commissionRate: CommissionRate): Pair<Currency, Currency> {
+    private fun buy(
+        orderSignal: OrderSignal,
+        ticker: Ticker,
+        commissionRate: CommissionRate
+    ): Pair<Currency, Currency> {
         val detail = orderSignal.detail
         val actualOrderSize = when (detail.orderType) {
             OrderType.MARKET -> ticker.bestAsk.toBigDecimal() * detail.size.toBigDecimal()
@@ -85,7 +83,11 @@ class DemoBroker(
         return Pair(from, into)
     }
 
-    private fun sell(orderSignal: OrderSignal, ticker: Ticker, commissionRate: CommissionRate): Pair<Currency, Currency> {
+    private fun sell(
+        orderSignal: OrderSignal,
+        ticker: Ticker,
+        commissionRate: CommissionRate
+    ): Pair<Currency, Currency> {
         val detail = orderSignal.detail
         val fee = commissionRate.fee(detail.size)
         val from = Currency(detail.productCode.right, (detail.size + fee).toBigDecimal())

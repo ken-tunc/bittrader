@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.order.api.infrastructure.repository.live
+package org.kentunc.bittrader.order.api.infrastructure.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -11,7 +11,7 @@ import org.kentunc.bittrader.order.api.domain.repository.OrderRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-class LiveOrderRepositoryImpl(private val bitflyerClient: BitflyerHttpPrivateApiClient) : OrderRepository {
+class OrderRepositoryImpl(private val bitflyerClient: BitflyerHttpPrivateApiClient) : OrderRepository {
 
     override fun find(productCode: ProductCode): Flow<Order> {
         return bitflyerClient.getOrders(productCode)

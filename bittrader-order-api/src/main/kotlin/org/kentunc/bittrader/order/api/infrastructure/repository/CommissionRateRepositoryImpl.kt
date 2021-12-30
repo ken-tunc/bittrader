@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.order.api.infrastructure.repository.live
+package org.kentunc.bittrader.order.api.infrastructure.repository
 
 import org.kentunc.bittrader.common.domain.model.market.CommissionRate
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
@@ -7,7 +7,7 @@ import org.kentunc.bittrader.order.api.domain.repository.CommissionRateRepositor
 import org.springframework.stereotype.Repository
 
 @Repository
-class LiveCommissionRateRepositoryImpl(private val bitflyerClient: BitflyerHttpPrivateApiClient) :
+class CommissionRateRepositoryImpl(private val bitflyerClient: BitflyerHttpPrivateApiClient) :
     CommissionRateRepository {
 
     override suspend fun get(productCode: ProductCode): CommissionRate {

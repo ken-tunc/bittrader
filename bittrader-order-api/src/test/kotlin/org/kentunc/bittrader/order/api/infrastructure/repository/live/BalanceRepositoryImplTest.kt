@@ -12,17 +12,18 @@ import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.BitflyerHttpPrivateApiClient
 import org.kentunc.bittrader.common.infrastructure.webclient.http.bitflyer.model.market.BalanceResponse
 import org.kentunc.bittrader.common.test.model.TestBalance
+import org.kentunc.bittrader.order.api.infrastructure.repository.BalanceRepositoryImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
-@SpringJUnitConfig(LiveBalanceRepositoryImpl::class)
-internal class LiveBalanceRepositoryImplTest {
+@SpringJUnitConfig(BalanceRepositoryImpl::class)
+internal class BalanceRepositoryImplTest {
 
     @MockkBean
     private lateinit var bitflyerClient: BitflyerHttpPrivateApiClient
 
     @Autowired
-    private lateinit var target: LiveBalanceRepositoryImpl
+    private lateinit var target: BalanceRepositoryImpl
 
     @Test
     fun testFindAll() = runBlocking {

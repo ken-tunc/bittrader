@@ -1,8 +1,8 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  org.kentunc.bittrader.common.infrastructure.configuration.ManagementAutoConfiguration,\
-  org.kentunc.bittrader.common.infrastructure.configuration.RequestValidatorAutoConfiguration,\
-  org.kentunc.bittrader.common.infrastructure.configuration.CandleApiClientAutoConfiguration,\
-  org.kentunc.bittrader.common.infrastructure.configuration.OrderApiClientAutoConfiguration,\
-  org.kentunc.bittrader.common.infrastructure.configuration.BitflyerLightningApiClientAutoConfiguration,\
-  org.kentunc.bittrader.common.infrastructure.configuration.BitflyerRealtimeClientApiConfiguration,\
-  org.kentunc.bittrader.common.infrastructure.configuration.ClientHttpConnectorFactoryAutoConfiguration
+  org.kentunc.bittrader.common.infrastructure.autoconfigure.ManagementAutoConfiguration,\
+  org.kentunc.bittrader.common.infrastructure.autoconfigure.RequestValidatorAutoConfiguration,\
+  org.kentunc.bittrader.common.infrastructure.autoconfigure.CandleApiClientAutoConfiguration,\
+  org.kentunc.bittrader.common.infrastructure.autoconfigure.OrderApiClientAutoConfiguration,\
+  org.kentunc.bittrader.common.infrastructure.autoconfigure.BitflyerLightningApiClientAutoConfiguration,\
+  org.kentunc.bittrader.common.infrastructure.autoconfigure.BitflyerRealtimeClientApiConfiguration,\
+  org.kentunc.bittrader.common.infrastructure.autoconfigure.ClientHttpConnectorFactoryAutoConfiguration

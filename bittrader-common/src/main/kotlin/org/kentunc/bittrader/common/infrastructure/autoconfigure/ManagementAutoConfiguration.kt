@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.infrastructure.configuration
+package org.kentunc.bittrader.common.infrastructure.autoconfigure
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Configuration
