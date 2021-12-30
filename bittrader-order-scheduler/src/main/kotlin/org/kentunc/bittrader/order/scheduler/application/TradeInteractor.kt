@@ -13,8 +13,16 @@ class TradeInteractor(private val strategyService: StrategyService, private val 
 
     suspend fun trade(productCode: ProductCode, duration: Duration) {
         when (strategyService.getTradePosition(productCode, duration)) {
-            TradePosition.SHOULD_BUY -> orderService.sendOrder(productCode, OrderSide.BUY)
-            TradePosition.SHOULD_SELL -> orderService.sendOrder(productCode, OrderSide.SELL)
+            TradePosition.SHOULD_BUY -> {
+                if (orderService.getOrderList(productCode).canBuy()) {
+                    orderService.sendOrder(productCode, OrderSide.BUY)
+                }
+            }
+            TradePosition.SHOULD_SELL -> {
+                if (orderService.getOrderList(productCode).canSell()) {
+                    orderService.sendOrder(productCode, OrderSide.SELL)
+                }
+            }
             TradePosition.NEUTRAL -> Unit
         }
     }

@@ -80,7 +80,7 @@ internal class OrderSignalTest {
     }
 
     @ParameterizedTest
-    @CsvSource("BTC_JPY,ETH,BTC_JPY", "BTC_JPY,BTC,ETH_JPY")
+    @CsvSource("BTC_JPY,ETH,BTC_JPY", "BTC_JPY,JPY,ETH_JPY")
     fun testOfBuyAll_invalid(productCode: ProductCode, currencyCode: CurrencyCode, tickerProductCode: ProductCode) {
         // setup:
         val balance = Balance.of(currencyCode, Size.of(1000.0), Size.Companion.of(1000.0))
