@@ -6,6 +6,7 @@ import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.web.application.CandleService
 import org.kentunc.bittrader.web.presentation.model.CandleStick
+import org.kentunc.bittrader.web.presentation.model.VolumeBar
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -26,13 +27,15 @@ class ChartController(private val candleService: CandleService, private val obje
     ): String {
         val activeDuration = duration ?: Duration.MINUTES
         val query = CandleQuery(productCode = productCode, duration = activeDuration, maxNum = 300)
-        val candleSticks = candleService.search(query)
+        val candles = candleService.search(query)
             .toList()
-            .map { CandleStick.of(it) }
+        val candleSticks = candles.map { CandleStick.of(it) }
+        val volumes = candles.map { VolumeBar.of(it) }
         model["productCode"] = productCode
         model["durations"] = Duration.values()
         model["activeDuration"] = activeDuration
         model["candleSticks"] = objectMapper.writeValueAsString(candleSticks)
+        model["volumes"] = objectMapper.writeValueAsString(volumes)
         return "charts"
     }
 }

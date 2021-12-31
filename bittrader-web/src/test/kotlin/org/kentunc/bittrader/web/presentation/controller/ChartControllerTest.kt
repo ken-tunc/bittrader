@@ -44,6 +44,7 @@ internal class ChartControllerTest : AbstractControllerTest() {
             .andExpect(model().attribute("durations", Duration.values()))
             .andExpect(model().attribute("activeDuration", duration))
             .andExpect(model().attributeExists("candleSticks"))
+            .andExpect(model().attributeExists("volumes"))
 
         coVerify {
             candleService.search(
