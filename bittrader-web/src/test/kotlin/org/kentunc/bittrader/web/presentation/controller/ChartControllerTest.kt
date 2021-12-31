@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.order.OrderList
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.test.model.TestCandleList
+import org.kentunc.bittrader.common.test.model.TestOrder
 import org.kentunc.bittrader.web.application.CandleService
+import org.kentunc.bittrader.web.application.OrderService
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
@@ -19,6 +22,8 @@ internal class ChartControllerTest : AbstractControllerTest() {
 
     @MockkBean
     private lateinit var candleService: CandleService
+    @MockkBean
+    private lateinit var orderService: OrderService
 
     @Test
     fun testCandlestickChart_default() {
@@ -27,6 +32,9 @@ internal class ChartControllerTest : AbstractControllerTest() {
         val duration = Duration.MINUTES
         val candleList = TestCandleList.create()
         coEvery { candleService.search(any()) } returns candleList
+
+        val orderList = OrderList.of(listOf(TestOrder.createOrder()))
+        coEvery { orderService.find(productCode) } returns orderList
 
         // exercise & verify:
         val result = webTestClient.get()
@@ -45,6 +53,7 @@ internal class ChartControllerTest : AbstractControllerTest() {
             .andExpect(model().attribute("activeDuration", duration))
             .andExpect(model().attributeExists("candleSticks"))
             .andExpect(model().attributeExists("volumes"))
+            .andExpect(model().attributeExists("orders"))
 
         coVerify {
             candleService.search(
@@ -63,6 +72,9 @@ internal class ChartControllerTest : AbstractControllerTest() {
         val productCode = ProductCode.BTC_JPY
         val candleList = TestCandleList.create()
         coEvery { candleService.search(any()) } returns candleList
+
+        val orderList = OrderList.of(listOf(TestOrder.createOrder()))
+        coEvery { orderService.find(productCode) } returns orderList
 
         // exercise & verify:
         val result = webTestClient.get()
