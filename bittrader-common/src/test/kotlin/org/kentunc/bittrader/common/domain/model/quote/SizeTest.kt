@@ -37,4 +37,12 @@ internal class SizeTest {
         val expected = Size.of(765.43211)
         assertEquals(expected, size - subtrahend)
     }
+
+    @Test
+    fun testDivByPrice() {
+        val size = Size.of(BigDecimal("20000000.0"))
+        val price = Price.of(3)
+        val expected = Size.of(BigDecimal("6666666.66666666"))
+        assertEquals(expected, size / price)
+    }
 }

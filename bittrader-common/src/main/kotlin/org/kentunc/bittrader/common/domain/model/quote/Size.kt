@@ -2,6 +2,7 @@ package org.kentunc.bittrader.common.domain.model.quote
 
 import org.kentunc.bittrader.common.shared.annotation.Generated
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 class Size private constructor(private val value: BigDecimal) {
 
@@ -20,7 +21,7 @@ class Size private constructor(private val value: BigDecimal) {
 
     operator fun minus(other: Size) = Size(this.value.subtract(other.value))
 
-    operator fun div(price: Price) = Size(this.value.divide(price.toBigDecimal()))
+    operator fun div(price: Price) = Size(this.value.divide(price.toBigDecimal(), 8, RoundingMode.FLOOR))
 
     @Generated
     override fun equals(other: Any?): Boolean {
