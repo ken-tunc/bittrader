@@ -3,19 +3,16 @@ package org.kentunc.bittrader.candle.api.application
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.candle.api.application.model.TotalOrderDecision
+import org.kentunc.bittrader.candle.api.domain.model.TradingStrategy
 import org.kentunc.bittrader.candle.api.domain.service.CandleService
-import org.kentunc.bittrader.candle.api.domain.service.EmaStrategyService
+import org.kentunc.bittrader.candle.api.domain.service.CompositeStrategyService
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.strategy.EmaParams
-import org.kentunc.bittrader.common.domain.model.strategy.TradeDecision
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.test.model.TestCandleList
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,44 +27,35 @@ internal class StrategyInteractorTest {
 
     @MockkBean
     private lateinit var candleService: CandleService
+
     @MockkBean(relaxed = true)
-    private lateinit var emaStrategyService: EmaStrategyService
+    private lateinit var compositeStrategyService: CompositeStrategyService
 
     @Autowired
     private lateinit var target: StrategyInteractor
 
     @Test
-    fun testMakeTradingDecision() = runBlocking {
+    fun testGetStrategy() = runBlocking {
         // setup:
         val productCode = ProductCode.BTC_JPY
         val duration = Duration.DAYS
         val candleList = TestCandleList.create()
         coEvery { candleService.findLatest(any()) } returns candleList
-        val decision = mockk<TradeDecision<EmaParams>>()
-        coEvery { emaStrategyService.makeOrderDecision(candleList, any()) } returns decision
-
-        val decisions = mockk<TotalOrderDecision>()
-        mockkObject(TotalOrderDecision)
-        every { TotalOrderDecision.of(listOf(decision)) } returns decisions
+        val strategy = mockk<TradingStrategy>()
+        coEvery {
+            compositeStrategyService.getStrategy(
+                candleList,
+                StrategyValuesId(productCode, duration)
+            )
+        } returns strategy
 
         // exercise:
-        val actual = target.makeTradingDecision(productCode, duration)
+        val actual = target.getTradingStrategy(productCode, duration)
 
         // verify:
-        assertEquals(decisions, actual)
+        assertEquals(strategy, actual)
         coVerify {
             candleService.findLatest(
-                withArg {
-                    assertAll(
-                        { assertEquals(productCode, it.productCode) },
-                        { assertEquals(duration, it.duration) },
-                    )
-                }
-            )
-        }
-        coVerify {
-            emaStrategyService.makeOrderDecision(
-                any(),
                 withArg {
                     assertAll(
                         { assertEquals(productCode, it.productCode) },
@@ -100,16 +88,6 @@ internal class StrategyInteractorTest {
                 }
             )
         }
-        coVerify {
-            emaStrategyService.optimize(
-                candleList,
-                withArg {
-                    assertAll(
-                        { assertEquals(productCode, it.productCode) },
-                        { assertEquals(duration, it.duration) },
-                    )
-                }
-            )
-        }
+        coVerify { compositeStrategyService.optimize(candleList, StrategyValuesId(productCode, duration)) }
     }
 }

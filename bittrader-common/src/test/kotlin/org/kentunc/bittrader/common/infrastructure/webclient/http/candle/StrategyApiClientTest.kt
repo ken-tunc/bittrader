@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.strategy.TradePosition
+import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.presentation.model.strategy.OptimizeRequest
 import org.kentunc.bittrader.common.presentation.model.strategy.TradePositionRequest
@@ -31,7 +31,7 @@ internal class StrategyApiClientTest {
         // setup:
         val responseBody = ResourceReader.readResource("mock/candle/get_strategies_positions.json")
         util.enqueueResponse(body = responseBody)
-        val expected = TradePositionResponse(TradePosition.NEUTRAL)
+        val expected = TradePositionResponse(TradingPosition.NEUTRAL)
 
         val request = TradePositionRequest(ProductCode.BTC_JPY, Duration.DAYS)
 

@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.order.OrderList
 import org.kentunc.bittrader.common.domain.model.order.OrderSide
-import org.kentunc.bittrader.common.domain.model.strategy.TradePosition
+import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.order.scheduler.domain.service.OrderService
 import org.kentunc.bittrader.order.scheduler.domain.service.StrategyService
@@ -39,7 +39,7 @@ internal class TradeInteractorTest {
         "SHOULD_SELL,false,false,0,0",
         "NEUTRAL,true,true,0,0"
     )
-    fun testTrade(position: TradePosition, canBuy: Boolean, canSell: Boolean, numBuyOrder: Int, numSellOrder: Int) = runBlocking {
+    fun testTrade(position: TradingPosition, canBuy: Boolean, canSell: Boolean, numBuyOrder: Int, numSellOrder: Int) = runBlocking {
         // setup:
         val productCode = ProductCode.BTC_JPY
         val duration = Duration.DAYS

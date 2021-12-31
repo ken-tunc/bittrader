@@ -1,9 +1,8 @@
 package org.kentunc.bittrader.candle.api.application
 
-import org.kentunc.bittrader.candle.api.application.model.TotalOrderDecision
+import org.kentunc.bittrader.candle.api.domain.model.TradingStrategy
 import org.kentunc.bittrader.candle.api.domain.service.CandleService
-import org.kentunc.bittrader.candle.api.domain.service.EmaStrategyService
-import org.kentunc.bittrader.candle.api.domain.service.StrategyService
+import org.kentunc.bittrader.candle.api.domain.service.CompositeStrategyService
 import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
@@ -15,20 +14,17 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class StrategyInteractor(
     private val candleService: CandleService,
-    emaStrategyService: EmaStrategyService,
+    private val compositeStrategyService: CompositeStrategyService,
     @Value("\${bittrader.strategy.max-candle-num}") private val maxCandleNum: Int
 ) {
 
-    private val strategyServices: List<StrategyService<*>> = listOf(emaStrategyService)
-
     @Transactional(readOnly = true)
-    suspend fun makeTradingDecision(productCode: ProductCode, duration: Duration): TotalOrderDecision {
+    suspend fun getTradingStrategy(productCode: ProductCode, duration: Duration): TradingStrategy {
         val candleQuery = CandleQuery(productCode, duration, maxCandleNum)
         val candleList = candleService.findLatest(candleQuery)
         val strategyValuesId = StrategyValuesId(productCode, duration)
 
-        val decisions = strategyServices.map { it.makeOrderDecision(candleList, strategyValuesId) }
-        return TotalOrderDecision.of(decisions)
+        return compositeStrategyService.getStrategy(candleList, strategyValuesId)
     }
 
     @Transactional
@@ -37,8 +33,6 @@ class StrategyInteractor(
         val candleList = candleService.findLatest(candleQuery)
         val strategyValuesId = StrategyValuesId(productCode, duration)
 
-        strategyServices.forEach {
-            it.optimize(candleList, strategyValuesId)
-        }
+        compositeStrategyService.optimize(candleList, strategyValuesId)
     }
 }

@@ -2,48 +2,33 @@ package org.kentunc.bittrader.candle.api.domain.service
 
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
-import org.kentunc.bittrader.candle.api.domain.model.toBarSeries
+import org.kentunc.bittrader.candle.api.domain.model.IndicatorRuleSet
 import org.kentunc.bittrader.candle.api.domain.repository.StrategyParamsRepository
-import org.kentunc.bittrader.common.domain.model.candle.CandleList
 import org.kentunc.bittrader.common.domain.model.strategy.StrategyParams
 import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.common.domain.model.strategy.TradeDecision
-import org.kentunc.bittrader.common.domain.model.strategy.TradePosition
 import org.springframework.transaction.annotation.Transactional
 import org.ta4j.core.BarSeries
 import org.ta4j.core.BarSeriesManager
-import org.ta4j.core.Strategy
 import org.ta4j.core.analysis.criteria.pnl.GrossProfitCriterion
 
-abstract class AbstractStrategyService<T : StrategyParams>(private val strategyParamsRepository: StrategyParamsRepository<T>) :
+abstract class AbstractStrategyService<T : StrategyParams>(protected val strategyParamsRepository: StrategyParamsRepository<T>) :
     StrategyService<T> {
 
-    protected abstract suspend fun buildStrategy(series: BarSeries, params: T): Strategy
+    abstract suspend fun buildRuleSet(barSeries: BarSeries, params: T): IndicatorRuleSet
 
     @Transactional(readOnly = true)
-    override suspend fun makeOrderDecision(candleList: CandleList, id: StrategyValuesId): TradeDecision<T> {
-        val params = strategyParamsRepository.get(id)
-        val barSeries = candleList.toBarSeries()
-        val strategy = buildStrategy(barSeries, params.params)
-        val endIndex = barSeries.endIndex
-
-        if (strategy.shouldEnter(endIndex)) {
-            return TradeDecision(params, TradePosition.SHOULD_BUY)
-        }
-        if (strategy.shouldExit(endIndex)) {
-            return TradeDecision(params, TradePosition.SHOULD_SELL)
-        }
-        return TradeDecision(params, TradePosition.NEUTRAL)
+    override suspend fun getRuleSet(barSeries: BarSeries, id: StrategyValuesId): IndicatorRuleSet {
+        val values = strategyParamsRepository.get(id)
+        return buildRuleSet(barSeries, values.params)
     }
 
     @Transactional
-    override suspend fun optimize(candleList: CandleList, id: StrategyValuesId) {
-        val series = candleList.toBarSeries()
+    override suspend fun optimize(barSeries: BarSeries, id: StrategyValuesId) {
         val optimizedParams = strategyParamsRepository.getForOptimize()
             .map {
-                val strategy = buildStrategy(series, it)
-                val tradingRecord = BarSeriesManager(series).run(strategy)
-                val profit = GrossProfitCriterion().calculate(series, tradingRecord)
+                val strategy = getRuleSet(barSeries, id).buildStrategy()
+                val tradingRecord = BarSeriesManager(barSeries).run(strategy)
+                val profit = GrossProfitCriterion().calculate(barSeries, tradingRecord)
                 it to profit
             }
             .toList()

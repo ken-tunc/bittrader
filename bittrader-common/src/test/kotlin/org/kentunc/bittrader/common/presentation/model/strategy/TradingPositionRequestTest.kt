@@ -11,7 +11,7 @@ import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.server.ServerWebInputException
 
-internal class TradePositionRequestTest {
+internal class TradingPositionRequestTest {
 
     @ParameterizedTest
     @CsvSource("invalid_product_code,DAYS", ",DAYS", "BTC_JPY,invalid_duration", "BTC_JPY,")
