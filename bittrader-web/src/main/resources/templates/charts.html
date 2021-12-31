@@ -22,6 +22,7 @@
 <script th:inline="javascript">
   window.onload = function () {
     const candleSticks = JSON.parse([[${candleSticks}]]);
+    const orders = JSON.parse([[${orders}]]);
     const candleOptions = {
       series: [{
         data: candleSticks.map(candleStick => {
@@ -52,8 +53,28 @@
         labels: {
           datetimeUTC: false
         }
+      },
+      annotations: {
+        xaxis: orders.map(order => {
+          return {
+            x: new Date(order.orderDate).getTime(),
+            borderColor: '#00E396',
+            label: {
+              borderColor: '#00E396',
+              style: {
+                fontSize: '12px',
+                color: '#fff',
+                background: '#00E396'
+              },
+              orientation: 'horizontal',
+              offsetY: 7,
+              text: order.orderSide
+            }
+          }
+        })
       }
     };
+    console.log(candleOptions);
 
     const chart = new ApexCharts(document.querySelector("#chart-candlestick"), candleOptions);
     chart.render();

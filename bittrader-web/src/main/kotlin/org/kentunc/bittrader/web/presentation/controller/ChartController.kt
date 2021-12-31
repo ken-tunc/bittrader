@@ -5,7 +5,9 @@ import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.web.application.CandleService
+import org.kentunc.bittrader.web.application.OrderService
 import org.kentunc.bittrader.web.presentation.model.CandleStick
+import org.kentunc.bittrader.web.presentation.model.OrderAnnotation
 import org.kentunc.bittrader.web.presentation.model.VolumeBar
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -17,7 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/charts")
-class ChartController(private val candleService: CandleService, private val objectMapper: ObjectMapper) {
+class ChartController(
+    private val candleService: CandleService,
+    private val orderService: OrderService,
+    private val objectMapper: ObjectMapper
+) {
 
     @GetMapping("/{productCode}")
     suspend fun candlestickChart(
@@ -27,15 +33,19 @@ class ChartController(private val candleService: CandleService, private val obje
     ): String {
         val activeDuration = duration ?: Duration.MINUTES
         val query = CandleQuery(productCode = productCode, duration = activeDuration, maxNum = 300)
-        val candles = candleService.search(query)
-            .toList()
-        val candleSticks = candles.map { CandleStick.of(it) }
-        val volumes = candles.map { VolumeBar.of(it) }
+        val candleList = candleService.search(query)
+        val orderList = orderService.find(productCode)
+        val candleSticks = candleList.toList()
+            .map { CandleStick.of(it) }
+        val volumes = candleList.toList()
+            .map { VolumeBar.of(it) }
+        val orders = OrderAnnotation.of(candleList, orderList)
         model["productCode"] = productCode
         model["durations"] = Duration.values()
         model["activeDuration"] = activeDuration
         model["candleSticks"] = objectMapper.writeValueAsString(candleSticks)
         model["volumes"] = objectMapper.writeValueAsString(volumes)
+        model["orders"] = objectMapper.writeValueAsString(orders)
         return "charts"
     }
 }
