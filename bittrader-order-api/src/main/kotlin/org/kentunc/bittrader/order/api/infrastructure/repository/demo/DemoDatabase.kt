@@ -28,7 +28,7 @@ class DemoDatabase(initialBalances: Map<CurrencyCode, BigDecimal>) {
         balanceMap[into.currencyCode] = balanceMap[into.currencyCode]!!.plus(into.size)
     }
 
-    fun getOrderSignals(productCode: ProductCode): List<Order> =
+    fun getOrders(productCode: ProductCode): List<Order> =
         orders.filter { it.detail.productCode == productCode }
 
     fun addOrder(order: Order) {

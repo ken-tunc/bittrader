@@ -4,7 +4,7 @@
     httpGet:
       path: /actuator/health/liveness
       port: 8080
-    initialDelaySeconds: 120
+    initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
 - op: add
@@ -13,6 +13,6 @@
     httpGet:
       path: /actuator/health/liveness
       port: 8080
-    initialDelaySeconds: 120
+    initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 5
