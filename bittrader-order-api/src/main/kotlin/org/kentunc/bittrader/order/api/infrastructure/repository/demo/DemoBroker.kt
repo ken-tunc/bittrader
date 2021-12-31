@@ -31,7 +31,7 @@ class DemoBroker(
             )
         }
 
-    fun getOrderSignals(productCode: ProductCode): List<Order> = db.getOrderSignals(productCode)
+    fun getOrderSignals(productCode: ProductCode): List<Order> = db.getOrders(productCode)
 
     suspend fun sendOrder(orderSignal: OrderSignal) {
         val ticker = tickerRepository.get(orderSignal.detail.productCode)
@@ -77,8 +77,8 @@ class DemoBroker(
             OrderType.LIMIT -> detail.price!!.toBigDecimal() * detail.size.toBigDecimal()
         }.let { Size.of(it) }
         val fee = commissionRate.fee(actualOrderSize)
-        val from = Currency(detail.productCode.left, (actualOrderSize + fee).toBigDecimal())
-        val into = Currency(detail.productCode.right, detail.size.toBigDecimal())
+        val from = Currency(detail.productCode.right, (actualOrderSize + fee).toBigDecimal())
+        val into = Currency(detail.productCode.left, detail.size.toBigDecimal())
 
         return Pair(from, into)
     }
@@ -90,13 +90,14 @@ class DemoBroker(
     ): Pair<Currency, Currency> {
         val detail = orderSignal.detail
         val fee = commissionRate.fee(detail.size)
-        val from = Currency(detail.productCode.right, (detail.size + fee).toBigDecimal())
+        val from = Currency(detail.productCode.left, detail.size.toBigDecimal())
 
+        val adjustedSize = (detail.size - fee)
         val actualOrderSize = when (detail.orderType) {
-            OrderType.MARKET -> ticker.bestBid.toBigDecimal() * detail.size.toBigDecimal()
-            OrderType.LIMIT -> detail.price!!.toBigDecimal() * detail.size.toBigDecimal()
+            OrderType.MARKET -> ticker.bestBid.toBigDecimal() * adjustedSize.toBigDecimal()
+            OrderType.LIMIT -> detail.price!!.toBigDecimal() * adjustedSize.toBigDecimal()
         }
-        val into = Currency(detail.productCode.left, actualOrderSize)
+        val into = Currency(detail.productCode.right, actualOrderSize)
 
         return Pair(from, into)
     }
