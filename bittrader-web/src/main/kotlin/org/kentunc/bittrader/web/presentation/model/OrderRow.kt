@@ -16,8 +16,8 @@ data class OrderRow(
 
     companion object {
         fun of(order: Order) = OrderRow(
-            orderType = order.detail.orderType.toString().lowercase(),
-            orderSide = order.detail.orderSide.toString().lowercase(),
+            orderType = order.detail.orderType.toString(),
+            orderSide = order.detail.orderSide.toString(),
             price = order.detail.price?.toBigDecimal(),
             size = order.detail.size.toBigDecimal(),
             averagePrice = order.averagePrice.toBigDecimal(),

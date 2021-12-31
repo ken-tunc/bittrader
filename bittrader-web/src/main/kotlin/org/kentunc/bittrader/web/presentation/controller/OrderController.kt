@@ -18,6 +18,7 @@ class OrderController(private val orderService: OrderService) {
         val orders = orderService.find(productCode)
             .toList()
             .map { OrderRow.of(it) }
+            .sortedByDescending { it.orderDate }
         model.addAttribute("orders", orders)
         return "orders"
     }

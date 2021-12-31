@@ -16,12 +16,14 @@
     ></a>
   </nav>
 
-  <div id="chart"></div>
+  <div id="chart-candlestick"></div>
+  <div id="chart-volume"></div>
 </th:block>
 <script th:inline="javascript">
   window.onload = function () {
     const candleSticks = JSON.parse([[${candleSticks}]]);
-    const options = {
+    const orders = JSON.parse([[${orders}]]);
+    const candleOptions = {
       series: [{
         data: candleSticks.map(candleStick => {
           return {
@@ -32,6 +34,14 @@
       }],
       chart: {
         type: 'candlestick',
+        id: 'candles',
+        toolbar: {
+          autoSelected: 'pan',
+          show: false
+        },
+        zoom: {
+          enabled: false
+        },
         height: 350
       },
       title: {
@@ -44,15 +54,85 @@
           datetimeUTC: false
         }
       },
-      yaxis: {
-        tooltip: {
-          enabled: true
+      annotations: {
+        xaxis: orders.map(order => {
+          return {
+            x: new Date(order.orderDate).getTime(),
+            borderColor: '#00E396',
+            label: {
+              borderColor: '#00E396',
+              style: {
+                fontSize: '12px',
+                color: '#fff',
+                background: '#00E396'
+              },
+              orientation: 'horizontal',
+              offsetY: 7,
+              text: order.orderSide
+            }
+          }
+        })
+      }
+    };
+    console.log(candleOptions);
+
+    const chart = new ApexCharts(document.querySelector("#chart-candlestick"), candleOptions);
+    chart.render();
+
+    const volumes = JSON.parse([[${volumes}]]);
+    const volumeOptions = {
+      series: [{
+        name: 'volume',
+        data: volumes.map(volume => {
+          return {
+            x: new Date(volume.dateTime),
+            y: volume.volume
+          }
+        })
+      }],
+      chart: {
+        height: 160,
+        type: 'bar',
+        brush: {
+          enabled: true,
+          target: 'candles',
+          autoScaleYaxis: false
+        },
+        selection: {
+          enabled: true,
+          xaxis: {
+            min: new Date(volumes[0].dateTime).getTime(),
+            max: new Date(volumes[volumes.length - 1].dateTime).getTime()
+          },
+          fill: {
+            color: '#ccc',
+            opacity: 0.4
+          },
+          stroke: {
+            color: '#0D47A1',
+          }
+        },
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 0
+      },
+      title: {
+        text: 'Volumes',
+        align: 'left'
+      },
+      xaxis: {
+        type: 'datetime',
+        labels: {
+          datetimeUTC: false
         }
       }
     };
 
-    const chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+    const volumeChart = new ApexCharts(document.querySelector("#chart-volume"), volumeOptions);
+    volumeChart.render();
   }
 </script>
 <script
