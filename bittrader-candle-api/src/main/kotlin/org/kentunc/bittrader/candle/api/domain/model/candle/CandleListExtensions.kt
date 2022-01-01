@@ -13,9 +13,9 @@ private fun Candle.toBar(): Bar {
         id.duration.toTemporalUnit().duration,
         DateTimeFactory.getZonedDateTime(id.dateTime.toLocalDateTime()),
         open.toBigDecimal().toDouble(),
-        close.toBigDecimal().toDouble(),
         high.toBigDecimal().toDouble(),
         low.toBigDecimal().toDouble(),
+        close.toBigDecimal().toDouble(),
         volume.toBigDecimal().toDouble()
     )
 }

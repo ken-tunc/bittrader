@@ -10,38 +10,40 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.EmaParams
-import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.EmaConfiguration
-import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.EmaConfigurationProperties
+import org.kentunc.bittrader.candle.api.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.RsiConfiguration
+import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.RsiConfigurationProperties
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
-import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.EmaParamsEntity
+import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.RsiParamsEntity
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
-@SpringJUnitConfig(classes = [EmaConfiguration::class], initializers = [ConfigDataApplicationContextInitializer::class])
-internal class EmaParamsRepositoryImplTest {
+@SpringJUnitConfig(classes = [RsiConfiguration::class], initializers = [ConfigDataApplicationContextInitializer::class])
+internal class RsiParamsRepositoryImplTest {
 
     @MockkBean(relaxed = true)
     private lateinit var strategyParamsDao: StrategyParamsDao
 
     @Autowired
-    private lateinit var properties: EmaConfigurationProperties
+    private lateinit var properties: RsiConfigurationProperties
 
     @Autowired
-    private lateinit var target: EmaParamsRepositoryImpl
+    private lateinit var target: RsiParamsRepositoryImpl
 
     @Test
     fun testGet_default() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        coEvery { strategyParamsDao.selectLatestOne<EmaParamsEntity>(any()) } returns null
-        val expected =
-            StrategyValues.of(id, EmaParams(properties.defaultShortTimeFrame, properties.defaultLongTimeFrame))
+        coEvery { strategyParamsDao.selectLatestOne<RsiParamsEntity>(any()) } returns null
+        val expected = StrategyValues.of(
+            id,
+            RsiParams(properties.defaultTimeFrame, properties.defaultBuyThreshold, properties.defaultSellThreshold)
+        )
 
         // exercise:
         val actual = target.get(id)
@@ -52,7 +54,7 @@ internal class EmaParamsRepositoryImplTest {
             { assertEquals(expected.params, actual.params) }
         )
         coVerify {
-            strategyParamsDao.selectLatestOne<EmaParamsEntity>(
+            strategyParamsDao.selectLatestOne<RsiParamsEntity>(
                 withArg {
                     assertAll(
                         { assertEquals(id.productCode, it.productCode) },
@@ -67,8 +69,8 @@ internal class EmaParamsRepositoryImplTest {
     fun testGet_stored() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = EmaParams(5, 10)
-        coEvery { strategyParamsDao.selectLatestOne<EmaParamsEntity>(any()) } returns EmaParamsEntity.of(id, params)
+        val params = RsiParams(10, 25, 85)
+        coEvery { strategyParamsDao.selectLatestOne<RsiParamsEntity>(any()) } returns RsiParamsEntity.of(id, params)
 
         // exercise:
         val actual = target.get(id)
@@ -79,7 +81,7 @@ internal class EmaParamsRepositoryImplTest {
             { assertEquals(params, actual.params) }
         )
         coVerify {
-            strategyParamsDao.selectLatestOne<EmaParamsEntity>(
+            strategyParamsDao.selectLatestOne<RsiParamsEntity>(
                 withArg {
                     assertAll(
                         { assertEquals(id.productCode, it.productCode) },
@@ -94,21 +96,23 @@ internal class EmaParamsRepositoryImplTest {
     fun testGetForOptimize() = runBlocking {
         val actual = target.getForOptimize().toList()
         assertAll(
-            { assertEquals(89, actual.size) },
+            { assertEquals(2816, actual.size) },
             {
                 assertEquals(
-                    EmaParams(
-                        shortTimeFrame = properties.shortTimeFrameRange.first,
-                        longTimeFrame = properties.longTimeFrameRange.first
+                    RsiParams(
+                        timeFrame = properties.timeFrameRange.first,
+                        buyThreshold = properties.buyThresholdRange.first,
+                        sellThreshold = properties.sellThresholdRange.first
                     ),
                     actual.first()
                 )
             },
             {
                 assertEquals(
-                    EmaParams(
-                        shortTimeFrame = properties.shortTimeFrameRange.last,
-                        longTimeFrame = properties.longTimeFrameRange.last
+                    RsiParams(
+                        timeFrame = properties.timeFrameRange.last,
+                        buyThreshold = properties.buyThresholdRange.last,
+                        sellThreshold = properties.sellThresholdRange.last
                     ),
                     actual.last()
                 )
@@ -120,20 +124,21 @@ internal class EmaParamsRepositoryImplTest {
     fun testSave() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = EmaParams(7, 14)
+        val params = RsiParams(12, 22, 83)
 
         // exercise:
         target.save(id, params)
 
         // verify:
         coVerify {
-            strategyParamsDao.insert<EmaParamsEntity>(
+            strategyParamsDao.insert<RsiParamsEntity>(
                 withArg {
                     assertAll(
                         { assertEquals(id.productCode, it.productCode) },
                         { assertEquals(id.duration, it.duration) },
-                        { assertEquals(params.shortTimeFrame, it.shortTimeFrame) },
-                        { assertEquals(params.longTimeFrame, it.longTimeFrame) },
+                        { assertEquals(params.timeFrame, it.timeFrame) },
+                        { assertEquals(params.buyThreshold, it.buyThreshold) },
+                        { assertEquals(params.sellThreshold, it.sellThreshold) },
                     )
                 }
             )

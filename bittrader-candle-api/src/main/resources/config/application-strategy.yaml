@@ -22,9 +22,9 @@ bittrader:
       default-time-frame: 14
       default-buy-threshold: 20
       default-sell-threshold: 80
-      time-frame-from: 5
-      time-frame-to: 30
-      buy-threshold-from: 10
+      time-frame-from: 10
+      time-frame-to: 20
+      buy-threshold-from: 15
       buy-threshold-to: 30
       sell-threshold-from: 70
-      sell-threshold-to: 90
+      sell-threshold-to: 85
