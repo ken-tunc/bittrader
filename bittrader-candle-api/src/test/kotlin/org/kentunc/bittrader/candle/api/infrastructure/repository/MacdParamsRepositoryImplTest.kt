@@ -103,7 +103,7 @@ internal class MacdParamsRepositoryImplTest {
     fun testGetForOptimize() = runBlocking {
         val actual = target.getForOptimize().toList()
         assertAll(
-            { assertEquals(1320, actual.size) },
+            { assertEquals(216, actual.size) },
             {
                 assertEquals(
                     MacdParams(
