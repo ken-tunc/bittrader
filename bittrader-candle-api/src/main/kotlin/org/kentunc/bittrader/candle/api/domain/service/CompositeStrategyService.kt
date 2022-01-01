@@ -1,9 +1,9 @@
 package org.kentunc.bittrader.candle.api.domain.service
 
 import org.kentunc.bittrader.candle.api.domain.model.TradingStrategy
-import org.kentunc.bittrader.candle.api.domain.model.toBarSeries
+import org.kentunc.bittrader.candle.api.domain.model.candle.toBarSeries
+import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
 import org.springframework.stereotype.Service
 
 @Service

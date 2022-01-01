@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.domain.model.strategy
+package org.kentunc.bittrader.candle.api.domain.model.strategy.ema
 
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest

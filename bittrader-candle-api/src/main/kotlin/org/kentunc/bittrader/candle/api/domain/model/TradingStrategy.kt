@@ -1,5 +1,6 @@
 package org.kentunc.bittrader.candle.api.domain.model
 
+import org.kentunc.bittrader.candle.api.domain.model.strategy.IndicatorRuleSet
 import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
 import org.ta4j.core.BarSeries
 import org.ta4j.core.BaseStrategy

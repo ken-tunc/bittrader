@@ -1,8 +1,8 @@
 package org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy
 
+import org.kentunc.bittrader.candle.api.domain.model.strategy.ema.EmaParams
 import org.kentunc.bittrader.candle.api.infrastructure.repository.EmaParamsRepositoryImpl
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
-import org.kentunc.bittrader.common.domain.model.strategy.EmaParams
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -1,8 +1,8 @@
 package org.kentunc.bittrader.candle.api.domain.service
 
-import org.kentunc.bittrader.candle.api.domain.model.IndicatorRuleSet
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyParams
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
+import org.kentunc.bittrader.candle.api.domain.model.strategy.IndicatorRuleSet
+import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyParams
+import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
 import org.ta4j.core.BarSeries
 
 interface StrategyService<T : StrategyParams> {

@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.candle.api.domain.model
+package org.kentunc.bittrader.candle.api.domain.model.candle
 
 import org.kentunc.bittrader.common.domain.model.candle.Candle
 import org.kentunc.bittrader.common.domain.model.candle.CandleList

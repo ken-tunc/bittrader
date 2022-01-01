@@ -1,11 +1,11 @@
 package org.kentunc.bittrader.candle.api.application
 
 import org.kentunc.bittrader.candle.api.domain.model.TradingStrategy
+import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.candle.api.domain.service.CandleService
 import org.kentunc.bittrader.candle.api.domain.service.CompositeStrategyService
 import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service

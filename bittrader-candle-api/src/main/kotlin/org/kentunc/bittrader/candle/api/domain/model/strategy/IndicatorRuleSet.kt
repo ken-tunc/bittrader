@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.candle.api.domain.model
+package org.kentunc.bittrader.candle.api.domain.model.strategy
 
 import org.ta4j.core.BaseStrategy
 import org.ta4j.core.Rule
