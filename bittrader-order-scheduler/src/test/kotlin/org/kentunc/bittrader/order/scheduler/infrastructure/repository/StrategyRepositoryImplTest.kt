@@ -7,7 +7,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.strategy.TradePosition
+import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.infrastructure.webclient.http.candle.StrategyApiClient
 import org.kentunc.bittrader.common.presentation.model.strategy.OptimizeRequest
@@ -30,7 +30,7 @@ internal class StrategyRepositoryImplTest {
         // setup:
         val productCode = ProductCode.BTC_JPY
         val duration = Duration.DAYS
-        val position = TradePosition.SHOULD_BUY
+        val position = TradingPosition.SHOULD_BUY
         coEvery {
             strategyApiClient.getPosition(
                 TradePositionRequest(

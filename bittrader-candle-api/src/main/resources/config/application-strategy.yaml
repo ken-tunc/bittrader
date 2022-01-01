@@ -8,3 +8,23 @@ bittrader:
       short-time-frame-to: 15
       long-time-frame-from: 12
       long-time-frame-to: 20
+    macd:
+      default-short-time-frame: 12
+      default-long-time-frame: 26
+      default-signal-time-frame: 9
+      short-time-frame-from: 10
+      short-time-frame-to: 20
+      long-time-frame-from: 20
+      long-time-frame-to: 30
+      signal-time-frame-from: 5
+      signal-time-frame-to: 15
+    rsi:
+      default-time-frame: 14
+      default-buy-threshold: 20
+      default-sell-threshold: 80
+      time-frame-from: 10
+      time-frame-to: 20
+      buy-threshold-from: 15
+      buy-threshold-to: 30
+      sell-threshold-from: 70
+      sell-threshold-to: 85

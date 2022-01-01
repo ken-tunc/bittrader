@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.candle.api.domain.model
+package org.kentunc.bittrader.candle.api.domain.model.candle
 
 import org.kentunc.bittrader.common.domain.model.candle.Candle
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
@@ -13,9 +13,9 @@ private fun Candle.toBar(): Bar {
         id.duration.toTemporalUnit().duration,
         DateTimeFactory.getZonedDateTime(id.dateTime.toLocalDateTime()),
         open.toBigDecimal().toDouble(),
-        close.toBigDecimal().toDouble(),
         high.toBigDecimal().toDouble(),
         low.toBigDecimal().toDouble(),
+        close.toBigDecimal().toDouble(),
         volume.toBigDecimal().toDouble()
     )
 }

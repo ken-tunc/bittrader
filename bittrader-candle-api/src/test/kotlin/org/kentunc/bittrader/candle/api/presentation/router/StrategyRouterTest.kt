@@ -8,10 +8,10 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.application.StrategyInteractor
-import org.kentunc.bittrader.candle.api.application.model.TotalOrderDecision
+import org.kentunc.bittrader.candle.api.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.candle.api.test.CandleApiTest
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.strategy.TradePosition
+import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.presentation.model.strategy.OptimizeRequest
 import org.kentunc.bittrader.common.presentation.model.strategy.TradePositionRequest
@@ -35,15 +35,15 @@ internal class StrategyRouterTest {
     fun testGetPosition() {
         // setup:
         val request = TradePositionRequest(ProductCode.BTC_JPY, Duration.DAYS)
-        val position = TradePosition.SHOULD_BUY
-        val totalOrderDecision = mockk<TotalOrderDecision>()
-        every { totalOrderDecision.totalPosition } returns position
+        val position = TradingPosition.SHOULD_BUY
+        val tradingStrategy = mockk<TradingStrategy>()
+        every { tradingStrategy.getPosition() } returns position
         coEvery {
-            strategyInteractor.makeTradingDecision(
+            strategyInteractor.getTradingStrategy(
                 request.productCode,
                 request.duration
             )
-        } returns totalOrderDecision
+        } returns tradingStrategy
 
         // exercise & verify:
         webTestClient.get()
