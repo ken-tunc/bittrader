@@ -96,7 +96,7 @@ internal class RsiParamsRepositoryImplTest {
     fun testGetForOptimize() = runBlocking {
         val actual = target.getForOptimize().toList()
         assertAll(
-            { assertEquals(2816, actual.size) },
+            { assertEquals(216, actual.size) },
             {
                 assertEquals(
                     RsiParams(
