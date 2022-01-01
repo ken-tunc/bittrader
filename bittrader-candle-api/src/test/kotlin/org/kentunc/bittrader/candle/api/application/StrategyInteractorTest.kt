@@ -8,10 +8,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.candle.api.domain.model.TradingStrategy
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
+import org.kentunc.bittrader.candle.api.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.candle.api.domain.service.CandleService
-import org.kentunc.bittrader.candle.api.domain.service.CompositeStrategyService
+import org.kentunc.bittrader.candle.api.domain.service.StrategyService
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.test.model.TestCandleList
@@ -29,7 +29,7 @@ internal class StrategyInteractorTest {
     private lateinit var candleService: CandleService
 
     @MockkBean(relaxed = true)
-    private lateinit var compositeStrategyService: CompositeStrategyService
+    private lateinit var strategyService: StrategyService
 
     @Autowired
     private lateinit var target: StrategyInteractor
@@ -43,7 +43,7 @@ internal class StrategyInteractorTest {
         coEvery { candleService.findLatest(any()) } returns candleList
         val strategy = mockk<TradingStrategy>()
         coEvery {
-            compositeStrategyService.getStrategy(
+            strategyService.getStrategy(
                 candleList,
                 StrategyValuesId(productCode, duration)
             )
@@ -88,6 +88,6 @@ internal class StrategyInteractorTest {
                 }
             )
         }
-        coVerify { compositeStrategyService.optimize(candleList, StrategyValuesId(productCode, duration)) }
+        coVerify { strategyService.optimize(candleList, StrategyValuesId(productCode, duration)) }
     }
 }

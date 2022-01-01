@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.candle.api.domain.model.strategy.ema
+package org.kentunc.bittrader.candle.api.domain.model.strategy.params
 
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyParams
 

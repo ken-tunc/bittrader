@@ -1,9 +1,9 @@
 package org.kentunc.bittrader.candle.api.application
 
-import org.kentunc.bittrader.candle.api.domain.model.TradingStrategy
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
+import org.kentunc.bittrader.candle.api.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.candle.api.domain.service.CandleService
-import org.kentunc.bittrader.candle.api.domain.service.CompositeStrategyService
+import org.kentunc.bittrader.candle.api.domain.service.StrategyService
 import org.kentunc.bittrader.common.domain.model.candle.CandleQuery
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.time.Duration
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class StrategyInteractor(
     private val candleService: CandleService,
-    private val compositeStrategyService: CompositeStrategyService,
+    private val strategyService: StrategyService,
     @Value("\${bittrader.strategy.max-candle-num}") private val maxCandleNum: Int
 ) {
 
@@ -24,7 +24,7 @@ class StrategyInteractor(
         val candleList = candleService.findLatest(candleQuery)
         val strategyValuesId = StrategyValuesId(productCode, duration)
 
-        return compositeStrategyService.getStrategy(candleList, strategyValuesId)
+        return strategyService.getStrategy(candleList, strategyValuesId)
     }
 
     @Transactional
@@ -33,6 +33,6 @@ class StrategyInteractor(
         val candleList = candleService.findLatest(candleQuery)
         val strategyValuesId = StrategyValuesId(productCode, duration)
 
-        compositeStrategyService.optimize(candleList, strategyValuesId)
+        strategyService.optimize(candleList, strategyValuesId)
     }
 }

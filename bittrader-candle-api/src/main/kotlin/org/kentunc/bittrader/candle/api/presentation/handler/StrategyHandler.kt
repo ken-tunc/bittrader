@@ -21,7 +21,7 @@ class StrategyHandler(private val validator: RequestValidator, private val strat
         validator.validate(positionRequest)
         val strategy = strategyInteractor.getTradingStrategy(positionRequest.productCode, positionRequest.duration)
         return ServerResponse.ok()
-            .bodyValueAndAwait(TradePositionResponse(strategy.position))
+            .bodyValueAndAwait(TradePositionResponse(strategy.getPosition()))
     }
 
     suspend fun optimize(request: ServerRequest): ServerResponse {

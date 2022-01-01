@@ -8,7 +8,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.application.StrategyInteractor
-import org.kentunc.bittrader.candle.api.domain.model.TradingStrategy
+import org.kentunc.bittrader.candle.api.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.candle.api.test.CandleApiTest
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
@@ -37,7 +37,7 @@ internal class StrategyRouterTest {
         val request = TradePositionRequest(ProductCode.BTC_JPY, Duration.DAYS)
         val position = TradingPosition.SHOULD_BUY
         val tradingStrategy = mockk<TradingStrategy>()
-        every { tradingStrategy.position } returns position
+        every { tradingStrategy.getPosition() } returns position
         coEvery {
             strategyInteractor.getTradingStrategy(
                 request.productCode,

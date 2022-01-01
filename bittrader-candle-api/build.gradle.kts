@@ -12,4 +12,5 @@ dependencies {
     runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation(project(":bittrader-test"))
+    testImplementation("org.ta4j:ta4j-examples:$ta4jVersion")
 }

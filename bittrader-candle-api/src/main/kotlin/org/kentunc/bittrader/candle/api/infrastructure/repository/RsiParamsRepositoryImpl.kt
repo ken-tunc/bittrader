@@ -4,32 +4,32 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.EmaParams
-import org.kentunc.bittrader.candle.api.domain.repository.EmaParamsRepository
+import org.kentunc.bittrader.candle.api.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.candle.api.domain.repository.RsiParamsRepository
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
-import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.EmaParamsEntity
+import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.RsiParamsEntity
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.StrategyParamsPrimaryKey
 
-class EmaParamsRepositoryImpl(
-    private val defaultParams: EmaParams,
-    private val paramsForOptimize: List<EmaParams>,
+class RsiParamsRepositoryImpl(
+    private val defaultParams: RsiParams,
+    private val paramsForOptimize: List<RsiParams>,
     private val strategyParamsDao: StrategyParamsDao
-) : EmaParamsRepository {
+) : RsiParamsRepository {
 
-    override suspend fun get(strategyValuesId: StrategyValuesId): StrategyValues<EmaParams> {
+    override suspend fun get(strategyValuesId: StrategyValuesId): StrategyValues<RsiParams> {
         val primaryKey = StrategyParamsPrimaryKey.of(strategyValuesId)
-        return strategyParamsDao.selectLatestOne<EmaParamsEntity>(primaryKey)
+        return strategyParamsDao.selectLatestOne<RsiParamsEntity>(primaryKey)
             ?.toStrategyValues()
             ?: StrategyValues.of(strategyValuesId, defaultParams)
     }
 
-    override fun getForOptimize(): Flow<EmaParams> {
+    override fun getForOptimize(): Flow<RsiParams> {
         return paramsForOptimize.asFlow()
     }
 
-    override suspend fun save(strategyValuesId: StrategyValuesId, params: EmaParams): Void? {
-        return strategyParamsDao.insert(EmaParamsEntity.of(strategyValuesId, params))
+    override suspend fun save(strategyValuesId: StrategyValuesId, params: RsiParams): Void? {
+        return strategyParamsDao.insert(RsiParamsEntity.of(strategyValuesId, params))
     }
 }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.ema.EmaParams
+import org.kentunc.bittrader.candle.api.domain.model.strategy.params.EmaParams
 import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.EmaConfiguration
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
