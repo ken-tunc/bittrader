@@ -15,15 +15,24 @@ import org.ta4j.core.indicators.MACDIndicator
 import org.ta4j.core.indicators.RSIIndicator
 import org.ta4j.core.indicators.helpers.ClosePriceIndicator
 import org.ta4j.core.num.Num
+import org.ta4j.core.rules.ChainRule
 import org.ta4j.core.rules.CrossedDownIndicatorRule
 import org.ta4j.core.rules.CrossedUpIndicatorRule
 import org.ta4j.core.rules.OverIndicatorRule
 import org.ta4j.core.rules.UnderIndicatorRule
+import org.ta4j.core.rules.helper.ChainLink
 
 class TradingStrategy private constructor(candleList: CandleList, macdParams: MacdParams, rsiParams: RsiParams) {
 
     private val barSeries: BarSeries
     private val strategy: Strategy
+
+    companion object {
+        private const val CHAIN_THRESHOLD = 15
+
+        fun of(candleList: CandleList, macdParams: MacdParams, rsiParams: RsiParams) =
+            TradingStrategy(candleList, macdParams, rsiParams)
+    }
 
     init {
         barSeries = candleList.toBarSeries()
@@ -37,17 +46,13 @@ class TradingStrategy private constructor(candleList: CandleList, macdParams: Ma
         val rsiIndicator = RSIIndicator(closePriceIndicator, rsiParams.timeFrame)
 
         // rules
-        val entryRule = UnderIndicatorRule(rsiIndicator, rsiParams.buyThreshold)
-            .and(CrossedUpIndicatorRule(macdIndicator, emaIntIterator))
+        val macdCrossedUpRule = CrossedUpIndicatorRule(macdIndicator, emaIntIterator)
+        val rsiUnderRule = UnderIndicatorRule(rsiIndicator, rsiParams.buyThreshold)
+        val entryRule = ChainRule(macdCrossedUpRule, ChainLink(rsiUnderRule, CHAIN_THRESHOLD))
         val exitRule = OverIndicatorRule(rsiIndicator, rsiParams.sellThreshold)
             .or(CrossedDownIndicatorRule(macdIndicator, emaIntIterator))
 
         strategy = BaseStrategy(entryRule, exitRule)
-    }
-
-    companion object {
-        fun of(candleList: CandleList, macdParams: MacdParams, rsiParams: RsiParams) =
-            TradingStrategy(candleList, macdParams, rsiParams)
     }
 
     fun getPosition(): TradingPosition {
