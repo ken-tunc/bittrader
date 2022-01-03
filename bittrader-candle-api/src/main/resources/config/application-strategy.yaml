@@ -29,3 +29,14 @@ bittrader:
       sell-threshold-from: 70
       sell-threshold-to: 80
       threshold-step: 2
+    bollinger-bands:
+      default-time-frame: 20
+      default-buy-k: 2.0
+      default-sell-k: 1.0
+      time-frame-from: 18
+      time-frame-to: 22
+      buy-k-from: 1.8
+      buy-k-to: 2.2
+      sell-k-from: 0.8
+      sell-k-to: 1.2
+      k-step: 0.1

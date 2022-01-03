@@ -18,13 +18,11 @@ data class RsiConfigurationProperties(
     private val thresholdStep: Int
 ) {
     val timeFrameRange
-        get() = IntRange(timeFrameFrom, timeFrameTo)
+        get() = (timeFrameFrom..timeFrameTo)
 
     val buyThresholdRange
-        get() = IntRange(buyThresholdFrom, buyThresholdTo)
-            .step(thresholdStep)
+        get() = (buyThresholdFrom..buyThresholdTo step thresholdStep)
 
     val sellThresholdRange
-        get() = IntRange(sellThresholdFrom, sellThresholdTo)
-            .step(thresholdStep)
+        get() = (sellThresholdFrom..sellThresholdTo step thresholdStep)
 }

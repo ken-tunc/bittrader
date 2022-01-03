@@ -1,14 +1,14 @@
 package org.kentunc.bittrader.candle.api.domain.model.strategy
 
+import org.kentunc.bittrader.candle.api.domain.model.strategy.params.BBandsParams
 import org.kentunc.bittrader.candle.api.domain.model.strategy.params.MacdParams
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.RsiParams
 
-data class OptimizeParamsSet(val macdParams: MacdParams, val rsiParams: RsiParams) {
+data class OptimizeParamsSet(val macdParams: MacdParams, val bBandsParams: BBandsParams) {
 
     companion object {
-        fun product(macdParamsList: List<MacdParams>, rsiParamsList: List<RsiParams>): List<OptimizeParamsSet> {
+        fun product(macdParamsList: List<MacdParams>, bBandsParamsList: List<BBandsParams>): List<OptimizeParamsSet> {
             return macdParamsList.flatMap { macdParams ->
-                rsiParamsList.map { OptimizeParamsSet(macdParams, it) }
+                bBandsParamsList.map { OptimizeParamsSet(macdParams, it) }
             }
         }
     }

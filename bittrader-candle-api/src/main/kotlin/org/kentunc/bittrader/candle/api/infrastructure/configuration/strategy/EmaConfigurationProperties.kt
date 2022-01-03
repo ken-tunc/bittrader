@@ -14,8 +14,8 @@ data class EmaConfigurationProperties(
     private val longTimeFrameTo: Int
 ) {
     val shortTimeFrameRange
-        get() = IntRange(shortTimeFrameFrom, shortTimeFrameTo)
+        get() = (shortTimeFrameFrom..shortTimeFrameTo)
 
     val longTimeFrameRange
-        get() = IntRange(longTimeFrameFrom, longTimeFrameTo)
+        get() = (longTimeFrameFrom..longTimeFrameTo)
 }
