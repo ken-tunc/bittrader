@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.kentunc.bittrader.candle.api.domain.model.candle.toBarSeries
+import org.kentunc.bittrader.candle.api.domain.model.strategy.params.BBandsParams
 import org.kentunc.bittrader.candle.api.domain.model.strategy.params.MacdParams
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.RsiParams
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
 import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
 import org.ta4j.core.BarSeries
@@ -39,10 +39,10 @@ internal class TradingStrategyTest {
         every { anyConstructed<BaseStrategy>().shouldExit(endIndex) } returns shouldExit
 
         val macdParams = mockk<MacdParams>(relaxed = true)
-        val rsiParams = mockk<RsiParams>(relaxed = true)
+        val bBandsParams = mockk<BBandsParams>(relaxed = true)
 
         // exercise:
-        val actual = TradingStrategy.of(candleList, macdParams, rsiParams).getPosition()
+        val actual = TradingStrategy.of(candleList, macdParams, bBandsParams).getPosition()
 
         // verify:
         assertEquals(expected, actual)
@@ -67,10 +67,10 @@ internal class TradingStrategyTest {
         every { anyConstructed<GrossProfitCriterion>().calculate(barSeries, tradingRecord) } returns profit
 
         val macdParams = mockk<MacdParams>(relaxed = true)
-        val rsiParams = mockk<RsiParams>(relaxed = true)
+        val bBandsParams = mockk<BBandsParams>(relaxed = true)
 
         // exercise:
-        val actual = TradingStrategy.of(candleList, macdParams, rsiParams).getProfit()
+        val actual = TradingStrategy.of(candleList, macdParams, bBandsParams).getProfit()
 
         // verify:
         assertEquals(profit, actual)

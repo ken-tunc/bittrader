@@ -17,11 +17,11 @@ data class MacdConfigurationProperties(
     private val signalTimeFrameTo: Int
 ) {
     val shortTimeFrameRange
-        get() = IntRange(shortTimeFrameFrom, shortTimeFrameTo)
+        get() = (shortTimeFrameFrom..shortTimeFrameTo)
 
     val longTimeFrameRange
-        get() = IntRange(longTimeFrameFrom, longTimeFrameTo)
+        get() = (longTimeFrameFrom..longTimeFrameTo)
 
     val signalTimeFrameRange
-        get() = IntRange(signalTimeFrameFrom, signalTimeFrameTo)
+        get() = (signalTimeFrameFrom..signalTimeFrameTo)
 }

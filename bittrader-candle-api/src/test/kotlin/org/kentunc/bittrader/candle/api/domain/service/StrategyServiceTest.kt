@@ -14,10 +14,10 @@ import org.kentunc.bittrader.candle.api.domain.model.strategy.OptimizeParamsSet
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.candle.api.domain.model.strategy.TradingStrategy
+import org.kentunc.bittrader.candle.api.domain.model.strategy.params.BBandsParams
 import org.kentunc.bittrader.candle.api.domain.model.strategy.params.MacdParams
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.candle.api.domain.repository.BBandsParamsRepository
 import org.kentunc.bittrader.candle.api.domain.repository.MacdParamsRepository
-import org.kentunc.bittrader.candle.api.domain.repository.RsiParamsRepository
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
@@ -30,7 +30,7 @@ internal class StrategyServiceTest {
     private lateinit var macdParamsRepository: MacdParamsRepository
 
     @MockkBean(relaxed = true)
-    private lateinit var rsiParamsRepository: RsiParamsRepository
+    private lateinit var bBandsParamsRepository: BBandsParamsRepository
 
     @Autowired
     private lateinit var target: StrategyService
@@ -42,12 +42,12 @@ internal class StrategyServiceTest {
         val strategyValuesId = mockk<StrategyValuesId>()
         val macdParams = mockk<MacdParams>(relaxed = true)
         coEvery { macdParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, macdParams)
-        val rsiParams = mockk<RsiParams>(relaxed = true)
-        coEvery { rsiParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, rsiParams)
+        val bBandsParams = mockk<BBandsParams>(relaxed = true)
+        coEvery { bBandsParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, bBandsParams)
 
         val strategy = mockk<TradingStrategy>()
         mockkObject(TradingStrategy)
-        every { TradingStrategy.of(candleList, macdParams, rsiParams) } returns strategy
+        every { TradingStrategy.of(candleList, macdParams, bBandsParams) } returns strategy
 
         // exercise:
         val actual = target.getStrategy(candleList, strategyValuesId)
@@ -63,13 +63,13 @@ internal class StrategyServiceTest {
         val strategyValuesId = mockk<StrategyValuesId>()
 
         val macdParamsForOptimize = mockk<MacdParams>()
-        val rsiParamsForOptimize = mockk<RsiParams>()
+        val bBandsParamsForOptimize = mockk<BBandsParams>()
         coEvery { macdParamsRepository.getForOptimize() } returns flowOf(macdParamsForOptimize)
-        coEvery { rsiParamsRepository.getForOptimize() } returns flowOf(rsiParamsForOptimize)
+        coEvery { bBandsParamsRepository.getForOptimize() } returns flowOf(bBandsParamsForOptimize)
 
         val optimizeParamsSet = mockk<OptimizeParamsSet>()
         every { optimizeParamsSet.macdParams } returns macdParamsForOptimize
-        every { optimizeParamsSet.rsiParams } returns rsiParamsForOptimize
+        every { optimizeParamsSet.bBandsParams } returns bBandsParamsForOptimize
 
         mockkObject(OptimizeParamsSet)
         coEvery { OptimizeParamsSet.product(any(), any()) } returns listOf(optimizeParamsSet)
@@ -78,18 +78,18 @@ internal class StrategyServiceTest {
         val profit = mockk<Num>(relaxed = true)
         every { tradingStrategy.getProfit() } returns profit
         mockkObject(TradingStrategy)
-        every { TradingStrategy.of(candleList, macdParamsForOptimize, rsiParamsForOptimize) } returns tradingStrategy
+        every { TradingStrategy.of(candleList, macdParamsForOptimize, bBandsParamsForOptimize) } returns tradingStrategy
 
         val macdParams = mockk<MacdParams>()
         coEvery { macdParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, macdParams)
-        val rsiParams = mockk<RsiParams>()
-        coEvery { rsiParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, rsiParams)
+        val bBandsParams = mockk<BBandsParams>()
+        coEvery { bBandsParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, bBandsParams)
 
         // exercise:
         target.optimize(candleList, strategyValuesId)
 
         // verify:
         coVerify { macdParamsRepository.save(strategyValuesId, macdParamsForOptimize) }
-        coVerify { rsiParamsRepository.save(strategyValuesId, rsiParamsForOptimize) }
+        coVerify { bBandsParamsRepository.save(strategyValuesId, bBandsParamsForOptimize) }
     }
 }
