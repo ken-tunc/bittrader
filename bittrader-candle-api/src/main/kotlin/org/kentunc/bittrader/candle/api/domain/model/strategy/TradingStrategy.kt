@@ -40,17 +40,17 @@ class TradingStrategy private constructor(candleList: CandleList, macdParams: Ma
         // MACD indicators
         val closePriceIndicator = ClosePriceIndicator(barSeries)
         val macdIndicator = MACDIndicator(closePriceIndicator, macdParams.shortTimeFrame, macdParams.longTimeFrame)
-        val emaIntIterator = EMAIndicator(closePriceIndicator, macdParams.signalTimeFrame)
+        val emaIndicator = EMAIndicator(macdIndicator, macdParams.signalTimeFrame)
 
         // RSI indicators
         val rsiIndicator = RSIIndicator(closePriceIndicator, rsiParams.timeFrame)
 
         // rules
-        val macdCrossedUpRule = CrossedUpIndicatorRule(macdIndicator, emaIntIterator)
+        val macdCrossedUpRule = CrossedUpIndicatorRule(macdIndicator, emaIndicator)
         val rsiUnderRule = UnderIndicatorRule(rsiIndicator, rsiParams.buyThreshold)
         val entryRule = ChainRule(macdCrossedUpRule, ChainLink(rsiUnderRule, CHAIN_THRESHOLD))
         val exitRule = OverIndicatorRule(rsiIndicator, rsiParams.sellThreshold)
-            .or(CrossedDownIndicatorRule(macdIndicator, emaIntIterator))
+            .or(CrossedDownIndicatorRule(macdIndicator, emaIndicator))
 
         strategy = BaseStrategy(entryRule, exitRule)
     }
