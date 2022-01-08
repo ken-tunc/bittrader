@@ -17,7 +17,7 @@ import org.ta4j.core.BarSeries
 import org.ta4j.core.BarSeriesManager
 import org.ta4j.core.BaseStrategy
 import org.ta4j.core.TradingRecord
-import org.ta4j.core.analysis.criteria.WinningPositionsRatioCriterion
+import org.ta4j.core.analysis.criteria.pnl.ProfitLossRatioCriterion
 import org.ta4j.core.num.Num
 
 internal class TradingStrategyTest {
@@ -60,11 +60,11 @@ internal class TradingStrategyTest {
         every { candleList.toBarSeries() } returns barSeries
 
         val profit = mockk<Num>()
-        val tradingRecord = mockk<TradingRecord>()
+        val tradingRecord = mockk<TradingRecord>(relaxed = true)
         mockkConstructor(BarSeriesManager::class)
         every { anyConstructed<BarSeriesManager>().run(any()) } returns tradingRecord
-        mockkConstructor(WinningPositionsRatioCriterion::class)
-        every { anyConstructed<WinningPositionsRatioCriterion>().calculate(barSeries, tradingRecord) } returns profit
+        mockkConstructor(ProfitLossRatioCriterion::class)
+        every { anyConstructed<ProfitLossRatioCriterion>().calculate(barSeries, tradingRecord) } returns profit
 
         val rsiParams = mockk<RsiParams>(relaxed = true)
         val bBandsParams = mockk<BBandsParams>(relaxed = true)

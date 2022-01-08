@@ -9,7 +9,9 @@ import org.ta4j.core.BarSeries
 import org.ta4j.core.BarSeriesManager
 import org.ta4j.core.BaseStrategy
 import org.ta4j.core.Strategy
-import org.ta4j.core.analysis.criteria.WinningPositionsRatioCriterion
+import org.ta4j.core.analysis.criteria.pnl.ProfitLossRatioCriterion
+import org.ta4j.core.cost.LinearTransactionCostModel
+import org.ta4j.core.cost.ZeroCostModel
 import org.ta4j.core.indicators.RSIIndicator
 import org.ta4j.core.indicators.SMAIndicator
 import org.ta4j.core.indicators.bollinger.BollingerBandsMiddleIndicator
@@ -26,7 +28,8 @@ class TradingStrategy private constructor(candleList: CandleList, rsiParams: Rsi
     private val strategy: Strategy
 
     companion object {
-        private const val CHAIN_THRESHOLD = 5
+        private val BACKTEST_TRANSACTION_COST = LinearTransactionCostModel(0.0015)
+        private val BACKTEST_HOLDING_COST = ZeroCostModel()
 
         fun of(candleList: CandleList, rsiParams: RsiParams, bBandsParams: BBandsParams) =
             TradingStrategy(candleList, rsiParams, bBandsParams)
@@ -67,7 +70,7 @@ class TradingStrategy private constructor(candleList: CandleList, rsiParams: Rsi
     }
 
     fun getCriterionValue(): Num {
-        val tradingRecord = BarSeriesManager(barSeries).run(strategy)
-        return WinningPositionsRatioCriterion().calculate(barSeries, tradingRecord)
+        val tradingRecord = BarSeriesManager(barSeries, BACKTEST_TRANSACTION_COST, BACKTEST_HOLDING_COST).run(strategy)
+        return ProfitLossRatioCriterion().calculate(barSeries, tradingRecord)
     }
 }
