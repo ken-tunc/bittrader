@@ -1,8 +1,9 @@
-package org.kentunc.bittrader.candle.api.domain.model.candle
+package org.kentunc.bittrader.common.domain.model.candle
 
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.kentunc.bittrader.candle.api.domain.model.candle.toBarSeries
 import org.kentunc.bittrader.common.test.model.TestCandleList
 
 internal class CandleListExtensionsKtTest {

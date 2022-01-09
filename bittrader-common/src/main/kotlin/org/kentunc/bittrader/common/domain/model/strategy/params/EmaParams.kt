@@ -1,6 +1,6 @@
-package org.kentunc.bittrader.candle.api.domain.model.strategy.params
+package org.kentunc.bittrader.common.domain.model.strategy.params
 
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyParams
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyParams
 
 data class EmaParams(val shortTimeFrame: Int, val longTimeFrame: Int) : StrategyParams {
 

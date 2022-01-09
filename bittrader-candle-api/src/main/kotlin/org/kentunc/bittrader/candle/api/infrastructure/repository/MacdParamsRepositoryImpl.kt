@@ -2,15 +2,15 @@ package org.kentunc.bittrader.candle.api.infrastructure.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.MacdParams
 import org.kentunc.bittrader.candle.api.domain.repository.MacdParamsRepository
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.MacdParamsEntity
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.StrategyParamsPrimaryKey
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.MacdParams
 
 class MacdParamsRepositoryImpl(
     private val defaultParams: MacdParams,

@@ -1,10 +1,9 @@
-package org.kentunc.bittrader.candle.api.domain.model.strategy
+package org.kentunc.bittrader.common.domain.model.strategy
 
 import org.kentunc.bittrader.candle.api.domain.model.candle.toBarSeries
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.BBandsParams
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.RsiParams
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
-import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
+import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.RsiParams
 import org.ta4j.core.BarSeries
 import org.ta4j.core.BarSeriesManager
 import org.ta4j.core.BaseStrategy

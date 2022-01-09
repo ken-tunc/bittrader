@@ -8,11 +8,11 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.candle.api.domain.service.CandleService
 import org.kentunc.bittrader.candle.api.domain.service.StrategyService
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.test.model.TestCandleList
 import org.springframework.beans.factory.annotation.Autowired

@@ -8,9 +8,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.EmaParams
 import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.EmaConfiguration
 import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.EmaConfigurationProperties
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
@@ -18,6 +15,9 @@ import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.EmaParamsEntity
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.EmaParams
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer

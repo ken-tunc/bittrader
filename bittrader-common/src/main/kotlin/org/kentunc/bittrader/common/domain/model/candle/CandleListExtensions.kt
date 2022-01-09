@@ -20,7 +20,7 @@ private fun Candle.toBar(): Bar {
     )
 }
 
-fun CandleList.toBarSeries(): BarSeries {
+internal fun CandleList.toBarSeries(): BarSeries {
     val bars = this.toList()
         .map { it.toBar() }
     return BaseBarSeries(bars)

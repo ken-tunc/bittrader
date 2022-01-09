@@ -8,10 +8,10 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.application.StrategyInteractor
-import org.kentunc.bittrader.candle.api.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.candle.api.test.CandleApiTest
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
 import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
+import org.kentunc.bittrader.common.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.common.presentation.model.strategy.OptimizeRequest
 import org.kentunc.bittrader.common.presentation.model.strategy.TradePositionRequest

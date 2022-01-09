@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.candle.api.domain.model.strategy
+package org.kentunc.bittrader.common.domain.model.strategy
 
 import io.mockk.every
 import io.mockk.mockk
@@ -9,10 +9,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.kentunc.bittrader.candle.api.domain.model.candle.toBarSeries
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.BBandsParams
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.RsiParams
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
-import org.kentunc.bittrader.common.domain.model.strategy.TradingPosition
+import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.RsiParams
 import org.ta4j.core.BarSeries
 import org.ta4j.core.BarSeriesManager
 import org.ta4j.core.BaseStrategy

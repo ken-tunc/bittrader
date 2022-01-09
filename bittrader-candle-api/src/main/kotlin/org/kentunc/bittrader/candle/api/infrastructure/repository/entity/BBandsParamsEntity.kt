@@ -1,9 +1,9 @@
 package org.kentunc.bittrader.candle.api.infrastructure.repository.entity
 
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.BBandsParams
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
