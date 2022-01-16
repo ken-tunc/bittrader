@@ -8,9 +8,9 @@ import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.EmaParamsEntity
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.StrategyParamsPrimaryKey
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.common.domain.model.strategy.params.EmaParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.ema.EmaParams
 
 class EmaParamsRepositoryImpl(
     private val defaultParams: EmaParams,

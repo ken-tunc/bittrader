@@ -1,7 +1,7 @@
-package org.kentunc.bittrader.common.domain.model.strategy
+package org.kentunc.bittrader.common.domain.model.strategy.params
 
-import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
-import org.kentunc.bittrader.common.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.bbands.BBandsParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiParams
 
 data class OptimizeParamsSet(val rsiParams: RsiParams, val bBandsParams: BBandsParams) {
 

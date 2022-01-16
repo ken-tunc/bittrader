@@ -2,7 +2,9 @@ package org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy
 
 import org.kentunc.bittrader.candle.api.infrastructure.repository.RsiParamsRepositoryImpl
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
-import org.kentunc.bittrader.common.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.TimeFrame
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiThreshold
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,9 +18,9 @@ class RsiConfiguration(private val properties: RsiConfigurationProperties) {
         RsiParamsRepositoryImpl(defaultParams(), paramsForOptimize(), strategyParamsDao)
 
     fun defaultParams() = RsiParams(
-        timeFrame = properties.defaultTimeFrame,
-        buyThreshold = properties.defaultBuyThreshold,
-        sellThreshold = properties.defaultSellThreshold
+        timeFrame = TimeFrame.of(properties.defaultTimeFrame),
+        buyThreshold = RsiThreshold.of(properties.defaultBuyThreshold),
+        sellThreshold = RsiThreshold.of(properties.defaultSellThreshold)
     )
 
     fun paramsForOptimize(): List<RsiParams> =
@@ -26,9 +28,9 @@ class RsiConfiguration(private val properties: RsiConfigurationProperties) {
             .flatMap { (timeFrame, buyThreshold) ->
                 properties.sellThresholdRange.map { sellThreshold ->
                     RsiParams(
-                        timeFrame = timeFrame,
-                        buyThreshold = buyThreshold,
-                        sellThreshold = sellThreshold
+                        timeFrame = TimeFrame.of(timeFrame),
+                        buyThreshold = RsiThreshold.of(buyThreshold),
+                        sellThreshold = RsiThreshold.of(sellThreshold)
                     )
                 }
             }

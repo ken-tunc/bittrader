@@ -3,8 +3,9 @@ package org.kentunc.bittrader.common.domain.model.strategy
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
-import org.kentunc.bittrader.common.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.OptimizeParamsSet
+import org.kentunc.bittrader.common.domain.model.strategy.params.bbands.BBandsParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiParams
 
 internal class OptimizeParamsSetTest {
 

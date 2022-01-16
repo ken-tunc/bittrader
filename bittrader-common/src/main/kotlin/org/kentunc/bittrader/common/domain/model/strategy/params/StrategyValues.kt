@@ -1,4 +1,4 @@
-package org.kentunc.bittrader.common.domain.model.strategy
+package org.kentunc.bittrader.common.domain.model.strategy.params
 
 class StrategyValues<T : StrategyParams> private constructor(val id: StrategyValuesId, val params: T) {
     companion object {

@@ -8,9 +8,9 @@ import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.BBandsParamsEntity
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.StrategyParamsPrimaryKey
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.bbands.BBandsParams
 
 class BBandsParamsRepositoryImpl(
     private val defaultParams: BBandsParams,

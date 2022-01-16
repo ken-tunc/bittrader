@@ -10,8 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.kentunc.bittrader.candle.api.domain.model.candle.toBarSeries
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
-import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
-import org.kentunc.bittrader.common.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.bbands.BBandsParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiParams
 import org.ta4j.core.BarSeries
 import org.ta4j.core.BarSeriesManager
 import org.ta4j.core.BaseStrategy

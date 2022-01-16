@@ -1,9 +1,9 @@
 package org.kentunc.bittrader.candle.api.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyParams
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
 
 interface StrategyParamsRepository<T : StrategyParams> {
 

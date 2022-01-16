@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.toList
 import org.kentunc.bittrader.candle.api.domain.repository.BBandsParamsRepository
 import org.kentunc.bittrader.candle.api.domain.repository.RsiParamsRepository
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
-import org.kentunc.bittrader.common.domain.model.strategy.OptimizeParamsSet
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.common.domain.model.strategy.TradingStrategy
+import org.kentunc.bittrader.common.domain.model.strategy.params.OptimizeParamsSet
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

@@ -15,15 +15,20 @@ import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.BBandsParamsEntity
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.TimeFrame
+import org.kentunc.bittrader.common.domain.model.strategy.params.bbands.BBandsK
+import org.kentunc.bittrader.common.domain.model.strategy.params.bbands.BBandsParams
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
-@SpringJUnitConfig(classes = [BBandsConfiguration::class], initializers = [ConfigDataApplicationContextInitializer::class])
+@SpringJUnitConfig(
+    classes = [BBandsConfiguration::class],
+    initializers = [ConfigDataApplicationContextInitializer::class]
+)
 internal class BBandsParamsRepositoryImplTest {
 
     @MockkBean(relaxed = true)
@@ -42,7 +47,11 @@ internal class BBandsParamsRepositoryImplTest {
         coEvery { strategyParamsDao.selectLatestOne<BBandsParamsEntity>(any()) } returns null
         val expected = StrategyValues.of(
             id,
-            BBandsParams(properties.defaultTimeFrame, properties.defaultBuyK, properties.defaultSellK)
+            BBandsParams(
+                timeFrame = TimeFrame.of(properties.defaultTimeFrame),
+                buyK = BBandsK.of(properties.defaultBuyK),
+                sellK = BBandsK.of(properties.defaultSellK)
+            )
         )
 
         // exercise:
@@ -69,8 +78,15 @@ internal class BBandsParamsRepositoryImplTest {
     fun testGet_stored() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = BBandsParams(20, 2.0, 1.0)
-        coEvery { strategyParamsDao.selectLatestOne<BBandsParamsEntity>(any()) } returns BBandsParamsEntity.of(id, params)
+        val params = BBandsParams(
+            timeFrame = TimeFrame.of(20),
+            buyK = BBandsK.of(2.0),
+            sellK = BBandsK.of(1.0)
+        )
+        coEvery { strategyParamsDao.selectLatestOne<BBandsParamsEntity>(any()) } returns BBandsParamsEntity.of(
+            id,
+            params
+        )
 
         // exercise:
         val actual = target.get(id)
@@ -100,9 +116,9 @@ internal class BBandsParamsRepositoryImplTest {
             {
                 assertEquals(
                     BBandsParams(
-                        timeFrame = properties.timeFrameRange.first,
-                        buyK = properties.buyKRange.first(),
-                        sellK = properties.sellKRange.first()
+                        timeFrame = TimeFrame.of(properties.timeFrameRange.first),
+                        buyK = BBandsK.of(properties.buyKRange.first()),
+                        sellK = BBandsK.of(properties.sellKRange.first())
                     ),
                     actual.first()
                 )
@@ -110,9 +126,9 @@ internal class BBandsParamsRepositoryImplTest {
             {
                 assertEquals(
                     BBandsParams(
-                        timeFrame = properties.timeFrameRange.last,
-                        buyK = properties.buyKRange.last(),
-                        sellK = properties.sellKRange.last()
+                        timeFrame = TimeFrame.of(properties.timeFrameRange.last),
+                        buyK = BBandsK.of(properties.buyKRange.last()),
+                        sellK = BBandsK.of(properties.sellKRange.last())
                     ),
                     actual.last()
                 )
@@ -124,7 +140,7 @@ internal class BBandsParamsRepositoryImplTest {
     fun testSave() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = BBandsParams(22, 2.2, 1.2)
+        val params = BBandsParams(TimeFrame.of(22), BBandsK.of(2.2), BBandsK.of(1.2))
 
         // exercise:
         target.save(id, params)
@@ -136,9 +152,9 @@ internal class BBandsParamsRepositoryImplTest {
                     assertAll(
                         { assertEquals(id.productCode, it.productCode) },
                         { assertEquals(id.duration, it.duration) },
-                        { assertEquals(params.timeFrame, it.timeFrame) },
-                        { assertEquals(params.buyK, it.buyK) },
-                        { assertEquals(params.sellK, it.sellK) },
+                        { assertEquals(params.timeFrame.toInt(), it.timeFrame) },
+                        { assertEquals(params.buyK.toDouble(), it.buyK) },
+                        { assertEquals(params.sellK.toDouble(), it.sellK) },
                     )
                 }
             )

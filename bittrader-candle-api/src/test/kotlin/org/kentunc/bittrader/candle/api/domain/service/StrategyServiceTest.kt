@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test
 import org.kentunc.bittrader.candle.api.domain.repository.BBandsParamsRepository
 import org.kentunc.bittrader.candle.api.domain.repository.RsiParamsRepository
 import org.kentunc.bittrader.common.domain.model.candle.CandleList
-import org.kentunc.bittrader.common.domain.model.strategy.OptimizeParamsSet
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.common.domain.model.strategy.TradingStrategy
-import org.kentunc.bittrader.common.domain.model.strategy.params.BBandsParams
-import org.kentunc.bittrader.common.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.OptimizeParamsSet
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.bbands.BBandsParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiParams
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import org.ta4j.core.num.Num

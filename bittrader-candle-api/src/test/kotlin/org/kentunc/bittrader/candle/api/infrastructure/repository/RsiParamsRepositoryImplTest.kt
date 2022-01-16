@@ -15,9 +15,11 @@ import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.RsiParamsEntity
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.common.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.common.domain.model.strategy.params.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.TimeFrame
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiThreshold
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer
@@ -42,7 +44,11 @@ internal class RsiParamsRepositoryImplTest {
         coEvery { strategyParamsDao.selectLatestOne<RsiParamsEntity>(any()) } returns null
         val expected = StrategyValues.of(
             id,
-            RsiParams(properties.defaultTimeFrame, properties.defaultBuyThreshold, properties.defaultSellThreshold)
+            RsiParams(
+                timeFrame = TimeFrame.of(properties.defaultTimeFrame),
+                buyThreshold = RsiThreshold.of(properties.defaultBuyThreshold),
+                sellThreshold = RsiThreshold.of(properties.defaultSellThreshold)
+            )
         )
 
         // exercise:
@@ -69,7 +75,11 @@ internal class RsiParamsRepositoryImplTest {
     fun testGet_stored() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = RsiParams(10, 25, 85)
+        val params = RsiParams(
+            timeFrame = TimeFrame.of(10),
+            buyThreshold = RsiThreshold.of(25),
+            sellThreshold = RsiThreshold.of(85)
+        )
         coEvery { strategyParamsDao.selectLatestOne<RsiParamsEntity>(any()) } returns RsiParamsEntity.of(id, params)
 
         // exercise:
@@ -100,9 +110,9 @@ internal class RsiParamsRepositoryImplTest {
             {
                 assertEquals(
                     RsiParams(
-                        timeFrame = properties.timeFrameRange.first,
-                        buyThreshold = properties.buyThresholdRange.first,
-                        sellThreshold = properties.sellThresholdRange.first
+                        timeFrame = TimeFrame.of(properties.timeFrameRange.first),
+                        buyThreshold = RsiThreshold.of(properties.buyThresholdRange.first),
+                        sellThreshold = RsiThreshold.of(properties.sellThresholdRange.first)
                     ),
                     actual.first()
                 )
@@ -110,9 +120,9 @@ internal class RsiParamsRepositoryImplTest {
             {
                 assertEquals(
                     RsiParams(
-                        timeFrame = properties.timeFrameRange.last,
-                        buyThreshold = properties.buyThresholdRange.last,
-                        sellThreshold = properties.sellThresholdRange.last
+                        timeFrame = TimeFrame.of(properties.timeFrameRange.last),
+                        buyThreshold = RsiThreshold.of(properties.buyThresholdRange.last),
+                        sellThreshold = RsiThreshold.of(properties.sellThresholdRange.last)
                     ),
                     actual.last()
                 )
@@ -124,7 +134,11 @@ internal class RsiParamsRepositoryImplTest {
     fun testSave() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = RsiParams(12, 22, 83)
+        val params = RsiParams(
+            timeFrame = TimeFrame.of(12),
+            buyThreshold = RsiThreshold.of(22),
+            sellThreshold = RsiThreshold.of(83)
+        )
 
         // exercise:
         target.save(id, params)
@@ -136,9 +150,9 @@ internal class RsiParamsRepositoryImplTest {
                     assertAll(
                         { assertEquals(id.productCode, it.productCode) },
                         { assertEquals(id.duration, it.duration) },
-                        { assertEquals(params.timeFrame, it.timeFrame) },
-                        { assertEquals(params.buyThreshold, it.buyThreshold) },
-                        { assertEquals(params.sellThreshold, it.sellThreshold) },
+                        { assertEquals(params.timeFrame.toInt(), it.timeFrame) },
+                        { assertEquals(params.buyThreshold.toInt(), it.buyThreshold) },
+                        { assertEquals(params.sellThreshold.toInt(), it.sellThreshold) },
                     )
                 }
             )
