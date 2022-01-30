@@ -23,27 +23,26 @@ class StrategyService(
         return TradingStrategy.of(candleList, rsiParams.params, bBandsParams.params)
     }
 
-    @Transactional
-    suspend fun optimize(candleList: CandleList, strategyValuesId: StrategyValuesId) {
+    @Transactional(readOnly = true)
+    suspend fun optimize(candleList: CandleList, strategyValuesId: StrategyValuesId): OptimizeParamsSet? {
         val rsiParamsForOptimize = rsiParamsRepository.getForOptimize().toList()
         val bBandsParamsForOptimize = bBandsParamsRepository.getForOptimize().toList()
-        val (bestRsiParams, bestBBandsParams) = OptimizeParamsSet.product(
-            rsiParamsForOptimize,
-            bBandsParamsForOptimize
-        )
+        return OptimizeParamsSet.product(rsiParamsForOptimize, bBandsParamsForOptimize)
             .map {
                 val profit = TradingStrategy.of(candleList, it.rsiParams, it.bBandsParams).getCriterionValue()
                 it to profit
             }
             .maxByOrNull { it.second }
             ?.first
-            ?: return
+    }
 
-        if (bestRsiParams != rsiParamsRepository.get(strategyValuesId).params) {
-            rsiParamsRepository.save(strategyValuesId, bestRsiParams)
+    @Transactional
+    suspend fun updateParams(strategyValuesId: StrategyValuesId, params: OptimizeParamsSet) {
+        if (params.rsiParams != rsiParamsRepository.get(strategyValuesId).params) {
+            rsiParamsRepository.save(strategyValuesId, params.rsiParams)
         }
-        if (bestBBandsParams != bBandsParamsRepository.get(strategyValuesId).params) {
-            bBandsParamsRepository.save(strategyValuesId, bestBBandsParams)
+        if (params.bBandsParams != bBandsParamsRepository.get(strategyValuesId).params) {
+            bBandsParamsRepository.save(strategyValuesId, params.bBandsParams)
         }
     }
 }

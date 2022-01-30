@@ -8,6 +8,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.kentunc.bittrader.candle.api.domain.model.strategy.OptimizeParamsSet
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
 import org.kentunc.bittrader.candle.api.domain.model.strategy.TradingStrategy
 import org.kentunc.bittrader.candle.api.domain.service.CandleService
@@ -67,12 +68,15 @@ internal class StrategyInteractorTest {
     }
 
     @Test
-    fun testOptimizeStrategies() = runBlocking {
+    fun testOptimizeStrategies_no_updates() = runBlocking {
         // setup:
         val productCode = ProductCode.BTC_JPY
         val duration = Duration.DAYS
         val candleList = TestCandleList.create()
+        val strategyValuesId = StrategyValuesId(productCode, duration)
         coEvery { candleService.findLatest(any()) } returns candleList
+
+        coEvery { strategyService.optimize(candleList, strategyValuesId) } returns null
 
         // exercise:
         target.optimizeStrategies(productCode, duration)
@@ -88,6 +92,35 @@ internal class StrategyInteractorTest {
                 }
             )
         }
-        coVerify { strategyService.optimize(candleList, StrategyValuesId(productCode, duration)) }
+        coVerify(exactly = 0) { strategyService.updateParams(any(), any()) }
+    }
+
+    @Test
+    fun testOptimizeStrategies_updated() = runBlocking {
+        // setup:
+        val productCode = ProductCode.BTC_JPY
+        val duration = Duration.DAYS
+        val candleList = TestCandleList.create()
+        val strategyValuesId = StrategyValuesId(productCode, duration)
+        coEvery { candleService.findLatest(any()) } returns candleList
+
+        val optimizedParams = mockk<OptimizeParamsSet>()
+        coEvery { strategyService.optimize(candleList, strategyValuesId) } returns optimizedParams
+
+        // exercise:
+        target.optimizeStrategies(productCode, duration)
+
+        // verify
+        coVerify {
+            candleService.findLatest(
+                withArg {
+                    assertAll(
+                        { assertEquals(productCode, it.productCode) },
+                        { assertEquals(duration, it.duration) },
+                    )
+                }
+            )
+        }
+        coVerify { strategyService.updateParams(strategyValuesId, optimizedParams) }
     }
 }
