@@ -2,6 +2,7 @@ package org.kentunc.bittrader.common.infrastructure.autoconfigure
 
 import org.kentunc.bittrader.common.infrastructure.webclient.http.candle.CandleApiClient
 import org.kentunc.bittrader.common.infrastructure.webclient.http.candle.StrategyApiClient
+import org.kentunc.bittrader.common.infrastructure.webclient.http.candle.StrategyParamsApiClient
 import org.kentunc.bittrader.common.infrastructure.webclient.http.connector.ClientHttpConnectorFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -30,4 +31,7 @@ class CandleApiClientAutoConfiguration(
 
     @Bean
     fun strategyApiClient() = StrategyApiClient(candleApiWebClient())
+
+    @Bean
+    fun strategyParamsApiClient() = StrategyParamsApiClient(candleApiWebClient())
 }

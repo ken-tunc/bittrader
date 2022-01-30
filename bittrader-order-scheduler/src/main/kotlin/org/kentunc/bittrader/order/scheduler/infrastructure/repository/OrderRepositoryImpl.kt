@@ -8,8 +8,10 @@ import org.kentunc.bittrader.common.domain.model.order.OrderSide
 import org.kentunc.bittrader.common.infrastructure.webclient.http.order.OrderApiClient
 import org.kentunc.bittrader.common.presentation.model.order.OrderSignalRequest
 import org.kentunc.bittrader.order.scheduler.domain.repository.OrderRepository
+import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Repository
 
+@Primary
 @Repository
 class OrderRepositoryImpl(private val orderApiClient: OrderApiClient) : OrderRepository {
 
