@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.kentunc.bittrader.candle.api.domain.model.strategy.OptimizeParamsSet
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
 import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
@@ -43,7 +44,8 @@ internal class StrategyServiceTest {
         val rsiParams = mockk<RsiParams>(relaxed = true)
         coEvery { rsiParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, rsiParams)
         val bBandsParams = mockk<BBandsParams>(relaxed = true)
-        coEvery { bBandsParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, bBandsParams)
+        coEvery { bBandsParamsRepository.get(strategyValuesId) } returns
+            StrategyValues.of(strategyValuesId, bBandsParams)
 
         val strategy = mockk<TradingStrategy>()
         mockkObject(TradingStrategy)
@@ -80,16 +82,53 @@ internal class StrategyServiceTest {
         mockkObject(TradingStrategy)
         every { TradingStrategy.of(candleList, rsiParamsForOptimize, bBandsParamsForOptimize) } returns tradingStrategy
 
-        val rsiParams = mockk<RsiParams>()
-        coEvery { rsiParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, rsiParams)
-        val bBandsParams = mockk<BBandsParams>()
-        coEvery { bBandsParamsRepository.get(strategyValuesId) } returns StrategyValues.of(strategyValuesId, bBandsParams)
-
         // exercise:
-        target.optimize(candleList, strategyValuesId)
+        val actual = target.optimize(candleList, strategyValuesId)
 
         // verify:
-        coVerify { rsiParamsRepository.save(strategyValuesId, rsiParamsForOptimize) }
-        coVerify { bBandsParamsRepository.save(strategyValuesId, bBandsParamsForOptimize) }
+        assertAll(
+            { assertEquals(rsiParamsForOptimize, actual?.rsiParams) },
+            { assertEquals(bBandsParamsForOptimize, actual?.bBandsParams) },
+        )
+    }
+
+    @Test
+    fun testUpdateParams_no_updates() = runBlocking {
+        // setup:
+        val strategyValuesId = mockk<StrategyValuesId>()
+        val rsiParams = mockk<RsiParams>()
+        val bBandsParams = mockk<BBandsParams>()
+        val params = OptimizeParamsSet(rsiParams, bBandsParams)
+
+        coEvery { rsiParamsRepository.get(strategyValuesId) } returns
+            StrategyValues.of(strategyValuesId, rsiParams)
+        coEvery { bBandsParamsRepository.get(strategyValuesId) } returns
+            StrategyValues.of(strategyValuesId, bBandsParams)
+
+        // exercise:
+        target.updateParams(strategyValuesId, params)
+
+        // verify:
+        coVerify(exactly = 0) { rsiParamsRepository.save(any(), any()) }
+        coVerify(exactly = 0) { bBandsParamsRepository.save(any(), any()) }
+    }
+
+    @Test
+    fun testUpdateParams_updated() = runBlocking {
+        // setup:
+        val strategyValuesId = mockk<StrategyValuesId>()
+        val rsiParams = mockk<RsiParams>()
+        val bBandsParams = mockk<BBandsParams>()
+        val params = OptimizeParamsSet(rsiParams, bBandsParams)
+
+        coEvery { rsiParamsRepository.get(strategyValuesId) } returns mockk(relaxed = true)
+        coEvery { bBandsParamsRepository.get(strategyValuesId) } returns mockk(relaxed = true)
+
+        // exercise:
+        target.updateParams(strategyValuesId, params)
+
+        // verify:
+        coVerify(exactly = 1) { rsiParamsRepository.save(strategyValuesId, rsiParams) }
+        coVerify(exactly = 1) { bBandsParamsRepository.save(strategyValuesId, bBandsParams) }
     }
 }

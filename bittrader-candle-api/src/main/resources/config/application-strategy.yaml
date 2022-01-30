@@ -1,6 +1,7 @@
 bittrader:
   strategy:
-    max-candle-num: 300
+    strategy-candle-num: 300
+    optimize-candle-num: 1000
     ema:
       default-short-time-frame: 7
       default-long-time-frame: 14
