@@ -1,2 +1,6 @@
 resources:
   - ../../base
+patches:
+  - path: gke-spot-pod.patch.yaml
+    target:
+      labelSelector: "gke=spot"
