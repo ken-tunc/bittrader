@@ -9,7 +9,7 @@ import org.ta4j.core.BarSeries
 import org.ta4j.core.BarSeriesManager
 import org.ta4j.core.BaseStrategy
 import org.ta4j.core.Strategy
-import org.ta4j.core.analysis.criteria.pnl.ProfitLossRatioCriterion
+import org.ta4j.core.analysis.criteria.pnl.NetProfitCriterion
 import org.ta4j.core.cost.LinearTransactionCostModel
 import org.ta4j.core.cost.ZeroCostModel
 import org.ta4j.core.indicators.RSIIndicator
@@ -71,6 +71,6 @@ class TradingStrategy private constructor(candleList: CandleList, rsiParams: Rsi
 
     fun getCriterionValue(): Num {
         val tradingRecord = BarSeriesManager(barSeries, BACKTEST_TRANSACTION_COST, BACKTEST_HOLDING_COST).run(strategy)
-        return ProfitLossRatioCriterion().calculate(barSeries, tradingRecord)
+        return NetProfitCriterion().calculate(barSeries, tradingRecord)
     }
 }
