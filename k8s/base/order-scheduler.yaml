@@ -6,6 +6,7 @@ metadata:
     app: order-scheduler
     tier: backend
     probe: actuator
+    gke: spot
 spec:
   selector:
     matchLabels:

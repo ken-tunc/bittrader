@@ -21,6 +21,7 @@ metadata:
     app: web
     tier: backend
     probe: actuator
+    gke: spot
 spec:
   selector:
     matchLabels:
