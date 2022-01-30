@@ -8,9 +8,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.EmaParams
 import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.EmaConfiguration
 import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.EmaConfigurationProperties
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
@@ -18,6 +15,10 @@ import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.EmaParamsEntity
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.TimeFrame
+import org.kentunc.bittrader.common.domain.model.strategy.params.ema.EmaParams
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer
@@ -41,7 +42,13 @@ internal class EmaParamsRepositoryImplTest {
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
         coEvery { strategyParamsDao.selectLatestOne<EmaParamsEntity>(any()) } returns null
         val expected =
-            StrategyValues.of(id, EmaParams(properties.defaultShortTimeFrame, properties.defaultLongTimeFrame))
+            StrategyValues.of(
+                id,
+                EmaParams(
+                    shortTimeFrame = TimeFrame.of(properties.defaultShortTimeFrame),
+                    longTimeFrame = TimeFrame.of(properties.defaultLongTimeFrame)
+                )
+            )
 
         // exercise:
         val actual = target.get(id)
@@ -67,7 +74,10 @@ internal class EmaParamsRepositoryImplTest {
     fun testGet_stored() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = EmaParams(5, 10)
+        val params = EmaParams(
+            shortTimeFrame = TimeFrame.of(5),
+            longTimeFrame = TimeFrame.of(10)
+        )
         coEvery { strategyParamsDao.selectLatestOne<EmaParamsEntity>(any()) } returns EmaParamsEntity.of(id, params)
 
         // exercise:
@@ -98,8 +108,8 @@ internal class EmaParamsRepositoryImplTest {
             {
                 assertEquals(
                     EmaParams(
-                        shortTimeFrame = properties.shortTimeFrameRange.first,
-                        longTimeFrame = properties.longTimeFrameRange.first
+                        shortTimeFrame = TimeFrame.of(properties.shortTimeFrameRange.first),
+                        longTimeFrame = TimeFrame.of(properties.longTimeFrameRange.first)
                     ),
                     actual.first()
                 )
@@ -107,8 +117,8 @@ internal class EmaParamsRepositoryImplTest {
             {
                 assertEquals(
                     EmaParams(
-                        shortTimeFrame = properties.shortTimeFrameRange.last,
-                        longTimeFrame = properties.longTimeFrameRange.last
+                        shortTimeFrame = TimeFrame.of(properties.shortTimeFrameRange.last),
+                        longTimeFrame = TimeFrame.of(properties.longTimeFrameRange.last)
                     ),
                     actual.last()
                 )
@@ -120,7 +130,10 @@ internal class EmaParamsRepositoryImplTest {
     fun testSave() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = EmaParams(7, 14)
+        val params = EmaParams(
+            shortTimeFrame = TimeFrame.of(7),
+            longTimeFrame = TimeFrame.of(14)
+        )
 
         // exercise:
         target.save(id, params)
@@ -132,8 +145,8 @@ internal class EmaParamsRepositoryImplTest {
                     assertAll(
                         { assertEquals(id.productCode, it.productCode) },
                         { assertEquals(id.duration, it.duration) },
-                        { assertEquals(params.shortTimeFrame, it.shortTimeFrame) },
-                        { assertEquals(params.longTimeFrame, it.longTimeFrame) },
+                        { assertEquals(params.shortTimeFrame.toInt(), it.shortTimeFrame) },
+                        { assertEquals(params.longTimeFrame.toInt(), it.longTimeFrame) },
                     )
                 }
             )

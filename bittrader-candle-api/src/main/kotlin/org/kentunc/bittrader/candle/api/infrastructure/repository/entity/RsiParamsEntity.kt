@@ -1,9 +1,11 @@
 package org.kentunc.bittrader.candle.api.infrastructure.repository.entity
 
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.RsiParams
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.TimeFrame
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiParams
+import org.kentunc.bittrader.common.domain.model.strategy.params.rsi.RsiThreshold
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
@@ -22,14 +24,18 @@ data class RsiParamsEntity(
         fun of(strategyValuesId: StrategyValuesId, rsiParams: RsiParams) = RsiParamsEntity(
             productCode = strategyValuesId.productCode,
             duration = strategyValuesId.duration,
-            timeFrame = rsiParams.timeFrame,
-            buyThreshold = rsiParams.buyThreshold,
-            sellThreshold = rsiParams.sellThreshold
+            timeFrame = rsiParams.timeFrame.toInt(),
+            buyThreshold = rsiParams.buyThreshold.toInt(),
+            sellThreshold = rsiParams.sellThreshold.toInt()
         )
     }
 
     fun toStrategyValues() = StrategyValues.of(
         id = StrategyValuesId(productCode, duration),
-        params = RsiParams(timeFrame, buyThreshold, sellThreshold)
+        params = RsiParams(
+            timeFrame = TimeFrame.of(timeFrame),
+            buyThreshold = RsiThreshold.of(buyThreshold),
+            sellThreshold = RsiThreshold.of(sellThreshold)
+        )
     )
 }

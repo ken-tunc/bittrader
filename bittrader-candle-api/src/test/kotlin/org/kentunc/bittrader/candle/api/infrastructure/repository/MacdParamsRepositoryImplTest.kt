@@ -8,9 +8,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValues
-import org.kentunc.bittrader.candle.api.domain.model.strategy.StrategyValuesId
-import org.kentunc.bittrader.candle.api.domain.model.strategy.params.MacdParams
 import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.MacdConfiguration
 import org.kentunc.bittrader.candle.api.infrastructure.configuration.strategy.MacdConfigurationProperties
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.StrategyParamsDao
@@ -18,6 +15,10 @@ import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.insert
 import org.kentunc.bittrader.candle.api.infrastructure.repository.dao.selectLatestOne
 import org.kentunc.bittrader.candle.api.infrastructure.repository.entity.MacdParamsEntity
 import org.kentunc.bittrader.common.domain.model.market.ProductCode
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValues
+import org.kentunc.bittrader.common.domain.model.strategy.params.StrategyValuesId
+import org.kentunc.bittrader.common.domain.model.strategy.params.TimeFrame
+import org.kentunc.bittrader.common.domain.model.strategy.params.macd.MacdParams
 import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer
@@ -46,9 +47,9 @@ internal class MacdParamsRepositoryImplTest {
         val expected = StrategyValues.of(
             id,
             MacdParams(
-                properties.defaultShortTimeFrame,
-                properties.defaultLongTimeFrame,
-                properties.defaultSignalTimeFrame
+                shortTimeFrame = TimeFrame.of(properties.defaultShortTimeFrame),
+                longTimeFrame = TimeFrame.of(properties.defaultLongTimeFrame),
+                signalTimeFrame = TimeFrame.of(properties.defaultSignalTimeFrame)
             )
         )
 
@@ -76,7 +77,11 @@ internal class MacdParamsRepositoryImplTest {
     fun testGet_stored() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = MacdParams(10, 25, 8)
+        val params = MacdParams(
+            shortTimeFrame = TimeFrame.of(10),
+            longTimeFrame = TimeFrame.of(25),
+            signalTimeFrame = TimeFrame.of(8)
+        )
         coEvery { strategyParamsDao.selectLatestOne<MacdParamsEntity>(any()) } returns MacdParamsEntity.of(id, params)
 
         // exercise:
@@ -107,9 +112,9 @@ internal class MacdParamsRepositoryImplTest {
             {
                 assertEquals(
                     MacdParams(
-                        shortTimeFrame = properties.shortTimeFrameRange.first,
-                        longTimeFrame = properties.longTimeFrameRange.first,
-                        signalTimeFrame = properties.signalTimeFrameRange.first
+                        shortTimeFrame = TimeFrame.of(properties.shortTimeFrameRange.first),
+                        longTimeFrame = TimeFrame.of(properties.longTimeFrameRange.first),
+                        signalTimeFrame = TimeFrame.of(properties.signalTimeFrameRange.first)
                     ),
                     actual.first()
                 )
@@ -117,9 +122,9 @@ internal class MacdParamsRepositoryImplTest {
             {
                 assertEquals(
                     MacdParams(
-                        shortTimeFrame = properties.shortTimeFrameRange.last,
-                        longTimeFrame = properties.longTimeFrameRange.last,
-                        signalTimeFrame = properties.signalTimeFrameRange.last
+                        shortTimeFrame = TimeFrame.of(properties.shortTimeFrameRange.last),
+                        longTimeFrame = TimeFrame.of(properties.longTimeFrameRange.last),
+                        signalTimeFrame = TimeFrame.of(properties.signalTimeFrameRange.last)
                     ),
                     actual.last()
                 )
@@ -131,7 +136,11 @@ internal class MacdParamsRepositoryImplTest {
     fun testSave() = runBlocking {
         // setup:
         val id = StrategyValuesId(ProductCode.BTC_JPY, Duration.DAYS)
-        val params = MacdParams(12, 22, 10)
+        val params = MacdParams(
+            shortTimeFrame = TimeFrame.of(12),
+            longTimeFrame = TimeFrame.of(22),
+            signalTimeFrame = TimeFrame.of(10)
+        )
 
         // exercise:
         target.save(id, params)
@@ -143,9 +152,9 @@ internal class MacdParamsRepositoryImplTest {
                     assertAll(
                         { assertEquals(id.productCode, it.productCode) },
                         { assertEquals(id.duration, it.duration) },
-                        { assertEquals(params.shortTimeFrame, it.shortTimeFrame) },
-                        { assertEquals(params.longTimeFrame, it.longTimeFrame) },
-                        { assertEquals(params.signalTimeFrame, it.signalTimeFrame) },
+                        { assertEquals(params.shortTimeFrame.toInt(), it.shortTimeFrame) },
+                        { assertEquals(params.longTimeFrame.toInt(), it.longTimeFrame) },
+                        { assertEquals(params.signalTimeFrame.toInt(), it.signalTimeFrame) },
                     )
                 }
             )

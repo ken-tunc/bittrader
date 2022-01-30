@@ -21,6 +21,8 @@ class CommissionRate private constructor(private val value: BigDecimal) {
 
     fun toBigDecimal() = value
 
+    fun toDouble() = value.toDouble()
+
     @Generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
