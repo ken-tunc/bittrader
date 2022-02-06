@@ -3,10 +3,9 @@ package org.kentunc.bittrader.order.scheduler.presentation.scheduler
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.coVerify
 import org.junit.jupiter.api.Test
-import org.kentunc.bittrader.common.domain.model.market.ProductCode
-import org.kentunc.bittrader.common.domain.model.time.Duration
 import org.kentunc.bittrader.order.scheduler.application.TradeInteractor
 import org.kentunc.bittrader.order.scheduler.presentation.configuration.SchedulerConfiguration
+import org.kentunc.bittrader.order.scheduler.presentation.configuration.SchedulerConfigurationProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer
 import org.springframework.test.context.ActiveProfiles
@@ -25,15 +24,18 @@ internal class TradeSchedulerTest {
     @Autowired
     private lateinit var target: TradeScheduler
 
+    @Autowired
+    private lateinit var properties: SchedulerConfigurationProperties
+
     @Test
     fun testScheduleTrade() {
         target.scheduleTrade()
-        coVerify { tradeInteractor.trade(ProductCode.BTC_JPY, Duration.MINUTES) }
+        coVerify { tradeInteractor.trade(properties.productCode, properties.duration) }
     }
 
     @Test
     fun testOptimizeStrategies() {
         target.scheduleOptimizeStrategies()
-        coVerify { tradeInteractor.optimizeStrategies(ProductCode.BTC_JPY, Duration.MINUTES) }
+        coVerify { tradeInteractor.optimizeStrategies(properties.productCode, properties.duration) }
     }
 }

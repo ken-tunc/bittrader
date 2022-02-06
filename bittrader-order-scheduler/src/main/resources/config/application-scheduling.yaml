@@ -1,6 +1,6 @@
 bittrader:
   scheduling:
-    trade-cron: "0 * * * * *"
-    optimize-cron: "0 0 * * * *"
+    trade-cron: "0 0 * * * *"
+    optimize-cron: "0 30 * * * *"
     product-code: BTC_JPY
-    duration: MINUTES
+    duration: HOURS
